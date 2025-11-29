@@ -1,5 +1,4 @@
 
-
 import React, { useState, useRef, useEffect } from 'react';
 import { GoogleGenAI, Chat } from "@google/genai";
 
@@ -9,7 +8,7 @@ interface Message {
 }
 
 const SparklesIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-brand-purple-dark" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m1-9l2-2 2 2m-2 4v6m2-6l2 2-2 2M15 3l2 2-2 2m-2-4v4m2 4l2 2-2 2m-8 4h12" />
     </svg>
 );
@@ -20,6 +19,12 @@ const UserIcon = () => (
     </svg>
 );
 
+const WarningIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-amber-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+    </svg>
+);
+
 
 const AsistenteIAPage: React.FC = () => {
     const [messages, setMessages] = useState<Message[]>([]);
@@ -27,36 +32,47 @@ const AsistenteIAPage: React.FC = () => {
     const [isProcessing, setIsProcessing] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [chat, setChat] = useState<Chat | null>(null);
+    const [missingApiKey, setMissingApiKey] = useState(false);
 
     const chatContainerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        // Initialize the AI chat session
+        // Check for API Key presence
+        const apiKey = process.env.API_KEY;
+        if (!apiKey || apiKey.includes('placeholder')) {
+            setMissingApiKey(true);
+            return;
+        }
+
         try {
-            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+            const ai = new GoogleGenAI({ apiKey: apiKey });
             const newChat = ai.chats.create({
                 model: 'gemini-2.5-flash',
                 config: {
-                    systemInstruction: 'Eres un asistente de belleza y experto en perfumes para la tienda online "Vellaperfumeria". Tu objetivo es ayudar a los clientes a encontrar los productos perfectos. Sé amable, servicial y conocedor de los productos de la tienda. Ofrece recomendaciones personalizadas basadas en las preferencias del cliente. Utiliza un lenguaje cercano y profesional. Bajo ninguna circunstancia menciones marcas de la competencia o productos que no se vendan en Vellaperfumeria. Céntrate exclusivamente en el catálogo de Vellaperfumeria.',
+                    systemInstruction: 'Eres un asistente de belleza personal y experto de la tienda online "Vellaperfumeria". Tu misión es doble: 1) Ayudar a los clientes a encontrar productos perfectos del catálogo de Oriflame. 2) Recibir y agradecer cualquier SUGERENCIA o feedback que tengan para la tienda. Sé amable, servicial y utiliza un tono cercano, "rosa" y positivo. Si preguntan por productos, ofrece recomendaciones personalizadas. Si dan una sugerencia, agradécela efusivamente y diles que se tendrá en cuenta para mejorar. Bajo ninguna circunstancia menciones marcas de la competencia. Céntrate exclusivamente en Vellaperfumeria.',
                 },
             });
             setChat(newChat);
         } catch (e) {
             console.error("Error initializing Gemini:", e);
-            setError("No se pudo inicializar el asistente de IA. Por favor, contacta con el soporte.");
+            setError("No se pudo conectar con el servicio de IA.");
         }
     }, []);
 
     useEffect(() => {
-        // Scroll to the bottom of the chat on new message
         if (chatContainerRef.current) {
             chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
         }
     }, [messages, isProcessing]);
 
     const handleSendMessage = async (messageText: string) => {
-        if (!messageText.trim() || isProcessing || !chat) {
-            if (!chat) setError("El asistente no está disponible en este momento.");
+        if (!messageText.trim() || isProcessing) return;
+        if (missingApiKey) {
+            alert("El asistente no está configurado. Falta la API Key.");
+            return;
+        }
+        if (!chat) {
+            setError("El chat no se ha inicializado correctamente. Recarga la página.");
             return;
         }
 
@@ -80,8 +96,7 @@ const AsistenteIAPage: React.FC = () => {
             }
         } catch (e) {
             console.error("Error sending message to Gemini:", e);
-            const errorMessage = "Lo siento, ha ocurrido un error al procesar tu solicitud. Por favor, inténtalo de nuevo más tarde.";
-            setError(errorMessage);
+            const errorMessage = "Lo siento, ha ocurrido un error de conexión. Por favor, inténtalo de nuevo.";
             setMessages(prev => {
                 const newMessages = [...prev];
                 const lastMessage = newMessages[newMessages.length - 1];
@@ -99,29 +114,55 @@ const AsistenteIAPage: React.FC = () => {
     };
 
     const examplePrompts = [
-        "Recomiéndame un perfume para una cita",
-        "¿Qué rutina de skincare es mejor para piel grasa?",
-        "Busco un regalo para mi madre",
-        "¿Cuál es el labial más vendido?",
+        "Quiero hacer una sugerencia para la web",
+        "Recomiéndame un perfume dulce",
+        "¿Qué tenéis para piel seca?",
+        "Busco un regalo de Navidad por menos de 20€",
     ];
 
+    if (missingApiKey) {
+        return (
+            <div className="container mx-auto px-4 py-16 flex justify-center">
+                <div className="bg-white p-8 rounded-xl shadow-lg border border-red-100 max-w-md text-center">
+                    <div className="flex justify-center"><WarningIcon /></div>
+                    <h2 className="text-xl font-bold text-gray-900 mb-2">Configuración Requerida</h2>
+                    <p className="text-gray-600 mb-6">
+                        El Asistente IA necesita una clave de API para funcionar.
+                    </p>
+                    <div className="bg-gray-50 p-4 rounded text-left text-sm text-gray-700 font-mono mb-4 overflow-x-auto">
+                        1. Ve a Vercel Dashboard<br/>
+                        2. Settings &gt; Environment Variables<br/>
+                        3. Añade: <strong>API_KEY</strong><br/>
+                        4. Valor: Tu clave de Google Gemini
+                    </div>
+                    <button onClick={() => window.location.reload()} className="btn-primary w-full">
+                        Recargar Página
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
     return (
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div className="text-center mb-10">
-                <img src="https://i0.wp.com/vellaperfumeria.com/wp-content/uploads/2025/06/1000003724-removebg-preview.png" alt="Logo de Vellaperfumeria" className="w-auto h-24 mx-auto mb-4" />
-                <h1 className="text-4xl font-extrabold text-black tracking-tight">Asistente de Belleza IA</h1>
-                <p className="mt-2 text-lg text-gray-600">¿Necesitas ayuda? Pide recomendaciones y consejos sobre nuestros productos.</p>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 h-[calc(100vh-140px)] flex flex-col">
+            <div className="text-center mb-6 flex-shrink-0">
+                <img src="https://i0.wp.com/vellaperfumeria.com/wp-content/uploads/2025/06/1000003724-removebg-preview.png" alt="Logo de Vellaperfumeria" className="w-auto h-16 mx-auto mb-2" />
+                <h1 className="text-2xl md:text-3xl font-extrabold text-brand-primary tracking-tight">Asistente & Buzón de Sugerencias</h1>
+                <p className="mt-1 text-sm text-gray-600">Pregúntanos lo que quieras o déjanos tu opinión para mejorar.</p>
             </div>
 
-            <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-xl border border-gray-200 flex flex-col h-[70vh]">
-                <div ref={chatContainerRef} className="flex-grow p-6 overflow-y-auto space-y-6">
+            <div className="flex-grow bg-white/80 backdrop-blur-md rounded-2xl shadow-xl border border-pink-100 flex flex-col overflow-hidden w-full max-w-3xl mx-auto relative">
+                {/* Messages Area */}
+                <div ref={chatContainerRef} className="flex-grow p-4 md:p-6 overflow-y-auto space-y-6 scroll-smooth">
                     {messages.length === 0 && !isProcessing && (
-                         <div className="flex items-start gap-4">
-                            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-brand-purple/30 flex items-center justify-center">
+                         <div className="flex items-start gap-4 animate-fade-in-up">
+                            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center border border-pink-200">
                                 <SparklesIcon />
                             </div>
-                            <div className="max-w-md p-4 rounded-2xl bg-brand-purple/20 text-gray-800 rounded-bl-none">
-                                <p>¡Hola! Soy tu asistente de belleza personal de Vellaperfumeria. ¿En qué puedo ayudarte hoy?</p>
+                            <div className="max-w-[85%] p-5 rounded-2xl bg-white/60 border border-pink-100 text-gray-800 rounded-tl-none shadow-sm">
+                                <p className="font-medium text-lg mb-2 text-pink-700">¡Hola! 💖</p>
+                                <p>Soy tu asistente virtual de <b>Vellaperfumeria</b>.</p>
+                                <p className="mt-2">Estoy aquí para recomendarte los mejores productos de belleza o para <b>escuchar tus sugerencias</b>. ¿En qué puedo ayudarte hoy?</p>
                             </div>
                         </div>
                     )}
@@ -129,25 +170,29 @@ const AsistenteIAPage: React.FC = () => {
                     {messages.map((msg, index) => {
                         const isLastMessage = index === messages.length - 1;
                         return (
-                            <div key={index} className={`flex items-start gap-4 ${msg.role === 'user' ? 'justify-end' : ''}`}>
+                            <div key={index} className={`flex items-start gap-3 ${msg.role === 'user' ? 'justify-end' : ''}`}>
                                  {msg.role === 'model' && (
-                                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-brand-purple/30 flex items-center justify-center">
+                                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-pink-100 border border-pink-200 flex items-center justify-center mt-1">
                                         <SparklesIcon />
                                     </div>
                                 )}
-                                <div className={`max-w-md p-4 rounded-2xl ${msg.role === 'user' ? 'bg-gray-100 text-gray-800 rounded-br-none' : 'bg-brand-purple/20 text-gray-800 rounded-bl-none'}`}>
+                                <div className={`max-w-[85%] px-5 py-3 rounded-2xl shadow-sm text-sm md:text-base leading-relaxed ${
+                                    msg.role === 'user' 
+                                    ? 'bg-gradient-to-r from-gray-800 to-black text-white rounded-tr-none' 
+                                    : 'bg-white border border-pink-100 text-gray-800 rounded-tl-none'
+                                }`}>
                                      {isProcessing && isLastMessage && msg.text === '' ? (
-                                         <div className="flex items-center space-x-2">
-                                            <div className="w-2 h-2 bg-brand-purple rounded-full animate-pulse"></div>
-                                            <div className="w-2 h-2 bg-brand-purple rounded-full animate-pulse [animation-delay:0.2s]"></div>
-                                            <div className="w-2 h-2 bg-brand-purple rounded-full animate-pulse [animation-delay:0.4s]"></div>
+                                         <div className="flex items-center space-x-1.5 py-1">
+                                            <div className="w-1.5 h-1.5 bg-pink-400 rounded-full animate-bounce"></div>
+                                            <div className="w-1.5 h-1.5 bg-pink-400 rounded-full animate-bounce [animation-delay:0.2s]"></div>
+                                            <div className="w-1.5 h-1.5 bg-pink-400 rounded-full animate-bounce [animation-delay:0.4s]"></div>
                                         </div>
                                     ) : (
                                          <p className="whitespace-pre-wrap">{msg.text}</p>
                                     )}
                                 </div>
                                 {msg.role === 'user' && (
-                                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+                                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center mt-1">
                                         <UserIcon />
                                     </div>
                                 )}
@@ -155,60 +200,67 @@ const AsistenteIAPage: React.FC = () => {
                         );
                     })}
                     
-                    {error && messages.length === 0 && (
-                         <div className="flex items-start gap-4">
-                            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-red-100 flex items-center justify-center">
-                                <SparklesIcon />
-                            </div>
-                            <div className="max-w-md p-4 rounded-2xl bg-red-50 text-red-700 rounded-bl-none">
-                                <p>{error}</p>
+                    {error && (
+                         <div className="flex justify-center">
+                            <div className="bg-red-50 text-red-600 px-4 py-2 rounded-lg text-sm border border-red-100">
+                                {error}
                             </div>
                         </div>
                     )}
                 </div>
 
+                {/* Suggestions / Quick Prompts */}
                 {messages.length === 0 && !isProcessing && (
-                    <div className="p-6 pt-0 text-center text-gray-500">
-                        <p className="mb-4 text-sm">O prueba con una de estas sugerencias:</p>
+                    <div className="p-4 pt-0 text-center">
                         <div className="flex flex-wrap justify-center gap-2">
                             {examplePrompts.map(prompt => (
                                 <button
                                     key={prompt}
                                     onClick={() => handleSendMessage(prompt)}
-                                    className="bg-gray-100 hover:bg-gray-200 text-sm px-3 py-1.5 rounded-full transition-colors"
+                                    className="bg-white border border-pink-200 text-pink-700 hover:bg-pink-50 text-xs md:text-sm px-4 py-2 rounded-full transition-all shadow-sm hover:shadow-md"
                                 >
-                                    "{prompt}"
+                                    {prompt}
                                 </button>
                             ))}
                         </div>
                     </div>
                 )}
 
-
-                <div className="p-4 border-t bg-gray-50">
-                    <form onSubmit={handleFormSubmit} className="flex items-center gap-3">
+                {/* Input Area */}
+                <div className="p-4 bg-white/90 backdrop-blur-sm border-t border-pink-100">
+                    <form onSubmit={handleFormSubmit} className="flex items-center gap-2 relative">
                         <input
                             type="text"
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
-                            placeholder="Escribe tu mensaje..."
+                            placeholder="Escribe tu mensaje o sugerencia..."
                             aria-label="Escribe tu mensaje"
-                            className="flex-grow px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-brand-purple-dark"
+                            className="flex-grow pl-5 pr-12 py-3.5 bg-gray-50 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-pink-400 focus:bg-white transition-all shadow-inner text-gray-800 placeholder-gray-400"
                             disabled={isProcessing}
                         />
                         <button 
                             type="submit" 
                             disabled={isProcessing || !input.trim()}
-                            className="bg-black text-white font-semibold rounded-full p-2.5 shadow-sm hover:bg-gray-800 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
-                            aria-label="Enviar mensaje"
+                            className="absolute right-2 p-2 bg-black text-white rounded-full hover:bg-gray-800 disabled:bg-gray-300 disabled:cursor-not-allowed transition-all shadow-md transform active:scale-95"
+                            aria-label="Enviar"
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 transform rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                             </svg>
                         </button>
                     </form>
                 </div>
             </div>
+            
+            <style>{`
+                @keyframes fadeInUp {
+                    from { opacity: 0; transform: translateY(10px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+                .animate-fade-in-up {
+                    animation: fadeInUp 0.5s ease-out forwards;
+                }
+            `}</style>
         </div>
     );
 };
