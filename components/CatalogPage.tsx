@@ -1,11 +1,12 @@
+
 import React, { useState, useRef } from 'react';
 import { allProducts } from './products';
 import { ProductCard } from './ProductCard';
 import type { Product } from './types';
 import type { Currency } from './currency';
 
-// URL del Catálogo 16 actualizada
-const INTERACTIVE_CATALOG_URL = 'https://es-catalogue.oriflame.com/oriflame/es/2025016-brp?HideStandardUI=true&Page=1';
+// URL del Catálogo 17 actualizada (Navidad)
+const INTERACTIVE_CATALOG_URL = 'https://es-catalogue.oriflame.com/oriflame/es/2025017-brp?HideStandardUI=true&Page=1';
 const FALLBACK_CATALOG_URL = 'https://es.oriflame.com/products/digital-catalogue-current';
 
 interface CatalogPageProps {
@@ -102,9 +103,9 @@ const CatalogPage: React.FC<CatalogPageProps> = ({ onAddToCart, onQuickAddToCart
                             className="h-20 w-auto object-contain" 
                         />
                         <div className="text-center md:text-left">
-                            <h1 className="text-3xl md:text-4xl font-extrabold text-black tracking-tight font-serif">Catálogo Actual (C16)</h1>
+                            <h1 className="text-3xl md:text-4xl font-extrabold text-black tracking-tight font-serif">Catálogo Actual (C17)</h1>
                             <p className="text-sm text-gray-600 mt-1">
-                                Explora el Catálogo 16 y descubre las mejores ofertas de temporada.
+                                Explora el Catálogo 17, especial Navidad, y descubre los regalos perfectos.
                             </p>
                         </div>
                     </div>

@@ -117,7 +117,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currency, onCurrencyChange,
                     </div>
                     <button onClick={() => onNavigate('ofertas')} className="hidden md:block text-center text-black hover:underline">
                         <span>
-                            <span className="font-bold">BLACK FRIDAY</span> | 50% DTO EN CASI TODO | Envío GRATIS +35€
+                            <span className="font-bold">CATÁLOGO 17</span> | ESPECIAL NAVIDAD | Envío GRATIS +35€
                         </span>
                     </button>
                     <div className="flex items-center space-x-4">
@@ -189,7 +189,7 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currency, onCurrencyChange,
                  <div ref={navRef} className="md:hidden absolute top-full left-0 w-full bg-white shadow-lg border-t z-20">
                      <div className="p-3 text-center bg-[#f78df685] font-bold text-sm">
                         <button onClick={() => handleMobileNav('ofertas')}>
-                            BLACK FRIDAY | 50% DTO
+                            CATÁLOGO 17 | ESPECIAL NAVIDAD
                         </button>
                      </div>
                      <nav className="flex flex-col space-y-1 p-4">

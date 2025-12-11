@@ -19,27 +19,27 @@ const ChevronRightIcon = () => (
     </svg>
 );
 
-// Banners extraídos del HTML proporcionado y actualizados para Black Friday
+// Banners actualizados para Catálogo 17 - Navidad
 const slides = [
     {
         id: 1,
-        title: "BLACK FRIDAY",
-        subtitle: "50% dto en casi todo",
-        description: "¡No te pierdas las ofertas exclusivas de Black Friday! Solo hasta el 02.12.",
-        buttonText: "VER OFERTAS",
-        image: "https://media-cdn.oriflame.com/contentImage?externalMediaId=d0588f69-99fa-424a-8cf2-19c67ddbc569&name=1_Promo_split_28-11_600x450&inputFormat=jpg",
-        bgClass: "bg-white",
-        textClass: "text-black",
-        buttonClass: "bg-black text-white hover:bg-gray-800",
+        title: "CATÁLOGO 17",
+        subtitle: "La Magia de la Navidad",
+        description: "Regala belleza y bienestar. Descubre las ofertas exclusivas de este catálogo.",
+        buttonText: "VER CATÁLOGO",
+        image: "https://media-cdn.oriflame.com/contentImage?externalMediaId=10eada9f-b5ef-4854-911a-34f17f58b371&name=2_Promo_split_NewCollection_600x450&inputFormat=jpg",
+        bgClass: "bg-red-50",
+        textClass: "text-red-900",
+        buttonClass: "bg-red-600 text-white hover:bg-red-700",
         targetId: "seleccion-oferta"
     },
     {
         id: 2,
         title: "NUEVA COLECCIÓN",
-        subtitle: "Especial Navidad",
-        description: "Compra para brillar. Descubre los nuevos looks festivos.",
+        subtitle: "Looks Festivos",
+        description: "Compra para brillar estas fiestas. Maquillaje y estilo para celebrar.",
         buttonText: "COMPRA PARA BRILLAR",
-        image: "https://media-cdn.oriflame.com/contentImage?externalMediaId=10eada9f-b5ef-4854-911a-34f17f58b371&name=2_Promo_split_NewCollection_600x450&inputFormat=jpg",
+        image: "https://media-cdn.oriflame.com/contentImage?externalMediaId=e6a950aa-3fef-457c-bcbf-1058993497d0&name=3_Promo_split_GiftSets_600x450&inputFormat=jpg",
         bgClass: "bg-gradient-to-r from-red-50 to-pink-50",
         textClass: "text-red-900",
         buttonClass: "bg-red-600 text-white hover:bg-red-700",
