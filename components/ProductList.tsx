@@ -181,7 +181,7 @@ const ProductList: React.FC<{
                 <div className="mt-16 flex flex-col items-center justify-center max-w-md mx-auto text-center">
                     <p className="text-gray-600 mb-4 font-medium">Mostrando 5 de 177 productos</p>
                     <div className="w-full h-1 bg-gray-200 rounded-full mb-6 overflow-hidden">
-                        <div className="h-full bg-black w-[3%] rounded-full"></div>
+                        <div className="h-full bg-black w-[18%] rounded-full"></div>
                     </div>
                     <button className="px-10 py-3 border border-gray-300 rounded-full font-bold text-gray-800 hover:bg-gray-50 hover:border-gray-400 transition-all uppercase text-sm tracking-wide">
                         Mostrar más

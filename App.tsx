@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 // Types
 import type { View, Product, CartItem } from './components/types';
@@ -22,7 +23,7 @@ import BottomNavBar from './components/BottomNavBar';
 import { allProducts } from './components/products';
 
 interface ErrorBoundaryProps {
-    children: React.ReactNode;
+    children?: React.ReactNode;
 }
 
 interface ErrorBoundaryState {
@@ -32,7 +33,11 @@ interface ErrorBoundaryState {
 
 // Error Boundary mejorado
 class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
-    state: ErrorBoundaryState = { hasError: false, error: null };
+    public state: ErrorBoundaryState = { hasError: false, error: null };
+
+    constructor(props: ErrorBoundaryProps) {
+        super(props);
+    }
 
     static getDerivedStateFromError(error: Error): ErrorBoundaryState {
         return { hasError: true, error };
