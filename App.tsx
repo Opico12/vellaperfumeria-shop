@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect, useCallback } from 'react';
 // Types
 import type { View, Product, CartItem } from './components/types';
@@ -34,10 +35,6 @@ interface ErrorBoundaryState {
 // Error Boundary mejorado
 class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
     public state: ErrorBoundaryState = { hasError: false, error: null };
-
-    constructor(props: ErrorBoundaryProps) {
-        super(props);
-    }
 
     static getDerivedStateFromError(error: Error): ErrorBoundaryState {
         return { hasError: true, error };
@@ -342,7 +339,7 @@ const AppContent: React.FC = () => {
             <BottomNavBar
                 onNavigate={handleNavigate}
                 currentView={view.current}
-                currentCategory={view.payload as string ?? ''}
+                currentCategory={typeof view.payload === 'string' ? view.payload : ''}
             />
 
             <style>{`
