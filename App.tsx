@@ -1,4 +1,6 @@
-import React, { Component, useState, useEffect, useCallback } from 'react';
+
+
+import React, { useState, useEffect, useCallback } from 'react';
 // Types
 import type { View, Product, CartItem } from './components/types';
 import type { Currency } from './components/currency';
@@ -32,7 +34,10 @@ interface ErrorBoundaryState {
 
 // Error Boundary mejorado
 class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
-    state: ErrorBoundaryState = { hasError: false, error: null };
+    constructor(props: ErrorBoundaryProps) {
+        super(props);
+        this.state = { hasError: false, error: null };
+    }
 
     static getDerivedStateFromError(error: Error): ErrorBoundaryState {
         return { hasError: true, error };
@@ -302,7 +307,7 @@ const AppContent: React.FC = () => {
                 cartCount={cartItems.reduce((acc, item) => acc + item.quantity, 0)}
                 onCartClick={() => setIsCartOpen(true)}
             />
-             <main className="flex-grow py-8 mb-16 md:mb-0">
+             <main className="flex-grow py-2 mb-16 md:mb-0">
                 <Breadcrumbs items={buildBreadcrumbs()} />
                 {renderContent()}
             </main>
