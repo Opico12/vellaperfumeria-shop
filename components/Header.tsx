@@ -52,6 +52,47 @@ const SearchIcon = () => (
     </svg>
 );
 
+// Types for Mega Menu
+interface SubCategory {
+    name: string;
+    link: string;
+}
+
+interface MegaMenuCategory {
+    id: string;
+    label: string;
+    subcategories: { title: string; items: SubCategory[] }[];
+    image?: string;
+}
+
+// NavLink Component with Hover Support
+const NavLink: React.FC<{ 
+    onClick?: () => void, 
+    href?: string, 
+    children: React.ReactNode, 
+    className?: string, 
+    isDark?: boolean,
+    onMouseEnter?: () => void,
+}> = ({ onClick, href, children, className, isDark, onMouseEnter }) => {
+    const baseClass = `text-sm font-medium transition-colors duration-200 ${className}`;
+    const colorClass = isDark ? "text-white hover:text-gray-300" : "text-black hover:text-gray-700";
+    
+    const content = <span className={!isDark ? "hover-underline-effect" : ""}>{children}</span>;
+
+    if (href) {
+        return (
+            <a href={href} className={`${baseClass} ${colorClass}`} onMouseEnter={onMouseEnter}>
+                {content}
+            </a>
+        );
+    }
+    return (
+        <button onClick={onClick} className={`${baseClass} ${colorClass}`} onMouseEnter={onMouseEnter}>
+            {content}
+        </button>
+    );
+};
+
 interface HeaderProps {
     onNavigate: (view: View, payload?: any) => void;
     currency: Currency;
@@ -60,88 +101,69 @@ interface HeaderProps {
     onCartClick: () => void;
 }
 
-// Estructura de navegación mejorada
-interface NavItem {
-    label: string;
-    view?: View;
-    payload?: any;
-    href?: string;
-    subItems?: NavItem[];
-    // Propiedades para Mega Menú Visual
-    isPromoMenu?: boolean;
-    promoItems?: PromoItem[];
-}
-
-interface PromoItem {
-    title: string;
-    subtitle: string;
-    image: string;
-    view: View;
-    payload?: any;
-    badge?: string;
-}
-
 const Header: React.FC<HeaderProps> = ({ onNavigate, currency, onCurrencyChange, cartCount, onCartClick }) => {
     const [cartPulse, setCartPulse] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+    const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
     const navRef = useRef<HTMLDivElement>(null);
+    const megaMenuRef = useRef<HTMLDivElement>(null);
 
-    const navigationStructure: NavItem[] = [
-        { label: 'Inicio', href: 'https://vellaperfumeria.com' },
-        {
-            label: 'Ofertas',
-            isPromoMenu: true,
-            promoItems: [
-                {
-                    title: 'Novage+ -40%',
-                    subtitle: 'Rejuvenece tu mirada',
-                    image: 'https://media-cdn.oriflame.com/contentImage?externalMediaId=6efc6ae1-0a1d-4df6-97f8-d785fa0c0476&name=5_Promo_split_Novage_600x450&inputFormat=jpg',
-                    view: 'products',
-                    payload: 'skincare',
-                    badge: '-40%'
-                },
-                {
-                    title: 'Duologi 6,99€',
-                    subtitle: 'Cuidado capilar experto',
-                    image: 'https://media-cdn.oriflame.com/contentImage?externalMediaId=df88458d-0b4f-4f26-80a4-bc41f7aade2b&name=6_Promo_split_Duologi_600x450&inputFormat=jpg',
-                    view: 'ofertas',
-                    badge: 'OFERTA'
-                },
-                {
-                    title: 'Ideas Regalo',
-                    subtitle: 'Sets exclusivos',
-                    image: 'https://media-cdn.oriflame.com/contentImage?externalMediaId=10eada9f-b5ef-4854-911a-34f17f58b371&name=2_Promo_split_NewCollection_600x450&inputFormat=jpg',
-                    view: 'catalog',
-                    badge: 'NAVIDAD'
-                }
-            ]
+    // Mega Menu Data enriched with user inputs
+    const megaMenuData: Record<string, MegaMenuCategory> = {
+        'Tienda': {
+            id: 'Tienda',
+            label: 'Tienda',
+            subcategories: [
+                { title: 'Cuidado Facial', items: [{ name: 'Ver Todo', link: 'skincare' }, { name: 'Limpiadoras', link: 'skincare' }, { name: 'Serums', link: 'skincare' }, { name: 'Hidratantes', link: 'skincare' }] },
+                { title: 'Maquillaje', items: [{ name: 'Ver Todo', link: 'makeup' }, { name: 'Rostro', link: 'makeup' }, { name: 'Ojos', link: 'makeup' }, { name: 'Labios', link: 'makeup' }] },
+                { title: 'Cuerpo y Baño', items: [{ name: 'Ver Todo', link: 'personal-care' }, { name: 'Higiene', link: 'personal-care' }, { name: 'Hidratación', link: 'personal-care' }, { name: 'Cabello', link: 'hair' }] },
+                { title: 'Fragancias', items: [{ name: 'Ver Todo', link: 'perfume' }, { name: 'Para Ella', link: 'perfume' }, { name: 'Para Él', link: 'perfume' }] },
+            ],
+            image: 'https://media-cdn.oriflame.com/contentImage?externalMediaId=e6a950aa-3fef-457c-bcbf-1058993497d0&name=3_Promo_split_GiftSets_600x450&inputFormat=jpg'
         },
-        { 
-            label: 'Tienda', 
-            subItems: [
-                { label: 'Ver Todo', view: 'products', payload: 'all' },
-                { label: 'Cuidado Facial', view: 'products', payload: 'skincare' },
-                { label: 'Maquillaje', view: 'products', payload: 'makeup' },
-                { label: 'Fragancias', view: 'products', payload: 'perfume' },
-                { label: 'Cuidado Capilar', view: 'products', payload: 'hair' },
-                { label: 'Wellness', view: 'products', payload: 'wellness' },
-                { label: 'Cuidado Personal', view: 'products', payload: 'personal-care' },
-                { label: 'Hombre', view: 'products', payload: 'men' },
-                { label: 'Accesorios', view: 'products', payload: 'accessories' },
-            ]
+        'Cuidado Facial': {
+            id: 'Cuidado Facial',
+            label: 'Cuidado Facial',
+            subcategories: [
+                { title: 'Categorías', items: [
+                    { name: 'Hidratantes', link: 'skincare' },
+                    { name: 'Limpiadoras y Tónicos', link: 'skincare' },
+                    { name: 'Cuidado de Ojos', link: 'skincare' },
+                    { name: 'Serums y Tratamientos', link: 'skincare' },
+                    { name: 'Mascarillas', link: 'skincare' },
+                    { name: 'Protección Solar', link: 'skincare' },
+                    { name: 'Herramientas y Accesorios', link: 'accessories' }
+                ]},
+                { title: 'Necesidades', items: [
+                    { name: 'Antiedad', link: 'skincare' },
+                    { name: 'Manchas e Hiperpigmentación', link: 'skincare' },
+                    { name: 'Acné e Imperfecciones', link: 'skincare' },
+                    { name: 'Piel Sensible', link: 'skincare' },
+                    { name: 'Hidratación', link: 'skincare' },
+                    { name: 'Rutinas', link: 'skincare' }
+                ]},
+                { title: 'Marcas Destacadas', items: [
+                    { name: 'Novage+', link: 'skincare' },
+                    { name: 'Optimals', link: 'skincare' },
+                    { name: 'Love Nature', link: 'skincare' },
+                    { name: 'Waunt', link: 'skincare' },
+                    { name: 'Royal Velvet', link: 'skincare' }
+                ]},
+            ],
+            image: 'https://media-cdn.oriflame.com/contentImage?externalMediaId=6efc6ae1-0a1d-4df6-97f8-d785fa0c0476&name=5_Promo_split_Novage_600x450&inputFormat=jpg'
         },
-        {
-            label: 'Descubrir',
-            subItems: [
-                { label: 'Catálogo Actual (C17)', view: 'catalog' },
-                { label: 'Bestsellers', view: 'products', payload: 'all' },
-                { label: 'Suscríbete y Ahorra', view: 'products', payload: 'wellness' },
-                { label: 'Blog', view: 'blog' },
-            ]
-        },
-        { label: 'Asistente IA', view: 'ia' }
-    ];
+        'Maquillaje': {
+            id: 'Maquillaje',
+            label: 'Maquillaje',
+            subcategories: [
+                { title: 'Rostro', items: [{ name: 'Bases de Maquillaje', link: 'makeup' }, { name: 'Correctores', link: 'makeup' }, { name: 'Polvos', link: 'makeup' }, { name: 'Coloretes', link: 'makeup' }, { name: 'Iluminadores', link: 'makeup' }] },
+                { title: 'Ojos', items: [{ name: 'Máscaras de Pestañas', link: 'makeup' }, { name: 'Delineadores', link: 'makeup' }, { name: 'Sombras de Ojos', link: 'makeup' }, { name: 'Cejas', link: 'makeup' }] },
+                { title: 'Labios', items: [{ name: 'Barras de Labios', link: 'makeup' }, { name: 'Brillos', link: 'makeup' }, { name: 'Perfiladores', link: 'makeup' }] },
+                { title: 'Marcas', items: [{ name: 'Giordani Gold', link: 'makeup' }, { name: 'THE ONE', link: 'makeup' }, { name: 'OnColour', link: 'makeup' }] },
+            ],
+            image: 'https://media-cdn.oriflame.com/contentImage?externalMediaId=179aab29-b41b-4e67-af6d-927cf4656de4&name=2_Promo_split_double_gifts&inputFormat=jpg'
+        }
+    };
 
     useEffect(() => {
         if (cartCount > 0) {
@@ -166,19 +188,10 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currency, onCurrencyChange,
         setIsMobileMenuOpen(false);
     }
 
-    const handleNavClick = (item: NavItem) => {
-        if (item.href) {
-            window.location.href = item.href;
-        } else if (item.view) {
-            onNavigate(item.view, item.payload);
-        }
-        setActiveDropdown(null);
-    };
-
     return (
-        <header className="flex flex-col shadow-sm sticky top-0 z-30">
-            {/* 1. Top Announcement Bar - Pink */}
-            <div className="text-black py-1 text-xs font-medium w-full" style={{ backgroundColor: '#f78df685' }}>
+        <header className="bg-white shadow-sm sticky top-0 z-30" onMouseLeave={() => setActiveMegaMenu(null)}>
+            {/* Top Announcement Bar - Condensed */}
+            <div className="text-black py-1 text-xs font-medium" style={{ backgroundColor: '#f78df685' }}>
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
                     <div className="flex items-center space-x-3">
                         <span className="cursor-pointer hover:opacity-75 transition-opacity text-black" aria-label="Threads"><ThreadsIcon /></span>
@@ -192,14 +205,14 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currency, onCurrencyChange,
                         </span>
                     </button>
                     <div className="flex items-center space-x-4">
-                        {/* Right side spacer */}
+                        {/* Right side spacer or user icon if needed */}
                     </div>
                 </div>
             </div>
 
-            {/* 2. Logo Area - White */}
-            <div className="bg-white w-full border-b border-gray-100">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-center py-2 relative">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
+                {/* Logo Section */}
+                <div className="flex justify-center py-1 relative">
                     <form action="https://vellaperfumeria.com" method="GET" target="_top">
                         <button type="submit" className="hover:opacity-80 transition-opacity flex items-center">
                             <img 
@@ -210,114 +223,60 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currency, onCurrencyChange,
                         </button>
                     </form>
                 </div>
-            </div>
 
-            {/* 3. Navigation Menu - Black - Full Width Mega Menu Capable */}
-            <div className="bg-black text-white w-full relative">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-12">
-                    
-                    {/* Left: Currency & Contact */}
+                {/* Navbar */}
+                <div className="flex justify-between items-center pb-2 border-t border-gray-100 pt-1">
                     <div className="flex-1 hidden md:flex items-center space-x-4">
                         <select
                             value={currency}
                             onChange={(e) => onCurrencyChange(e.target.value as Currency)}
-                            className="text-xs font-medium bg-transparent border-none focus:ring-0 cursor-pointer text-white hover:text-gray-300 transition-colors"
+                            className="text-xs font-medium bg-transparent border-none focus:ring-0 cursor-pointer"
                             aria-label="Seleccionar moneda"
                         >
-                            <option value="EUR" className="text-black">EUR €</option>
-                            <option value="USD" className="text-black">USD $</option>
-                            <option value="GBP" className="text-black">GBP £</option>
+                            <option value="EUR">EUR €</option>
+                            <option value="USD">USD $</option>
+                            <option value="GBP">GBP £</option>
                         </select>
-                         <button onClick={() => onNavigate('contact')} className="text-xs font-medium text-gray-400 hover:text-white transition-colors">
-                            Brand Partner
+                         <button onClick={() => onNavigate('contact')} className="text-xs font-medium text-gray-600 hover:text-black transition-colors">
+                            Conviértete en Brand Partner
                         </button>
                     </div>
 
-                    {/* Center: Desktop Navigation with Mega Menu */}
-                    <nav className="hidden md:flex flex-auto justify-center items-center h-full">
-                        <ul className="flex space-x-8 h-full">
-                            {navigationStructure.map((item) => (
-                                <li 
-                                    key={item.label}
-                                    className="relative h-full flex items-center group"
-                                    onMouseEnter={() => setActiveDropdown(item.label)}
-                                    onMouseLeave={() => setActiveDropdown(null)}
-                                >
-                                    <button
-                                        onClick={() => handleNavClick(item)}
-                                        className={`text-sm font-medium transition-colors duration-200 uppercase tracking-wide px-2 py-1 ${activeDropdown === item.label ? 'text-[#ec4899]' : 'text-white hover:text-gray-300'}`}
-                                    >
-                                        {item.label}
-                                    </button>
-
-                                    {/* Full Width Dropdown */}
-                                    {((item.subItems || item.isPromoMenu) && activeDropdown === item.label) && (
-                                        <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-screen bg-black text-white shadow-2xl z-50 border-t border-gray-800 animate-fade-in-down origin-top" style={{ marginTop: '0px' }}>
-                                            <div className="container mx-auto px-4 py-8">
-                                                
-                                                {/* Visual Promo Menu */}
-                                                {item.isPromoMenu && item.promoItems ? (
-                                                    <div className="grid grid-cols-3 gap-8">
-                                                        {item.promoItems.map((promo, idx) => (
-                                                            <div 
-                                                                key={idx} 
-                                                                className="relative group/promo cursor-pointer overflow-hidden rounded-lg border border-gray-800"
-                                                                onClick={() => onNavigate(promo.view, promo.payload)}
-                                                            >
-                                                                <div className="aspect-[16/9] w-full relative">
-                                                                    <img src={promo.image} alt={promo.title} className="w-full h-full object-cover transition-transform duration-700 group-hover/promo:scale-110" />
-                                                                    <div className="absolute inset-0 bg-black/40 group-hover/promo:bg-black/20 transition-colors"></div>
-                                                                    {promo.badge && (
-                                                                        <span className="absolute top-2 left-2 bg-[#ec4899] text-white text-xs font-bold px-2 py-1 uppercase tracking-widest shadow-md">
-                                                                            {promo.badge}
-                                                                        </span>
-                                                                    )}
-                                                                </div>
-                                                                <div className="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/90 to-transparent">
-                                                                    <h4 className="text-xl font-bold text-white mb-1 group-hover/promo:text-[#ec4899] transition-colors">{promo.title}</h4>
-                                                                    <p className="text-sm text-gray-300">{promo.subtitle}</p>
-                                                                </div>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                ) : (
-                                                    /* Standard List Menu */
-                                                    <div className="grid grid-cols-4 gap-y-6 gap-x-8">
-                                                        {item.subItems?.map((sub) => (
-                                                            <button 
-                                                                key={sub.label}
-                                                                onClick={() => handleNavClick(sub)}
-                                                                className="text-left text-gray-300 hover:text-[#ec4899] transition-colors duration-200 text-sm font-medium hover:translate-x-1 transform flex items-center group"
-                                                            >
-                                                                <span className="w-1.5 h-1.5 bg-[#ec4899] rounded-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                                                                {sub.label}
-                                                            </button>
-                                                        ))}
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </div>
-                                    )}
-                                </li>
-                            ))}
-                        </ul>
+                    <nav className="hidden md:flex flex-auto justify-center items-center space-x-5 h-full">
+                        <NavLink href="https://vellaperfumeria.com" onMouseEnter={() => setActiveMegaMenu(null)}>Inicio</NavLink>
+                        
+                        <div className="h-full flex items-center" onMouseEnter={() => setActiveMegaMenu('Tienda')}>
+                            <NavLink onClick={() => onNavigate('products', 'all')} className="h-full flex items-center">Tienda</NavLink>
+                        </div>
+                        <div className="h-full flex items-center" onMouseEnter={() => setActiveMegaMenu('Cuidado Facial')}>
+                            <NavLink onClick={() => onNavigate('products', 'skincare')} className="h-full flex items-center">Cuidado Facial</NavLink>
+                        </div>
+                        <div className="h-full flex items-center" onMouseEnter={() => setActiveMegaMenu('Maquillaje')}>
+                            <NavLink onClick={() => onNavigate('products', 'makeup')} className="h-full flex items-center">Maquillaje</NavLink>
+                        </div>
+                        
+                        <NavLink onClick={() => onNavigate('products', 'hair')} onMouseEnter={() => setActiveMegaMenu(null)}>Cuidado Capilar</NavLink>
+                        <NavLink onClick={() => onNavigate('products', 'perfume')} onMouseEnter={() => setActiveMegaMenu(null)}>Fragancias</NavLink>
+                        <NavLink onClick={() => onNavigate('products', 'wellness')} onMouseEnter={() => setActiveMegaMenu(null)}>Wellness</NavLink>
+                        <NavLink onClick={() => onNavigate('ofertas')} onMouseEnter={() => setActiveMegaMenu(null)}>Ideas Regalo</NavLink>
+                        <NavLink onClick={() => onNavigate('catalog')} onMouseEnter={() => setActiveMegaMenu(null)}>Catálogo</NavLink>
+                        <NavLink onClick={() => onNavigate('ia')} onMouseEnter={() => setActiveMegaMenu(null)}>Asistente IA</NavLink>
                     </nav>
 
-                    {/* Right: Icons */}
                     <div className="flex-1 flex justify-end items-center space-x-4">
-                        <button className="text-white hover:text-gray-300 transition-colors" aria-label="Buscar">
+                        <button className="text-black hover:text-gray-700" aria-label="Buscar">
                             <SearchIcon />
                         </button>
-                        <button onClick={onCartClick} className="relative text-white hover:text-gray-300 transition-colors" aria-label={`Ver carrito, ${cartCount} artículos`}>
+                        <button onClick={onCartClick} className="relative text-black hover:text-gray-700" aria-label={`Ver carrito, ${cartCount} artículos`}>
                             <CartIcon />
                             {cartCount > 0 && (
-                                <span key={cartCount} className={`absolute -top-2 -right-2 bg-[#ec4899] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center ${cartPulse ? 'animate-pop' : ''}`}>
+                                <span key={cartCount} className={`absolute -top-2 -right-2 bg-brand-purple text-black text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center ${cartPulse ? 'animate-pop' : ''}`}>
                                     {cartCount}
                                 </span>
                             )}
                         </button>
                         <div className="md:hidden">
-                            <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} aria-label="Abrir menú" className="text-white hover:text-gray-300">
+                            <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} aria-label="Abrir menú">
                                 {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
                             </button>
                         </div>
@@ -325,62 +284,77 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currency, onCurrencyChange,
                 </div>
             </div>
 
-            {/* Mobile Menu - Black Background */}
+            {/* Mega Menu Dropdown (Full Width, Black Background) */}
+            {activeMegaMenu && megaMenuData[activeMegaMenu] && (
+                <div 
+                    ref={megaMenuRef}
+                    className="absolute top-full left-0 w-full bg-black text-white shadow-2xl z-40 animate-fade-in-down origin-top border-t border-gray-800"
+                    onMouseEnter={() => setActiveMegaMenu(activeMegaMenu)}
+                    onMouseLeave={() => setActiveMegaMenu(null)}
+                >
+                    <div className="container mx-auto px-8 py-10">
+                        <div className="grid grid-cols-4 gap-8">
+                            {megaMenuData[activeMegaMenu].subcategories.map((sub, idx) => (
+                                <div key={idx} className="space-y-4">
+                                    <h3 className="text-pink-400 font-bold uppercase tracking-widest text-sm border-b border-gray-700 pb-2">{sub.title}</h3>
+                                    <ul className="space-y-2">
+                                        {sub.items.map((item, i) => (
+                                            <li key={i}>
+                                                <button 
+                                                    onClick={() => {
+                                                        onNavigate('products', item.link);
+                                                        setActiveMegaMenu(null);
+                                                    }}
+                                                    className="text-gray-300 hover:text-white hover:translate-x-1 transition-all text-sm text-left"
+                                                >
+                                                    {item.name}
+                                                </button>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            ))}
+                            {/* Promotional Image in Menu */}
+                            {megaMenuData[activeMegaMenu].image && (
+                                <div className="col-span-1 relative overflow-hidden rounded-lg group cursor-pointer" onClick={() => {
+                                    onNavigate('products', 'all');
+                                    setActiveMegaMenu(null);
+                                }}>
+                                    <img 
+                                        src={megaMenuData[activeMegaMenu].image} 
+                                        alt="Promoción" 
+                                        className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+                                    />
+                                    <div className="absolute inset-0 flex items-center justify-center">
+                                        <span className="bg-white/10 backdrop-blur-md px-4 py-2 text-white font-bold uppercase tracking-wider border border-white/30 hover:bg-white/20 transition-colors">
+                                            Ver Todo
+                                        </span>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Mobile Menu - Black Background, Full Width */}
             {isMobileMenuOpen && (
-                 <div ref={navRef} className="absolute top-full left-0 w-full bg-black text-white shadow-xl z-50 animate-fade-in-down origin-top border-t border-gray-800 max-h-[80vh] overflow-y-auto">
-                     <div className="p-3 text-center bg-gray-900 font-bold text-xs uppercase tracking-widest text-pink-300 border-b border-gray-800">
+                 <div ref={navRef} className="absolute top-full left-0 w-full bg-black text-white shadow-xl z-50 animate-fade-in-down origin-top">
+                     <div className="p-3 text-center bg-gray-900 font-bold text-xs uppercase tracking-widest text-pink-300">
                         <button onClick={() => handleMobileNav('ofertas')} className="w-full h-full block">
                             Catálogo 17 | Especial Navidad
                         </button>
                      </div>
-                     <nav className="flex flex-col p-6 space-y-2">
-                        {navigationStructure.map((item) => (
-                            <div key={item.label} className="border-b border-gray-800 pb-2">
-                                <button 
-                                    onClick={() => {
-                                        if (item.isPromoMenu) return; // In mobile, maybe expand? For now just simple toggle or link
-                                        if (!item.subItems && !item.isPromoMenu) handleNavClick(item);
-                                    }}
-                                    className="text-lg font-bold text-white w-full text-left py-2 flex justify-between items-center"
-                                >
-                                    {item.label}
-                                </button>
-                                
-                                {item.isPromoMenu && item.promoItems && (
-                                    <div className="pl-4 space-y-3 mt-2 mb-2">
-                                        {item.promoItems.map((promo, idx) => (
-                                            <button
-                                                key={idx}
-                                                onClick={() => handleMobileNav(promo.view, promo.payload)}
-                                                className="block w-full text-left group"
-                                            >
-                                                <div className="flex items-center gap-3">
-                                                    <img src={promo.image} alt={promo.title} className="w-12 h-8 object-cover rounded" />
-                                                    <div>
-                                                        <p className="text-sm font-bold text-pink-300 group-hover:text-white transition-colors">{promo.title}</p>
-                                                        <p className="text-xs text-gray-500">{promo.subtitle}</p>
-                                                    </div>
-                                                </div>
-                                            </button>
-                                        ))}
-                                    </div>
-                                )}
-
-                                {item.subItems && (
-                                    <div className="pl-4 space-y-2 mt-1 mb-2">
-                                        {item.subItems.map(sub => (
-                                            <button 
-                                                key={sub.label}
-                                                onClick={() => handleNavClick(sub)}
-                                                className="block text-sm text-gray-400 hover:text-pink-300 py-1 w-full text-left"
-                                            >
-                                                {sub.label}
-                                            </button>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-                        ))}
+                     <nav className="flex flex-col p-6 space-y-4">
+                         <NavLink isDark onClick={() => handleMobileNav('home')} className="text-lg border-b border-gray-800 pb-2">Inicio</NavLink>
+                         <NavLink isDark onClick={() => handleMobileNav('products', 'all')} className="text-lg border-b border-gray-800 pb-2">Tienda</NavLink>
+                         <NavLink isDark onClick={() => handleMobileNav('ofertas')} className="text-lg font-bold text-pink-300 border-b border-gray-800 pb-2">Solo las mejores ofertas</NavLink>
+                         <NavLink isDark onClick={() => handleMobileNav('products', 'skincare')} className="text-lg border-b border-gray-800 pb-2">Cuidado Facial</NavLink>
+                         <NavLink isDark onClick={() => handleMobileNav('products', 'makeup')} className="text-lg border-b border-gray-800 pb-2">Maquillaje</NavLink>
+                         <NavLink isDark onClick={() => handleMobileNav('products', 'perfume')} className="text-lg border-b border-gray-800 pb-2">Fragancias</NavLink>
+                         <NavLink isDark onClick={() => handleMobileNav('products', 'wellness')} className="text-lg border-b border-gray-800 pb-2">Wellness</NavLink>
+                         <NavLink isDark onClick={() => handleMobileNav('catalog')} className="text-lg border-b border-gray-800 pb-2">Catálogo Digital</NavLink>
+                         <NavLink isDark onClick={() => handleMobileNav('ia')} className="text-lg border-b border-gray-800 pb-2">Asistente IA</NavLink>
                      </nav>
                      <div className="p-6 bg-gray-900 flex flex-col space-y-4">
                         <button onClick={() => { handleMobileNav('contact'); }} className="text-sm font-medium text-gray-400 hover:text-white transition-colors text-left">
@@ -406,10 +380,6 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currency, onCurrencyChange,
                 }
                 .animate-fade-in-down {
                     animation: fadeInDown 0.2s ease-out forwards;
-                }
-                /* Ensure full width dropdown works even inside container */
-                .w-screen {
-                    width: 100vw;
                 }
             `}</style>
         </header>

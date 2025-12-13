@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, Component } from 'react';
 // Types
 import type { View, Product, CartItem } from './components/types';
 import type { Currency } from './components/currency';
@@ -33,7 +33,13 @@ interface ErrorBoundaryState {
 
 // Error Boundary mejorado
 class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
-    state: ErrorBoundaryState = { hasError: false, error: null };
+    constructor(props: ErrorBoundaryProps) {
+        super(props);
+        this.state = {
+            hasError: false,
+            error: null
+        };
+    }
 
     static getDerivedStateFromError(error: Error): ErrorBoundaryState {
         return { hasError: true, error };
@@ -63,7 +69,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
                 </div>
             );
         }
-        return (this as any).props.children;
+        return this.props.children;
     }
 }
 

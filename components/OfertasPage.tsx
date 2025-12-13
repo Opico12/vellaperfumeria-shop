@@ -13,8 +13,7 @@ const conditionerProducts = allProducts.filter(p => conditionerIds.includes(p.id
 // Resto de productos Duologi
 const otherDuologiProducts = allProducts.filter(p => p.brand === 'DUOLOGI' && !conditionerIds.includes(p.id));
 
-// Productos Selección (Trigger Products) - Excluimos los acondicionadores
-// Incluimos Love Nature, Essense & Co, Fragancias nuevas, etc.
+// Productos Selección (Trigger Products)
 const triggerProductIds = [
     47440, 46987, 47009, // Love Nature Simple Joys
     46642, 46731, 45799, 45800, 47450, // Essense & Co
@@ -40,28 +39,68 @@ const OfertasPage: React.FC<{
     onQuickView: (product: Product) => void;
 }> = ({ currency, onAddToCart, onQuickAddToCart, onProductSelect, onQuickView }) => {
     return (
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-8">
-                <h2 className="text-3xl font-extrabold text-black tracking-tight">Ofertas Especiales</h2>
-                <p className="mt-2 text-lg text-gray-600 font-semibold">Promociones exclusivas para ti.</p>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+            
+            {/* Header Section */}
+            <div className="text-center mb-12 pt-6">
+                <h1 className="text-4xl md:text-5xl font-serif font-medium text-black tracking-tight mb-3">Ofertas Especiales</h1>
+                <p className="text-lg text-gray-600 font-light max-w-2xl mx-auto">
+                    Descubre promociones exclusivas diseñadas para realzar tu belleza esta temporada.
+                </p>
             </div>
             
             {/* Carousel Component */}
             <SpecialOffersCarousel onProductSelect={onProductSelect} />
 
-            {/* Section 1: The Reward (Conditioners) */}
-            <div className="mb-16">
-                 <div className="flex items-center gap-2 mb-6">
-                    <span className="bg-brand-purple text-white rounded-full w-8 h-8 flex items-center justify-center font-bold">1</span>
-                    <h3 className="text-2xl font-bold text-black">Elige tu Acondicionador a 6,99€</h3>
-                 </div>
-                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                    {conditionerProducts.map(product => (
-                        <div key={product.id} className="relative">
-                             <div className="absolute top-2 right-2 z-10 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-sm">
-                                OFERTA 6,99€
+            {/* Main Offer Section: Glassmorphism Container */}
+            <div className="bg-white/60 backdrop-blur-xl rounded-3xl p-8 md:p-12 mb-16 shadow-xl border border-white/50 relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-pink-300 via-purple-300 to-pink-300"></div>
+                
+                {/* Step 1: The Reward */}
+                <div className="mb-16 relative z-10">
+                     <div className="flex flex-col md:flex-row items-start md:items-center gap-4 mb-8">
+                        <span className="bg-gradient-to-br from-brand-primary to-purple-600 text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-xl shadow-lg shrink-0">1</span>
+                        <div>
+                            <h3 className="text-3xl font-serif text-black mb-1">Elige tu Acondicionador</h3>
+                            <p className="text-brand-primary font-bold text-xl">SOLO 6,99€ <span className="text-gray-400 text-base font-normal line-through ml-2">15,00€</span></p>
+                        </div>
+                     </div>
+                     
+                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {conditionerProducts.map(product => (
+                            <div key={product.id} className="transform hover:-translate-y-2 transition-transform duration-300">
+                                <div className="relative h-full">
+                                     <div className="absolute -top-3 -right-3 z-20 bg-black text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg border border-white">
+                                        OFERTA
+                                    </div>
+                                    <ProductCard
+                                        product={product}
+                                        currency={currency}
+                                        onAddToCart={onAddToCart}
+                                        onQuickAddToCart={onQuickAddToCart}
+                                        onProductSelect={onProductSelect}
+                                        onQuickView={onQuickView}
+                                    />
+                                </div>
                             </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Step 2: The Trigger */}
+                <div id="seleccion-oferta" className="relative z-10">
+                     <div className="flex flex-col md:flex-row items-start md:items-center gap-4 mb-8">
+                        <span className="bg-gradient-to-br from-gray-800 to-black text-white rounded-full w-12 h-12 flex items-center justify-center font-bold text-xl shadow-lg shrink-0">2</span>
+                        <div>
+                            <h3 className="text-3xl font-serif text-black mb-1">Activa la oferta</h3>
+                            <p className="text-gray-600 text-lg">Añade al menos un producto de esta selección a tu cesta.</p>
+                        </div>
+                     </div>
+                     
+                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        {triggerProducts.map(product => (
                             <ProductCard
+                                key={product.id}
                                 product={product}
                                 currency={currency}
                                 onAddToCart={onAddToCart}
@@ -69,39 +108,19 @@ const OfertasPage: React.FC<{
                                 onProductSelect={onProductSelect}
                                 onQuickView={onQuickView}
                             />
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
 
-            {/* Section 2: The Trigger List */}
-            <div className="mb-16" id="seleccion-oferta">
-                 <div className="flex items-center gap-2 mb-6">
-                    <span className="bg-brand-purple text-white rounded-full w-8 h-8 flex items-center justify-center font-bold">2</span>
-                    <h3 className="text-2xl font-bold text-black">Productos Selección: Compra uno y activa la oferta</h3>
-                 </div>
-                 <p className="text-gray-600 mb-6 ml-10">Añade cualquiera de estos productos a tu cesta para disfrutar del precio especial en los acondicionadores.</p>
-                 
-                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {triggerProducts.map(product => (
-                        <ProductCard
-                            key={product.id}
-                            product={product}
-                            currency={currency}
-                            onAddToCart={onAddToCart}
-                            onQuickAddToCart={onQuickAddToCart}
-                            onProductSelect={onProductSelect}
-                            onQuickView={onQuickView}
-                        />
-                    ))}
-                </div>
-            </div>
-
-            {/* Other Offers */}
+            {/* Other Offers Section */}
              {otherDuologiProducts.length > 0 && (
                 <div className="mb-16">
-                    <h3 className="text-xl font-bold text-black mb-6 border-b pb-2">Más ofertas Duologi</h3>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <div className="flex items-center justify-between mb-8 border-b border-gray-200 pb-4">
+                        <h3 className="text-2xl font-serif font-bold text-black">Más de la Colección Duologi</h3>
+                        <span className="text-brand-primary font-medium text-sm hidden md:block">Cuidado capilar avanzado</span>
+                    </div>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         {otherDuologiProducts.map(product => (
                             <ProductCard
                                 key={product.id}
@@ -119,8 +138,11 @@ const OfertasPage: React.FC<{
 
              {giftProducts.length > 0 && (
                 <div className="mb-12">
-                    <h3 className="text-xl font-bold text-black mb-6 border-b pb-2">Otras Ideas para Regalar</h3>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <div className="flex items-center justify-between mb-8 border-b border-gray-200 pb-4">
+                        <h3 className="text-2xl font-serif font-bold text-black">Ideas para Regalar</h3>
+                        <span className="text-brand-primary font-medium text-sm hidden md:block">Detalles perfectos</span>
+                    </div>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         {giftProducts.map(product => (
                             <ProductCard
                                 key={product.id}

@@ -2,100 +2,652 @@
 import type { Product } from './types';
 
 export const allProducts: Product[] = [
-    // --- 2025 NEW ARRIVALS (From HTML) ---
-    {
-        id: 41070,
-        name: "Contorno de Ojos y Labios Renewing Restore Novage+",
-        brand: "Novage+",
-        price: 16.99,
-        regularPrice: 38.00,
-        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F41070%2F41070_1.png&MediaId=19720523&Version=1&w=600&bc=%23f5f5f5&ib=%23f5f5f5&h=600&q=90&imageFormat=WebP",
-        description: "Contorno de ojos y labios avanzado que restaura la elasticidad y reduce arrugas profundas.",
-        stock: 50,
-        category: 'skincare',
-        tag: 'NOVEDAD',
-        rating: 4.9,
-        reviewCount: 513,
-        statusLabel: "De vuelta muy pronto"
-    },
-    {
-        id: 44098,
-        name: "Tratamiento de Día SPF 30 Multi-Correcting Restore Novage+",
-        brand: "Novage+",
-        price: 24.99,
-        regularPrice: 55.00,
-        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F44098%2F44098_1.png&MediaId=19720543&Version=2&w=600&bc=%23f5f5f5&ib=%23f5f5f5&h=600&q=90&imageFormat=WebP",
-        description: "Crema de día multi-correctora con SPF 30. Fortalece la barrera cutánea y combate el envejecimiento.",
-        stock: 40,
-        category: 'skincare',
-        tag: 'OFERTA',
-        rating: 4.9,
-        reviewCount: 844,
-    },
-    {
-        id: 47514,
-        name: "Eau de Parfum Miss Giordani Floral",
-        brand: "Giordani Gold",
-        price: 17.99,
-        regularPrice: 44.00,
-        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F47514%2F47514_1.png&MediaId=19584358&Version=2&w=600&bc=%23f5f5f5&ib=%23f5f5f5&h=600&q=90&imageFormat=WebP",
-        description: "Un aroma floral exuberante y sofisticado para celebrar la feminidad.",
-        stock: 120,
-        category: 'perfume',
-        tag: 'NOVEDAD',
-        rating: 4.9,
-        reviewCount: 763,
-    },
-    {
-        id: 47502,
-        name: "Eau de Parfum Mister Giordani Aqua",
-        brand: "Giordani Gold",
-        price: 18.99,
-        regularPrice: 44.00,
-        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F47502%2F47502_1.png&MediaId=19717478&Version=2&w=600&bc=%23f5f5f5&ib=%23f5f5f5&h=600&q=90&imageFormat=WebP",
-        description: "Una fragancia acuática y amaderada, fresca y refinada para el hombre moderno.",
-        stock: 80,
-        category: 'perfume', // mapped from men/fragrance
-        tag: 'NOVEDAD',
-        rating: 4.9,
-        reviewCount: 519,
-        statusLabel: "De vuelta muy pronto"
-    },
-    {
-        id: 47499,
-        name: "Eau de Toilette Elvie Midnight Magic",
-        brand: "Elvie",
-        price: 17.99,
-        regularPrice: 41.00,
-        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F47499%2F47499_1.png&MediaId=19828893&Version=1&w=600&bc=%23f5f5f5&ib=%23f5f5f5&h=600&q=90&imageFormat=WebP",
-        description: "Una fragancia mágica inspirada en el misterio de la medianoche.",
-        stock: 150,
-        category: 'perfume',
-        tag: 'NOVEDAD',
-        rating: 4.8,
-        reviewCount: 536,
-    },
-    // --- EXISTING PRODUCTS ---
+    // --- MAQUILLAJE & NOVEDADES (Desde tu HTML) ---
     {
         id: 47188,
         name: "Iluminador Líquido Illuskin THE ONE",
         brand: "The ONE",
         price: 8.46,
         regularPrice: 20.00,
-        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F47188%2F47188_1.png&MediaId=20570078&Version=1&w=600&bc=%23f5f5f5&ib=%23f5f5f5&h=600&q=90&imageFormat=WebP",
-        description: "Iluminador líquido versátil para un brillo natural y radiante.",
-        stock: 100,
-        category: 'makeup',
-        tag: 'NOVEDAD',
-        rating: 4.6,
-        reviewCount: 10,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F47188%2F47188_1.png",
+        description: "Iluminador líquido versátil para un brillo natural o intenso. Mezclable y modulable.",
+        stock: 50,
+        category: "makeup",
+        tag: "NOVEDAD",
+        rating: 4.2,
+        reviewCount: 5
+    },
+    {
+        id: 46134,
+        name: "BB Cream Beautifier MAX SPF 15 THE ONE",
+        brand: "The ONE",
+        price: 5.77,
+        regularPrice: 17.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F46134%2F46134_1.png",
+        description: "BB Cream multifuncional que hidrata, corrige y protege. Acabado natural.",
+        stock: 289,
+        category: "makeup",
+        tag: "NOVEDAD",
+        rating: 4.8,
+        reviewCount: 289,
         variants: {
-            'Tono': [
-                { value: 'Champagne', colorCode: '#F7E7CE' },
-                { value: 'Rose Gold', colorCode: '#B76E79' }
+            "Tono": [
+                { value: "Fair", colorCode: "#F3D8C8" },
+                { value: "Light", colorCode: "#EBC9B4" },
+                { value: "Medium", colorCode: "#D8AD94" },
+                { value: "Dark", colorCode: "#B68266" }
             ]
         }
     },
+    {
+        id: 46901,
+        name: "Perlas con Serum Giordani Gold - Edición Especial",
+        brand: "Giordani Gold",
+        price: 16.93,
+        regularPrice: 35.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F46901%2F46901_1.png",
+        description: "Perlas bronceadoras infusionadas con serum antiedad. Edición limitada.",
+        stock: 50,
+        category: "makeup",
+        tag: "NOVEDAD",
+        rating: 4.8,
+        reviewCount: 82
+    },
+    {
+        id: 46940,
+        name: "Stick Iluminador con Color THE ONE",
+        brand: "The ONE",
+        price: 7.69,
+        regularPrice: 22.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F46940%2F46940_1.png",
+        description: "Iluminador en barra fácil de aplicar para un brillo radiante al instante.",
+        stock: 80,
+        category: "makeup",
+        tag: "NOVEDAD",
+        rating: 4.8,
+        reviewCount: 552,
+        variants: {
+            "Tono": [
+                { value: "Hot Pink", colorCode: "#E88DA3" },
+                { value: "Coral", colorCode: "#EE9D8A" },
+                { value: "Bronze", colorCode: "#C68E73" },
+                { value: "Champagne", colorCode: "#F2D8C6" }
+            ]
+        }
+    },
+    {
+        id: 46906,
+        name: "Maquillaje Stress-Free Everlasting Sync SPF 20 + Protección UVA Natural THE ONE",
+        brand: "The ONE",
+        price: 8.46,
+        regularPrice: 20.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F46906%2F46906_1.png",
+        description: "Base de maquillaje inteligente que se adapta a tu piel y al entorno.",
+        stock: 75,
+        category: "makeup",
+        tag: "NOVEDAD",
+        rating: 4.8,
+        reviewCount: 1038,
+        variants: {
+            "Tono": [
+                { value: "Alabaster", colorCode: "#F7E6D9" },
+                { value: "Porcelain", colorCode: "#F1D9C8" },
+                { value: "Ivory", colorCode: "#EDD0BE" },
+                { value: "Beige", colorCode: "#E2C0A8" },
+                { value: "Sun", colorCode: "#D9A683" },
+                { value: "Amber", colorCode: "#C8926F" }
+            ]
+        }
+    },
+    {
+        id: 42121,
+        name: "Paleta de Ojos y Rostro Fabulous Beauty Giordani Gold",
+        brand: "Giordani Gold",
+        price: 19.24,
+        regularPrice: 42.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F42121%2F42121_1.png",
+        description: "Paleta todo en uno de lujo para ojos y rostro. Pigmentación intensa y sedosa.",
+        stock: 40,
+        category: "makeup",
+        tag: "OFERTA",
+        rating: 4.8,
+        reviewCount: 371
+    },
+    {
+        id: 42102,
+        name: "Maquillaje Mineral de Larga Duración SPF 20 Giordani Gold",
+        brand: "Giordani Gold",
+        price: 13.08,
+        regularPrice: 31.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F42102%2F42102_1.png",
+        description: "Base mineral de larga duración con cobertura completa y acabado luminoso.",
+        stock: 60,
+        category: "makeup",
+        tag: "OFERTA",
+        rating: 4.8,
+        reviewCount: 1066,
+        variants: {
+            "Tono": [
+                { value: "Light Rose", colorCode: "#F3D3C6" },
+                { value: "Light Ivory", colorCode: "#EFCEBF" },
+                { value: "Rose Beige", colorCode: "#E6BCA9" },
+                { value: "Natural Beige", colorCode: "#E2B5A2" }
+            ]
+        }
+    },
+    {
+        id: 41107,
+        name: "Corrector y Serum Potenciador Giordani Gold",
+        brand: "Giordani Gold",
+        price: 8.46,
+        regularPrice: 24.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F41107%2FES%2F41107_1.png",
+        description: "Corrector que borra imperfecciones mientras trata la piel con su serum.",
+        stock: 50,
+        category: "makeup",
+        tag: "OFERTA",
+        rating: 4.8,
+        reviewCount: 1053,
+        variants: {
+            "Tono": [
+                { value: "Light", colorCode: "#F1D5C5" },
+                { value: "Medium", colorCode: "#E2BC9F" }
+            ]
+        }
+    },
+
+    // --- CUIDADO DE LA PIEL & NOVAGE+ (Segundo bloque HTML) ---
+    {
+        id: 47847,
+        name: "Lote Ritual de Cuidado de la Piel Wellosophy",
+        brand: "Wellosophy",
+        price: 53.89,
+        regularPrice: 101.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F47847%2F47847_1.png",
+        description: "Rutina completa para el bienestar de tu piel desde el interior y el exterior.",
+        stock: 62,
+        category: "wellness",
+        tag: "SET",
+        rating: 4.7,
+        reviewCount: 62,
+        beautyPoints: 50
+    },
+    {
+        id: 47785,
+        name: "Lote Antioxidante Wellosophy",
+        brand: "Wellosophy",
+        price: 102.41,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F47785%2F47785_1.png",
+        description: "Protección antioxidante avanzada para combatir los radicales libres.",
+        stock: 16,
+        category: "wellness",
+        tag: "SET",
+        rating: 4.7,
+        reviewCount: 16,
+        beautyPoints: 95
+    },
+    {
+        id: 46319,
+        name: "Niacinamida 10% Power Drops Proceuticals Novage+",
+        brand: "Novage+",
+        price: 26.94,
+        regularPrice: 57.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F46319%2F46319_1.png",
+        description: "Potenciador con Niacinamida para fortalecer la barrera cutánea y mejorar la textura.",
+        stock: 160,
+        category: "skincare",
+        tag: "NOVEDAD",
+        rating: 4.9,
+        reviewCount: 160
+    },
+    {
+        id: 48675,
+        name: "Caja de Regalo Crema Universal - Edición Especial",
+        brand: "Crema Universal",
+        price: 13.85,
+        regularPrice: 36.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F48675%2F48675_1.png",
+        description: "Trío de cremas universales: Grosella Negra, Original y Ciruela Dulce.",
+        stock: 100,
+        category: "skincare",
+        tag: "NOVEDAD",
+        rating: 5.0,
+        reviewCount: 2
+    },
+    {
+        id: 48105,
+        name: "Mascarilla Revitalizante Intensiva Acción Noche Novage+",
+        brand: "Novage+",
+        price: 20.78,
+        regularPrice: 39.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F48105%2F48105_1.png",
+        description: "Mascarilla nocturna intensiva para una piel revitalizada al despertar.",
+        stock: 80,
+        category: "skincare",
+        tag: "NOVEDAD",
+        rating: 4.8,
+        reviewCount: 45
+    },
+    {
+        id: 48117,
+        name: "Crema de Noche Reafirmante Royal Velvet - Edición Especial",
+        brand: "Royal Velvet",
+        price: 18.47,
+        regularPrice: 42.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F48117%2F48117_1.png",
+        description: "Crema de noche rica en infusión de Iris Negro para reafirmar la piel madura.",
+        stock: 55,
+        category: "skincare",
+        tag: "NOVEDAD",
+        rating: 4.9,
+        reviewCount: 1250
+    },
+    {
+        id: 48115,
+        name: "Crema de Día Reafirmante SPF 20 Royal Velvet",
+        brand: "Royal Velvet",
+        price: 18.47,
+        regularPrice: 42.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F48115%2F48115_1.png",
+        description: "Crema de día reafirmante que hidrata y protege la piel.",
+        stock: 12,
+        category: "skincare",
+        tag: "NOVEDAD",
+        rating: 4.9,
+        reviewCount: 1300
+    },
+    {
+        id: 48114,
+        name: "Cápsulas Restauradoras con Aceites Naturales Novage+",
+        brand: "Novage+",
+        price: 32.33,
+        regularPrice: 65.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F48114%2F48114_1.png",
+        description: "Mezcla de aceites preciosos en cápsulas monodosis para nutrir la piel.",
+        stock: 8,
+        category: "skincare",
+        tag: "NOVEDAD",
+        rating: 4.9,
+        reviewCount: 668
+    },
+    {
+        id: 48649,
+        name: "Crema Universal Original - Edición Especial",
+        brand: "Crema Universal",
+        price: 5.38,
+        regularPrice: 14.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F48649%2F48649_1.png",
+        description: "La fórmula original icónica que suaviza y protege la piel seca.",
+        stock: 727,
+        category: "skincare",
+        tag: "NOVEDAD",
+        rating: 5.0,
+        reviewCount: 727
+    },
+    {
+        id: 45147,
+        name: "Serum Facial de Aceite Reafirmante y Relajante Wellosophy",
+        brand: "Wellosophy",
+        price: 26.95,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F45147%2F45147_1.png",
+        description: "Aceite facial ligero que reafirma y relaja la piel estresada.",
+        stock: 142,
+        category: "skincare",
+        tag: "NOVEDAD",
+        rating: 4.8,
+        reviewCount: 142
+    },
+    {
+        id: 45248,
+        name: "Serum Even Out Optimals",
+        brand: "Optimals",
+        price: 13.85,
+        regularPrice: 30.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F45248%2F45248_1.png",
+        description: "Serum que reduce la apariencia de manchas oscuras y unifica el tono.",
+        stock: 317,
+        category: "skincare",
+        tag: "NOVEDAD",
+        rating: 4.8,
+        reviewCount: 317
+    },
+    {
+        id: 45245,
+        name: "Crema Hidratante Rica Even Out Optimals",
+        brand: "Optimals",
+        price: 10.00,
+        regularPrice: 27.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F45245%2F45245_1.png",
+        description: "Hidratante rica que ayuda a prevenir manchas y nutre la piel.",
+        stock: 222,
+        category: "skincare",
+        tag: "NOVEDAD",
+        rating: 4.8,
+        reviewCount: 222
+    },
+    {
+        id: 47439,
+        name: "Crema Universal con Ciruela Dulce",
+        brand: "Crema Universal",
+        price: 4.84,
+        regularPrice: 14.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F47439%2F47439_1.png",
+        description: "Edición limitada con delicioso aroma a ciruela dulce.",
+        stock: 1618,
+        category: "skincare",
+        tag: "NOVEDAD",
+        rating: 4.9,
+        reviewCount: 1618
+    },
+    {
+        id: 45291,
+        name: "Contorno de Ojos y Labios Optimals",
+        brand: "Optimals",
+        price: 12.31,
+        regularPrice: 24.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F45291%2F45291_1.png",
+        description: "Cuidado reafirmante para la delicada zona de ojos y labios.",
+        stock: 436,
+        category: "skincare",
+        tag: "OFERTA",
+        rating: 4.8,
+        reviewCount: 436
+    },
+    {
+        id: 44098,
+        name: "Tratamiento de Día SPF 30 Multi-Correcting Restore Novage+",
+        brand: "Novage+",
+        price: 19.24,
+        regularPrice: 55.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F44098%2F44098_1.png",
+        description: "Crema de día multi-correctora con SPF 30. Combate los signos del envejecimiento.",
+        stock: 839,
+        category: "skincare",
+        tag: "OFERTA",
+        rating: 4.9,
+        reviewCount: 839
+    },
+    {
+        id: 44285,
+        name: "Tratamiento de Noche Multi-Recover Restore Novage+",
+        brand: "Novage+",
+        price: 19.24,
+        regularPrice: 55.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F44285%2F44285_1.png",
+        description: "Crema de noche reparadora que activa la recuperación nocturna de la piel.",
+        stock: 668,
+        category: "skincare",
+        tag: "OFERTA",
+        rating: 4.9,
+        reviewCount: 668
+    },
+    {
+        id: 41075,
+        name: "Serum Renewing Restore Novage+",
+        brand: "Novage+",
+        price: 29.25,
+        regularPrice: 64.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F41075%2F41075_1.png",
+        description: "Serum renovador que mejora la elasticidad y reduce arrugas profundas.",
+        stock: 664,
+        category: "skincare",
+        tag: "OFERTA",
+        rating: 4.9,
+        reviewCount: 664
+    },
+    {
+        id: 41070,
+        name: "Contorno de Ojos y Labios Renewing Restore Novage+",
+        brand: "Novage+",
+        price: 13.08,
+        regularPrice: 38.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F41070%2F41070_1.png",
+        description: "Contorno de ojos avanzado para restaurar la firmeza.",
+        stock: 504,
+        category: "skincare",
+        tag: "OFERTA",
+        rating: 4.8,
+        reviewCount: 504
+    },
+    {
+        id: 45292,
+        name: "Multi-Protector SPF 50 Daily Glow Optimals",
+        brand: "Optimals",
+        price: 10.00,
+        regularPrice: 29.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F45292%2F45292_1.png",
+        description: "Protección solar alta con acabado luminoso para uso diario.",
+        stock: 738,
+        category: "skincare",
+        tag: "OFERTA",
+        rating: 4.8,
+        reviewCount: 738
+    },
+    {
+        id: 45243,
+        name: "Crema Hidratante Ligera Even Out Optimals",
+        brand: "Optimals",
+        price: 10.00,
+        regularPrice: 27.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F45243%2F45243_1.png",
+        description: "Hidratante ligera que unifica el tono y matifica la piel.",
+        stock: 204,
+        category: "skincare",
+        tag: "NOVEDAD",
+        rating: 4.8,
+        reviewCount: 204
+    },
+    {
+        id: 46989,
+        name: "Crema Universal con Mandarina Dulce",
+        brand: "Crema Universal",
+        price: 5.38,
+        regularPrice: 14.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F46989%2FES%2F46989_1.png",
+        description: "Edición especial con extracto de mandarina. Suaviza y protege.",
+        stock: 2295,
+        category: "skincare",
+        tag: "NOVEDAD",
+        rating: 4.9,
+        reviewCount: 2295
+    },
+    {
+        id: 41059,
+        name: "Fluido Ultraligero Alta Protección SPF 50 Proceuticals Novage+",
+        brand: "Novage+",
+        price: 16.16,
+        regularPrice: 30.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F41059%2F41059_1.png",
+        description: "Escudo protector invisible contra rayos UVA/UVB y contaminación.",
+        stock: 1888,
+        category: "skincare",
+        tag: "OFERTA",
+        rating: 4.9,
+        reviewCount: 1888
+    },
+    {
+        id: 41032,
+        name: "Limpiadora Oleosa Comfort Novage+",
+        brand: "Novage+",
+        price: 16.93,
+        regularPrice: 30.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F41032%2F41032_1.png",
+        description: "Limpiadora en aceite que disuelve el maquillaje y las impurezas al instante.",
+        stock: 510,
+        category: "skincare",
+        tag: "OFERTA",
+        rating: 4.9,
+        reviewCount: 510
+    },
+    {
+        id: 47437,
+        name: "Parches Faciales de Gel Hydra-Glow Optimals",
+        brand: "Optimals",
+        price: 4.23,
+        regularPrice: 12.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F47437%2F47437_1.png",
+        description: "Parches refrescantes para hidratar y revitalizar la zona de los ojos.",
+        stock: 0,
+        category: "skincare",
+        tag: "NOVEDAD",
+        rating: 4.7,
+        reviewCount: 196
+    },
+    {
+        id: 34849,
+        name: "Aceite Purificante con Árbol de Té y Lima Love Nature",
+        brand: "Love Nature",
+        price: 6.54,
+        regularPrice: 18.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F34849%2F34849_1.png",
+        description: "Aceite concentrado para combatir imperfecciones y purificar la piel.",
+        stock: 1783,
+        category: "skincare",
+        tag: "OFERTA",
+        rating: 4.8,
+        reviewCount: 1783
+    },
+    {
+        id: 41037,
+        name: "Serum Lift + Firm Novage+",
+        brand: "Novage+",
+        price: 26.94,
+        regularPrice: 58.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F41037%2F41037_1.png",
+        description: "Serum lifting que redefine el óvalo facial y mejora la firmeza.",
+        stock: 583,
+        category: "skincare",
+        tag: "OFERTA",
+        rating: 4.8,
+        reviewCount: 583
+    },
+    {
+        id: 47102,
+        name: "Retinol Power Drops Proceuticals Novage+",
+        brand: "Novage+",
+        price: 23.09,
+        regularPrice: 44.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F47102%2F47102_1.png",
+        description: "Tratamiento intensivo con Retinol encapsulado para reducir arrugas.",
+        stock: 421,
+        category: "skincare",
+        tag: "OFERTA",
+        rating: 4.8,
+        reviewCount: 421
+    },
+    {
+        id: 40670,
+        name: "Prebase Perfeccionadora Woke Up Like This Waunt",
+        brand: "Waunt",
+        price: 13.85,
+        regularPrice: 27.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F40670%2FES%2F40670_1.png",
+        description: "Prebase híbrida que ilumina y perfecciona la piel al instante.",
+        stock: 418,
+        category: "makeup",
+        tag: "NOVEDAD",
+        rating: 4.8,
+        reviewCount: 418
+    },
+    {
+        id: 41035,
+        name: "Serum Wrinkle Smooth Novage+",
+        brand: "Novage+",
+        price: 26.94,
+        regularPrice: 58.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F41035%2F41035_1.png",
+        description: "Serum antiarrugas avanzado que suaviza la textura de la piel.",
+        stock: 395,
+        category: "skincare",
+        tag: "OFERTA",
+        rating: 4.8,
+        reviewCount: 395
+    },
+    {
+        id: 41040,
+        name: "Serum Bright Intense",
+        brand: "Novage+",
+        price: 26.94,
+        regularPrice: 58.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F41040%2F41040_1.png",
+        description: "Serum iluminador que reduce manchas y mejora la luminosidad.",
+        stock: 338,
+        category: "skincare",
+        tag: "OFERTA",
+        rating: 4.8,
+        reviewCount: 338
+    },
+    {
+        id: 48678,
+        name: "Parches Exfoliantes y Limpiadores Proceuticals Novage+",
+        brand: "Novage+",
+        price: 3.84,
+        regularPrice: 9.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F48678%2F48678_1.png",
+        description: "Discos exfoliantes de doble cara para una piel suave y radiante.",
+        stock: 271,
+        category: "skincare",
+        tag: "NOVEDAD",
+        rating: 4.8,
+        reviewCount: 271
+    },
+    {
+        id: 45326,
+        name: "Crema Hidratante SPF 25 The Beyond Optimals",
+        brand: "Optimals",
+        price: 18.47,
+        regularPrice: 36.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F45326%2F45326_1.png",
+        description: "Hidratante diaria con protección SPF 25 para todo tipo de pieles.",
+        stock: 358,
+        category: "skincare",
+        tag: "NOVEDAD",
+        rating: 4.9,
+        reviewCount: 358
+    },
+    {
+        id: 46900,
+        name: "Limpiador Soft Creamy Optimals",
+        brand: "Optimals",
+        price: 8.46,
+        regularPrice: 19.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F46900%2F46900_1.png",
+        description: "Limpiadora en crema suave que elimina impurezas sin resecar.",
+        stock: 576,
+        category: "skincare",
+        tag: "OFERTA",
+        rating: 4.8,
+        reviewCount: 576
+    },
+    {
+        id: 46992,
+        name: "Mascarilla Facial Iluminadora Gel to Ice con Mango Orgánico Love Nature",
+        brand: "Love Nature",
+        price: 2.30,
+        regularPrice: 6.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F46992%2F46992_1.png",
+        description: "Mascarilla refrescante de mango para una piel radiante.",
+        stock: 468,
+        category: "skincare",
+        tag: "OFERTA",
+        rating: 4.9,
+        reviewCount: 468
+    },
+    {
+        id: 46990,
+        name: "Mascarilla Facial Hidratante Gel to Ice con Sandía Orgánica Love Nature",
+        brand: "Love Nature",
+        price: 2.30,
+        regularPrice: 6.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F46990%2F46990_1.png",
+        description: "Mascarilla hidratante de sandía. Úsala fría para un efecto calmante.",
+        stock: 567,
+        category: "skincare",
+        tag: "OFERTA",
+        rating: 4.8,
+        reviewCount: 567
+    },
+    // --- NUEVOS PRODUCTOS AÑADIDOS PARA OFERTAS PAGE ---
     {
         id: 47977,
         name: "Brillo para Pestañas y Cejas Glitter THE ONE",
@@ -109,12 +661,6 @@ export const allProducts: Product[] = [
         tag: 'NOVEDAD',
         rating: 4.8,
         reviewCount: 4,
-        variants: {
-            'Tono': [
-                { value: 'Silver Glitter', colorCode: '#C0C0C0' },
-                { value: 'Gold Glitter', colorCode: '#FFD700' }
-            ]
-        }
     },
     {
         id: 48650,
@@ -129,11 +675,6 @@ export const allProducts: Product[] = [
         tag: 'NOVEDAD',
         rating: 4.9,
         reviewCount: 16,
-        variants: {
-            'Tono': [
-                { value: 'Black', colorCode: '#000000' }
-            ]
-        }
     },
     {
         id: 47253,
@@ -150,51 +691,8 @@ export const allProducts: Product[] = [
         reviewCount: 551,
         variants: {
             'Tono': [
-                { value: 'Blonde', colorCode: '#b38b6d' },
                 { value: 'Brown', colorCode: '#6b4e3d' },
                 { value: 'Dark Brown', colorCode: '#3e2c22' }
-            ]
-        }
-    },
-    {
-        id: 46134,
-        name: "BB Cream Beautifier MAX SPF 15 THE ONE",
-        brand: "The ONE",
-        price: 5.77,
-        regularPrice: 17.00,
-        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F46134%2F46134_1.png&MediaId=20038270&Version=4&w=600&bc=%23f5f5f5&ib=%23f5f5f5&h=600&q=90&imageFormat=WebP",
-        description: "BB Cream multifunción que perfecciona, hidrata y protege.",
-        stock: 150,
-        category: 'makeup',
-        tag: 'NOVEDAD',
-        rating: 4.8,
-        reviewCount: 293,
-        variants: {
-            'Tono': [
-                { value: 'Fair', colorCode: '#f3e5dc' },
-                { value: 'Light', colorCode: '#ebd7c9' },
-                { value: 'Medium', colorCode: '#dcbfa8' },
-                { value: 'Dark', colorCode: '#c49e82' }
-            ]
-        }
-    },
-    {
-        id: 46901,
-        name: "Perlas con Serum Giordani Gold - Edición Especial",
-        brand: "Giordani Gold",
-        price: 16.93,
-        regularPrice: 35.00,
-        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F46901%2F46901_1.png&MediaId=20449670&Version=1&w=600&bc=%23f5f5f5&ib=%23f5f5f5&h=600&q=90&imageFormat=WebP",
-        description: "Perlas bronceadoras con serum antienvejecimiento.",
-        stock: 50,
-        category: 'makeup',
-        tag: 'NOVEDAD',
-        rating: 4.8,
-        reviewCount: 92,
-        variants: {
-            'Tono': [
-                { value: 'Natural Radiance', colorCode: '#d4b895' },
-                { value: 'Golden Bronze', colorCode: '#b08d73' }
             ]
         }
     },
@@ -210,13 +708,6 @@ export const allProducts: Product[] = [
         category: 'makeup',
         rating: 4.8,
         reviewCount: 1490,
-        variants: {
-            'Tono': [
-                { value: 'Soft Nude', colorCode: '#e8cbb9' },
-                { value: 'Bronze', colorCode: '#bfa07f' },
-                { value: 'Espresso', colorCode: '#4a3b32' }
-            ]
-        }
     },
     {
         id: 48039,
@@ -230,13 +721,7 @@ export const allProducts: Product[] = [
         category: 'makeup',
         tag: 'NOVEDAD',
         rating: 4.8,
-        reviewCount: 412,
-        variants: {
-            'Tono': [
-                { value: 'Black', colorCode: '#000000' },
-                { value: 'Deep Blue', colorCode: '#00008b' }
-            ]
-        }
+        reviewCount: 412
     },
     {
         id: 46888,
@@ -250,12 +735,6 @@ export const allProducts: Product[] = [
         category: 'makeup',
         rating: 4.4,
         reviewCount: 748,
-        variants: {
-            'Tono': [
-                { value: 'Ruby Red', colorCode: '#a81c30' },
-                { value: 'Coral', colorCode: '#ff6f61' }
-            ]
-        }
     },
     {
         id: 47704,
@@ -269,32 +748,7 @@ export const allProducts: Product[] = [
         category: 'makeup',
         tag: 'NOVEDAD',
         rating: 4.8,
-        reviewCount: 675,
-        variants: {
-            'Tono': [
-                { value: 'Black', colorCode: '#000000' },
-                { value: 'Mocha', colorCode: '#4b3621' }
-            ]
-        }
-    },
-    {
-        id: 46940,
-        name: "Stick Iluminador con Color THE ONE",
-        brand: "The ONE",
-        price: 7.69,
-        regularPrice: 22.00,
-        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F46940%2F46940_1.png&MediaId=20026191&Version=1&w=600&bc=%23f5f5f5&ib=%23f5f5f5&h=600&q=90&imageFormat=WebP",
-        description: "Iluminador y colorete en stick fácil de difuminar.",
-        stock: 60,
-        category: 'makeup',
-        rating: 4.8,
-        reviewCount: 556,
-        variants: {
-            'Tono': [
-                { value: 'Coral Glow', colorCode: '#ff7f50' },
-                { value: 'Bronze Luster', colorCode: '#cd7f32' }
-            ]
-        }
+        reviewCount: 675
     },
     {
         id: 47180,
@@ -307,12 +761,7 @@ export const allProducts: Product[] = [
         stock: 90,
         category: 'skincare',
         rating: 4.8,
-        reviewCount: 592,
-        variants: {
-            'Tono': [
-                { value: 'Soft Pink', colorCode: '#FFC0CB' }
-            ]
-        }
+        reviewCount: 592
     },
     {
         id: 47192,
@@ -326,14 +775,7 @@ export const allProducts: Product[] = [
         category: 'makeup',
         tag: 'NOVEDAD',
         rating: 4.6,
-        reviewCount: 173,
-        variants: {
-            'Tono': [
-                { value: 'Silver Chrome', colorCode: '#c0c0c0' },
-                { value: 'Rose Metal', colorCode: '#b76e79' },
-                { value: 'Gold Rush', colorCode: '#ffd700' }
-            ]
-        }
+        reviewCount: 173
     },
     {
         id: 48640,
@@ -347,90 +789,7 @@ export const allProducts: Product[] = [
         category: 'makeup',
         tag: 'NOVEDAD',
         rating: 4.6,
-        reviewCount: 21,
-        variants: {
-            'Tono': [
-                { value: 'Red Sparkle', colorCode: '#dc143c' },
-                { value: 'Pink Shimmer', colorCode: '#ff69b4' }
-            ]
-        }
-    },
-    {
-        id: 46906,
-        name: "Maquillaje Stress-Free Everlasting Sync SPF 20",
-        brand: "The ONE",
-        price: 8.46,
-        regularPrice: 20.00,
-        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F46906%2F46906_1.png&MediaId=19738309&Version=1&w=600&bc=%23f5f5f5&ib=%23f5f5f5&h=600&q=90&imageFormat=WebP",
-        description: "Base de maquillaje inteligente que se adapta a tu piel.",
-        stock: 200,
-        category: 'makeup',
-        rating: 4.8,
-        reviewCount: 1045,
-        variants: {
-            'Tono': [
-                { value: 'Porcelain', colorCode: '#f5deb3' },
-                { value: 'Ivory', colorCode: '#fffff0' },
-                { value: 'Beige', colorCode: '#f5f5dc' },
-                { value: 'Sand', colorCode: '#c2b280' }
-            ]
-        }
-    },
-    {
-        id: 42121,
-        name: "Paleta de Ojos y Rostro Fabulous Beauty Giordani Gold",
-        brand: "Giordani Gold",
-        price: 19.24,
-        regularPrice: 42.00,
-        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F42121%2F42121_1.png&MediaId=19732116&Version=5&w=600&bc=%23f5f5f5&ib=%23f5f5f5&h=600&q=90&imageFormat=WebP",
-        description: "Paleta completa de lujo para ojos y rostro.",
-        stock: 40,
-        category: 'makeup',
-        rating: 4.8,
-        reviewCount: 375,
-        variants: {
-            'Tono': [
-                { value: 'Universal', colorCode: '#d8bfd8' }
-            ]
-        }
-    },
-    {
-        id: 42102,
-        name: "Maquillaje Mineral de Larga Duración SPF 20 Giordani Gold",
-        brand: "Giordani Gold",
-        price: 13.08,
-        regularPrice: 31.00,
-        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F42102%2F42102_1.png&MediaId=18431815&Version=3&w=600&bc=%23f5f5f5&ib=%23f5f5f5&h=600&q=90&imageFormat=WebP",
-        description: "Base mineral de larga duración para una piel impecable.",
-        stock: 120,
-        category: 'makeup',
-        rating: 4.8,
-        reviewCount: 1074,
-        variants: {
-            'Tono': [
-                { value: 'Light Ivory', colorCode: '#fff8dc' },
-                { value: 'Natural Beige', colorCode: '#eec591' }
-            ]
-        }
-    },
-    {
-        id: 41107,
-        name: "Corrector y Serum Potenciador Giordani Gold",
-        brand: "Giordani Gold",
-        price: 8.46,
-        regularPrice: 24.00,
-        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F41107%2FES%2F41107_1.png&MediaId=16778914&Version=2&w=600&bc=%23f5f5f5&ib=%23f5f5f5&h=600&q=90&imageFormat=WebP",
-        description: "Corrector con serum antiedad para ojos.",
-        stock: 95,
-        category: 'makeup',
-        rating: 4.8,
-        reviewCount: 1066,
-        variants: {
-            'Tono': [
-                { value: 'Light', colorCode: '#faebd7' },
-                { value: 'Medium', colorCode: '#deb887' }
-            ]
-        }
+        reviewCount: 21
     },
     {
         id: 43244,
@@ -443,14 +802,7 @@ export const allProducts: Product[] = [
         stock: 80,
         category: 'makeup',
         rating: 4.8,
-        reviewCount: 1027,
-        variants: {
-            'Tono': [
-                { value: 'Vanilla', colorCode: '#f3e5ab' },
-                { value: 'Porcelain', colorCode: '#fddde6' },
-                { value: 'Marble', colorCode: '#f6e3d5' }
-            ]
-        }
+        reviewCount: 1027
     },
     {
         id: 41760,
@@ -476,14 +828,7 @@ export const allProducts: Product[] = [
         stock: 150,
         category: 'makeup',
         rating: 4.8,
-        reviewCount: 450,
-        variants: {
-            'Tono': [
-                { value: 'Nude Rose', colorCode: '#ffe4e1' },
-                { value: 'Vintage Peach', colorCode: '#ffdab9' },
-                { value: 'Red Passion', colorCode: '#8b0000' }
-            ]
-        }
+        reviewCount: 450
     },
     {
         id: 44835,
@@ -496,13 +841,7 @@ export const allProducts: Product[] = [
         stock: 100,
         category: 'makeup',
         rating: 4.8,
-        reviewCount: 372,
-        variants: {
-            'Tono': [
-                { value: 'Light', colorCode: '#f0e68c' },
-                { value: 'Medium', colorCode: '#bdb76b' }
-            ]
-        }
+        reviewCount: 372
     },
     {
         id: 34647,
@@ -515,13 +854,7 @@ export const allProducts: Product[] = [
         stock: 180,
         category: 'makeup',
         rating: 4.8,
-        reviewCount: 329,
-        variants: {
-            'Tono': [
-                { value: 'Porcelain', colorCode: '#fff0f5' },
-                { value: 'Nude', colorCode: '#ffe4c4' }
-            ]
-        }
+        reviewCount: 329
     },
     {
         id: 46588,
@@ -534,13 +867,7 @@ export const allProducts: Product[] = [
         stock: 250,
         category: 'makeup',
         rating: 4.7,
-        reviewCount: 1388,
-        variants: {
-            'Tono': [
-                { value: 'Candy Pink', colorCode: '#ffb6c1' },
-                { value: 'Peach Syrup', colorCode: '#ffcc99' }
-            ]
-        }
+        reviewCount: 1388
     },
     {
         id: 37728,
@@ -553,14 +880,7 @@ export const allProducts: Product[] = [
         stock: 130,
         category: 'makeup',
         rating: 4.7,
-        reviewCount: 1226,
-        variants: {
-            'Tono': [
-                { value: 'Nude', colorCode: '#deb887' },
-                { value: 'Rose', colorCode: '#ff007f' },
-                { value: 'Red', colorCode: '#ff0000' }
-            ]
-        }
+        reviewCount: 1226
     },
     {
         id: 46611,
@@ -573,12 +893,7 @@ export const allProducts: Product[] = [
         stock: 300,
         category: 'makeup',
         rating: 4.7,
-        reviewCount: 718,
-        variants: {
-            'Tono': [
-                { value: 'Red Kiss', colorCode: '#ff0000' }
-            ]
-        }
+        reviewCount: 718
     },
     {
         id: 46549,
@@ -591,12 +906,7 @@ export const allProducts: Product[] = [
         stock: 140,
         category: 'makeup',
         rating: 4.7,
-        reviewCount: 707,
-        variants: {
-            'Tono': [
-                { value: 'Black', colorCode: '#000000' }
-            ]
-        }
+        reviewCount: 707
     },
     {
         id: 46601,
@@ -609,12 +919,7 @@ export const allProducts: Product[] = [
         stock: 200,
         category: 'makeup',
         rating: 4.7,
-        reviewCount: 690,
-        variants: {
-            'Tono': [
-                { value: 'Pink Orchid', colorCode: '#da70d6' }
-            ]
-        }
+        reviewCount: 690
     },
     {
         id: 45361,
@@ -627,13 +932,7 @@ export const allProducts: Product[] = [
         stock: 100,
         category: 'makeup',
         rating: 4.7,
-        reviewCount: 649,
-        variants: {
-            'Tono': [
-                { value: 'Steel', colorCode: '#778899' },
-                { value: 'Copper', colorCode: '#b87333' }
-            ]
-        }
+        reviewCount: 649
     },
     {
         id: 38690,
@@ -646,12 +945,7 @@ export const allProducts: Product[] = [
         stock: 220,
         category: 'makeup',
         rating: 4.7,
-        reviewCount: 536,
-        variants: {
-            'Tono': [
-                { value: 'Nude Peony', colorCode: '#d8bfd8' }
-            ]
-        }
+        reviewCount: 536
     },
     {
         id: 46595,
@@ -664,12 +958,7 @@ export const allProducts: Product[] = [
         stock: 110,
         category: 'makeup',
         rating: 4.7,
-        reviewCount: 494,
-        variants: {
-            'Tono': [
-                { value: 'Transparent', colorCode: '#ffffff' }
-            ]
-        }
+        reviewCount: 494
     },
     {
         id: 38991,
@@ -682,13 +971,383 @@ export const allProducts: Product[] = [
         stock: 300,
         category: 'makeup',
         rating: 4.6,
-        reviewCount: 1740,
-        variants: {
-            'Tono': [
-                { value: 'Ice Cream', colorCode: '#fffdd0' },
-                { value: 'Minty', colorCode: '#98ff98' },
-                { value: 'Candy', colorCode: '#ff1493' }
-            ]
-        }
+        reviewCount: 1740
+    },
+    // --- NUEVOS PRODUCTOS FALTANTES PARA OFERTAS ---
+    {
+        id: 44960,
+        name: "Acondicionador Rico Reparación Intensa DUOLOGI",
+        brand: "DUOLOGI",
+        price: 6.99,
+        regularPrice: 15.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F44960%2F44960_1.png",
+        description: "Reparación intensa para cabello seco y dañado.",
+        stock: 100,
+        category: "hair",
+        tag: "OFERTA",
+        rating: 4.8,
+        reviewCount: 120
+    },
+    {
+        id: 44961,
+        name: "Acondicionador Ligero Volumen y Cuerpo DUOLOGI",
+        brand: "DUOLOGI",
+        price: 6.99,
+        regularPrice: 15.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F44961%2F44961_1.png",
+        description: "Volumen y cuerpo para cabello fino.",
+        stock: 100,
+        category: "hair",
+        tag: "OFERTA",
+        rating: 4.7,
+        reviewCount: 95
+    },
+    {
+        id: 47440,
+        name: "Gel de Ducha Exfoliante Energizante Love Nature Simple Joys",
+        brand: "Love Nature",
+        price: 5.99,
+        regularPrice: 12.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F47440%2F47440_1.png",
+        description: "Gel de ducha con partículas exfoliantes naturales.",
+        stock: 150,
+        category: "personal-care",
+        rating: 4.6,
+        reviewCount: 60
+    },
+    {
+        id: 46987,
+        name: "Crema de Manos Hidratante Love Nature",
+        brand: "Love Nature",
+        price: 2.99,
+        regularPrice: 7.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F46987%2F46987_1.png",
+        description: "Hidratación suave con aroma fresco.",
+        stock: 200,
+        category: "personal-care",
+        tag: "OFERTA",
+        rating: 4.8,
+        reviewCount: 150
+    },
+    {
+        id: 47009,
+        name: "Jabón en Barra Love Nature Simple Joys",
+        brand: "Love Nature",
+        price: 1.99,
+        regularPrice: 4.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F47009%2F47009_1.png",
+        description: "Jabón suave para uso diario.",
+        stock: 250,
+        category: "personal-care",
+        rating: 4.7,
+        reviewCount: 80
+    },
+    {
+        id: 46642,
+        name: "Jabón Líquido Manos y Cuerpo Limón y Verbena Essense & Co",
+        brand: "Essense & Co",
+        price: 15.99,
+        regularPrice: 20.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F46642%2F46642_1.png",
+        description: "Jabón líquido premium con aceites esenciales.",
+        stock: 40,
+        category: "personal-care",
+        rating: 4.9,
+        reviewCount: 110
+    },
+    {
+        id: 46731,
+        name: "Loción Manos y Cuerpo Limón y Verbena Essense & Co",
+        brand: "Essense & Co",
+        price: 16.99,
+        regularPrice: 22.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F46731%2F46731_1.png",
+        description: "Loción hidratante ligera y perfumada.",
+        stock: 35,
+        category: "personal-care",
+        rating: 4.8,
+        reviewCount: 90
+    },
+    {
+        id: 45799,
+        name: "Gel de Ducha Cardamomo y Flor de Algodón Essense & Co",
+        brand: "Essense & Co",
+        price: 15.99,
+        regularPrice: 20.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F45799%2F45799_1.png",
+        description: "Gel de ducha especiado y reconfortante.",
+        stock: 30,
+        category: "personal-care",
+        rating: 4.7,
+        reviewCount: 45
+    },
+    {
+        id: 45800,
+        name: "Loción Manos y Cuerpo Cardamomo y Flor de Algodón Essense & Co",
+        brand: "Essense & Co",
+        price: 16.99,
+        regularPrice: 22.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F45800%2F45800_1.png",
+        description: "Hidratación profunda con aroma sofisticado.",
+        stock: 25,
+        category: "personal-care",
+        rating: 4.8,
+        reviewCount: 50
+    },
+    {
+        id: 47450,
+        name: "Recambio Jabón Líquido Limón y Verbena Essense & Co",
+        brand: "Essense & Co",
+        price: 12.99,
+        regularPrice: 18.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F47450%2F47450_1.png",
+        description: "Recambio ecológico para tu jabón favorito.",
+        stock: 60,
+        category: "personal-care",
+        rating: 4.9,
+        reviewCount: 30
+    },
+    {
+        id: 46801,
+        name: "Divine Dark Velvet Eau de Parfum",
+        brand: "Divine",
+        price: 29.99,
+        regularPrice: 45.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F46801%2F46801_1.png",
+        description: "Fragancia nocturna y misteriosa, edición limitada.",
+        stock: 50,
+        category: "perfume",
+        tag: "OFERTA",
+        rating: 4.8,
+        reviewCount: 75
+    },
+    {
+        id: 46968,
+        name: "Crema de Manos y Cuerpo Milk & Honey Gold",
+        brand: "Milk & Honey",
+        price: 19.00,
+        regularPrice: 24.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F46968%2F46968_1.png",
+        description: "Nutrición legendaria con leche y miel orgánicas.",
+        stock: 80,
+        category: "personal-care",
+        rating: 4.9,
+        reviewCount: 300
+    },
+    {
+        id: 46969,
+        name: "Exfoliante de Azúcar Milk & Honey Gold",
+        brand: "Milk & Honey",
+        price: 14.99,
+        regularPrice: 20.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F46969%2F46969_1.png",
+        description: "Exfoliante de azúcar que deja la piel suave y radiante.",
+        stock: 70,
+        category: "personal-care",
+        rating: 4.8,
+        reviewCount: 210
+    },
+    {
+        id: 46970,
+        name: "Jabón Líquido Milk & Honey Gold",
+        brand: "Milk & Honey",
+        price: 12.99,
+        regularPrice: 16.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F46970%2F46970_1.png",
+        description: "Limpieza suave e hidratante.",
+        stock: 90,
+        category: "personal-care",
+        rating: 4.8,
+        reviewCount: 180
+    },
+    {
+        id: 46971,
+        name: "Champú Milk & Honey Gold",
+        brand: "Milk & Honey",
+        price: 9.99,
+        regularPrice: 14.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F46971%2F46971_1.png",
+        description: "Champú nutritivo para cabello brillante.",
+        stock: 85,
+        category: "hair",
+        rating: 4.7,
+        reviewCount: 140
+    },
+    {
+        id: 36151,
+        name: "Crema Universal con Aceite de Grosella Negra",
+        brand: "Crema Universal",
+        price: 3.99,
+        regularPrice: 14.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F36151%2F36151_1.png",
+        description: "Bálsamo multiusos con aroma a grosella negra.",
+        stock: 300,
+        category: "skincare",
+        tag: "OFERTA",
+        rating: 4.9,
+        reviewCount: 500
+    },
+    {
+        id: 47878,
+        name: "Esponja Konjac Exfoliante",
+        brand: "Oriflame",
+        price: 6.99,
+        regularPrice: 10.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F47878%2F47878_1.png",
+        description: "Esponja natural para una limpieza profunda.",
+        stock: 40,
+        category: "accessories",
+        rating: 4.5,
+        reviewCount: 25
+    },
+    {
+        id: 47677,
+        name: "Cepillo Desenredante StylerPRO",
+        brand: "Oriflame",
+        price: 8.99,
+        regularPrice: 12.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F47677%2F47677_1.png",
+        description: "Cepillo ideal para desenredar sin tirones.",
+        stock: 60,
+        category: "accessories",
+        rating: 4.8,
+        reviewCount: 110
+    },
+    {
+        id: 47202,
+        name: "Crema de Manos Dream Cream",
+        brand: "Oriflame",
+        price: 2.50,
+        regularPrice: 6.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F47202%2F47202_1.png",
+        description: "Crema de manos tamaño bolso, ideal para llevar.",
+        stock: 400,
+        category: "personal-care",
+        tag: "OFERTA",
+        rating: 4.6,
+        reviewCount: 800
+    },
+    {
+        id: 153756,
+        name: "Set Regalo Mister Giordani",
+        brand: "Giordani Gold",
+        price: 39.99,
+        regularPrice: 65.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F153756%2F153756_1.png",
+        description: "Set exclusivo con Eau de Toilette y Desodorante.",
+        stock: 20,
+        category: "men",
+        tag: "SET",
+        rating: 4.9,
+        reviewCount: 15
+    },
+    {
+        id: 153757,
+        name: "Set Regalo Miss Giordani",
+        brand: "Giordani Gold",
+        price: 39.99,
+        regularPrice: 65.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F153757%2F153757_1.png",
+        description: "Set elegante con Eau de Parfum y Loción Corporal.",
+        stock: 25,
+        category: "perfume",
+        tag: "SET",
+        rating: 4.9,
+        reviewCount: 20
+    },
+    {
+        id: 47536,
+        name: "Set Regalo Nordic Waters para Él",
+        brand: "Nordic Waters",
+        price: 34.99,
+        regularPrice: 58.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F47536%2F47536_1.png",
+        description: "Frescura nórdica en un set de regalo.",
+        stock: 30,
+        category: "men",
+        tag: "SET",
+        rating: 4.8,
+        reviewCount: 10
+    },
+    {
+        id: 47538,
+        name: "Set Regalo Eclat Femme Weekend",
+        brand: "Eclat",
+        price: 32.99,
+        regularPrice: 55.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F47538%2F47538_1.png",
+        description: "Elegancia parisina en un set festivo.",
+        stock: 35,
+        category: "perfume",
+        tag: "SET",
+        rating: 4.8,
+        reviewCount: 18
+    },
+    {
+        id: 20374,
+        name: "Pack Bienestar",
+        brand: "Wellness",
+        price: 45.00,
+        regularPrice: 60.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F20374%2F20374_1.png",
+        description: "Pack completo de vitaminas y minerales.",
+        stock: 50,
+        category: "wellness",
+        tag: "SET",
+        rating: 4.9,
+        reviewCount: 120
+    },
+    {
+        id: 104,
+        name: "Muestras de Fragancias (Pack de 5)",
+        brand: "Oriflame",
+        price: 2.00,
+        regularPrice: 5.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F104%2F104_1.png",
+        description: "Descubre tus nuevos aromas favoritos.",
+        stock: 500,
+        category: "perfume",
+        rating: 4.5,
+        reviewCount: 50
+    },
+    {
+        id: 38497,
+        name: "Divine Eau de Parfum",
+        brand: "Divine",
+        price: 29.99,
+        regularPrice: 48.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F38497%2F38497_1.png",
+        description: "Fragancia icónica para momentos divinos.",
+        stock: 60,
+        category: "perfume",
+        tag: "OFERTA",
+        rating: 4.8,
+        reviewCount: 300
+    },
+    {
+        id: 22442,
+        name: "Crema Reafirmante Royal Velvet",
+        brand: "Royal Velvet",
+        price: 24.99,
+        regularPrice: 42.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F22442%2F22442_1.png",
+        description: "Lujosa crema reafirmante con infusión de Iris Negro.",
+        stock: 40,
+        category: "skincare",
+        rating: 4.9,
+        reviewCount: 450
+    },
+    {
+        id: 1440,
+        name: "Bolsa de Regalo Pequeña",
+        brand: "Oriflame",
+        price: 1.50,
+        regularPrice: 2.50,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F1440%2F1440_1.png",
+        description: "Bolsa elegante para tus regalos.",
+        stock: 1000,
+        category: "accessories",
+        rating: 4.7,
+        reviewCount: 200
     }
 ];
