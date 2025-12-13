@@ -2,7 +2,93 @@
 import type { Product } from './types';
 
 export const allProducts: Product[] = [
-    // --- NUEVOS PRODUCTOS DEL SNIPPET (NOVAGE+, GIORDANI, ELVIE) ---
+    // --- NUEVOS PRODUCTOS (THE ONE - MAKEUP) ---
+    {
+        id: 47188,
+        name: "Iluminador Líquido Illuskin THE ONE",
+        brand: "The ONE",
+        price: 8.46,
+        regularPrice: 20.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F47188%2F47188_1.png&MediaId=20570078&Version=1&w=600&bc=%23f5f5f5&ib=%23f5f5f5&h=600&q=90&imageFormat=WebP",
+        description: "Iluminador líquido versátil para un brillo natural y radiante.",
+        stock: 100,
+        category: 'makeup',
+        tag: 'NOVEDAD',
+        rating: 4.6,
+        reviewCount: 10,
+    },
+    {
+        id: 47977,
+        name: "Brillo para Pestañas y Cejas Glitter THE ONE",
+        brand: "The ONE",
+        price: 8.46,
+        regularPrice: 18.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F47977%2F47977_1.png&MediaId=20570089&Version=1&w=600&bc=%23f5f5f5&ib=%23f5f5f5&h=600&q=90&imageFormat=WebP",
+        description: "Toque de brillo festivo para pestañas y cejas.",
+        stock: 80,
+        category: 'makeup',
+        tag: 'NOVEDAD',
+        rating: 4.8,
+        reviewCount: 4,
+    },
+    {
+        id: 48650,
+        name: "Máscara de Pestañas Winter Wonder Lash Waterproof THE ONE",
+        brand: "The ONE",
+        price: 5.38,
+        regularPrice: 15.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F48650%2F48650_1.png&MediaId=20570152&Version=1&w=600&bc=%23f5f5f5&ib=%23f5f5f5&h=600&q=90&imageFormat=WebP",
+        description: "Máscara 5 en 1 a prueba de agua, edición de invierno.",
+        stock: 120,
+        category: 'makeup',
+        tag: 'NOVEDAD',
+        rating: 4.9,
+        reviewCount: 16,
+    },
+    {
+        id: 47253,
+        name: "Pomada para Cejas THE ONE",
+        brand: "The ONE",
+        price: 5.38,
+        regularPrice: 18.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F47253%2F47253_1.png&MediaId=20250127&Version=1&w=600&bc=%23f5f5f5&ib=%23f5f5f5&h=600&q=90&imageFormat=WebP",
+        description: "Pomada de alta pigmentación para definir y rellenar las cejas.",
+        stock: 90,
+        category: 'makeup',
+        tag: 'NOVEDAD',
+        rating: 4.8,
+        reviewCount: 551,
+        variants: {
+            'Tono': [
+                { value: 'Brown', colorCode: '#6b4e3d' },
+                { value: 'Dark Brown', colorCode: '#3e2c22' }
+            ]
+        }
+    },
+    {
+        id: 46134,
+        name: "BB Cream Beautifier MAX SPF 15 THE ONE",
+        brand: "The ONE",
+        price: 5.77,
+        regularPrice: 17.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F46134%2F46134_1.png&MediaId=20038270&Version=4&w=600&bc=%23f5f5f5&ib=%23f5f5f5&h=600&q=90&imageFormat=WebP",
+        description: "BB Cream multifunción que perfecciona, hidrata y protege.",
+        stock: 150,
+        category: 'makeup',
+        tag: 'NOVEDAD',
+        rating: 4.8,
+        reviewCount: 293,
+        variants: {
+            'Tono': [
+                { value: 'Fair', colorCode: '#f3e5dc' },
+                { value: 'Light', colorCode: '#ebd7c9' },
+                { value: 'Medium', colorCode: '#dcbfa8' },
+                { value: 'Dark', colorCode: '#c49e82' }
+            ]
+        }
+    },
+
+    // --- NUEVOS PRODUCTOS ANTERIORES (NOVAGE+, GIORDANI, ELVIE) ---
     {
         id: 41070,
         name: "Contorno de Ojos y Labios Renewing Restore Novage+",
