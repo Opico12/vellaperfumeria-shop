@@ -2,7 +2,80 @@
 import type { Product } from './types';
 
 export const allProducts: Product[] = [
-    // --- FROM HTML SNIPPET ---
+    // --- 2025 NEW ARRIVALS (From HTML) ---
+    {
+        id: 41070,
+        name: "Contorno de Ojos y Labios Renewing Restore Novage+",
+        brand: "Novage+",
+        price: 16.99,
+        regularPrice: 38.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F41070%2F41070_1.png&MediaId=19720523&Version=1&w=600&bc=%23f5f5f5&ib=%23f5f5f5&h=600&q=90&imageFormat=WebP",
+        description: "Contorno de ojos y labios avanzado que restaura la elasticidad y reduce arrugas profundas.",
+        stock: 50,
+        category: 'skincare',
+        tag: 'NOVEDAD',
+        rating: 4.9,
+        reviewCount: 513,
+        statusLabel: "De vuelta muy pronto"
+    },
+    {
+        id: 44098,
+        name: "Tratamiento de Día SPF 30 Multi-Correcting Restore Novage+",
+        brand: "Novage+",
+        price: 24.99,
+        regularPrice: 55.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F44098%2F44098_1.png&MediaId=19720543&Version=2&w=600&bc=%23f5f5f5&ib=%23f5f5f5&h=600&q=90&imageFormat=WebP",
+        description: "Crema de día multi-correctora con SPF 30. Fortalece la barrera cutánea y combate el envejecimiento.",
+        stock: 40,
+        category: 'skincare',
+        tag: 'OFERTA',
+        rating: 4.9,
+        reviewCount: 844,
+    },
+    {
+        id: 47514,
+        name: "Eau de Parfum Miss Giordani Floral",
+        brand: "Giordani Gold",
+        price: 17.99,
+        regularPrice: 44.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F47514%2F47514_1.png&MediaId=19584358&Version=2&w=600&bc=%23f5f5f5&ib=%23f5f5f5&h=600&q=90&imageFormat=WebP",
+        description: "Un aroma floral exuberante y sofisticado para celebrar la feminidad.",
+        stock: 120,
+        category: 'perfume',
+        tag: 'NOVEDAD',
+        rating: 4.9,
+        reviewCount: 763,
+    },
+    {
+        id: 47502,
+        name: "Eau de Parfum Mister Giordani Aqua",
+        brand: "Giordani Gold",
+        price: 18.99,
+        regularPrice: 44.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F47502%2F47502_1.png&MediaId=19717478&Version=2&w=600&bc=%23f5f5f5&ib=%23f5f5f5&h=600&q=90&imageFormat=WebP",
+        description: "Una fragancia acuática y amaderada, fresca y refinada para el hombre moderno.",
+        stock: 80,
+        category: 'perfume', // mapped from men/fragrance
+        tag: 'NOVEDAD',
+        rating: 4.9,
+        reviewCount: 519,
+        statusLabel: "De vuelta muy pronto"
+    },
+    {
+        id: 47499,
+        name: "Eau de Toilette Elvie Midnight Magic",
+        brand: "Elvie",
+        price: 17.99,
+        regularPrice: 41.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F47499%2F47499_1.png&MediaId=19828893&Version=1&w=600&bc=%23f5f5f5&ib=%23f5f5f5&h=600&q=90&imageFormat=WebP",
+        description: "Una fragancia mágica inspirada en el misterio de la medianoche.",
+        stock: 150,
+        category: 'perfume',
+        tag: 'NOVEDAD',
+        rating: 4.8,
+        reviewCount: 536,
+    },
+    // --- EXISTING PRODUCTS ---
     {
         id: 47188,
         name: "Iluminador Líquido Illuskin THE ONE",
@@ -16,6 +89,12 @@ export const allProducts: Product[] = [
         tag: 'NOVEDAD',
         rating: 4.6,
         reviewCount: 10,
+        variants: {
+            'Tono': [
+                { value: 'Champagne', colorCode: '#F7E7CE' },
+                { value: 'Rose Gold', colorCode: '#B76E79' }
+            ]
+        }
     },
     {
         id: 47977,
@@ -30,6 +109,12 @@ export const allProducts: Product[] = [
         tag: 'NOVEDAD',
         rating: 4.8,
         reviewCount: 4,
+        variants: {
+            'Tono': [
+                { value: 'Silver Glitter', colorCode: '#C0C0C0' },
+                { value: 'Gold Glitter', colorCode: '#FFD700' }
+            ]
+        }
     },
     {
         id: 48650,
@@ -44,6 +129,11 @@ export const allProducts: Product[] = [
         tag: 'NOVEDAD',
         rating: 4.9,
         reviewCount: 16,
+        variants: {
+            'Tono': [
+                { value: 'Black', colorCode: '#000000' }
+            ]
+        }
     },
     {
         id: 47253,
@@ -60,6 +150,7 @@ export const allProducts: Product[] = [
         reviewCount: 551,
         variants: {
             'Tono': [
+                { value: 'Blonde', colorCode: '#b38b6d' },
                 { value: 'Brown', colorCode: '#6b4e3d' },
                 { value: 'Dark Brown', colorCode: '#3e2c22' }
             ]
@@ -99,7 +190,13 @@ export const allProducts: Product[] = [
         category: 'makeup',
         tag: 'NOVEDAD',
         rating: 4.8,
-        reviewCount: 92
+        reviewCount: 92,
+        variants: {
+            'Tono': [
+                { value: 'Natural Radiance', colorCode: '#d4b895' },
+                { value: 'Golden Bronze', colorCode: '#b08d73' }
+            ]
+        }
     },
     {
         id: 46929,
@@ -133,7 +230,13 @@ export const allProducts: Product[] = [
         category: 'makeup',
         tag: 'NOVEDAD',
         rating: 4.8,
-        reviewCount: 412
+        reviewCount: 412,
+        variants: {
+            'Tono': [
+                { value: 'Black', colorCode: '#000000' },
+                { value: 'Deep Blue', colorCode: '#00008b' }
+            ]
+        }
     },
     {
         id: 46888,
@@ -166,7 +269,13 @@ export const allProducts: Product[] = [
         category: 'makeup',
         tag: 'NOVEDAD',
         rating: 4.8,
-        reviewCount: 675
+        reviewCount: 675,
+        variants: {
+            'Tono': [
+                { value: 'Black', colorCode: '#000000' },
+                { value: 'Mocha', colorCode: '#4b3621' }
+            ]
+        }
     },
     {
         id: 46940,
@@ -179,7 +288,13 @@ export const allProducts: Product[] = [
         stock: 60,
         category: 'makeup',
         rating: 4.8,
-        reviewCount: 556
+        reviewCount: 556,
+        variants: {
+            'Tono': [
+                { value: 'Coral Glow', colorCode: '#ff7f50' },
+                { value: 'Bronze Luster', colorCode: '#cd7f32' }
+            ]
+        }
     },
     {
         id: 47180,
@@ -192,7 +307,12 @@ export const allProducts: Product[] = [
         stock: 90,
         category: 'skincare',
         rating: 4.8,
-        reviewCount: 592
+        reviewCount: 592,
+        variants: {
+            'Tono': [
+                { value: 'Soft Pink', colorCode: '#FFC0CB' }
+            ]
+        }
     },
     {
         id: 47192,
@@ -206,7 +326,14 @@ export const allProducts: Product[] = [
         category: 'makeup',
         tag: 'NOVEDAD',
         rating: 4.6,
-        reviewCount: 173
+        reviewCount: 173,
+        variants: {
+            'Tono': [
+                { value: 'Silver Chrome', colorCode: '#c0c0c0' },
+                { value: 'Rose Metal', colorCode: '#b76e79' },
+                { value: 'Gold Rush', colorCode: '#ffd700' }
+            ]
+        }
     },
     {
         id: 48640,
@@ -220,7 +347,13 @@ export const allProducts: Product[] = [
         category: 'makeup',
         tag: 'NOVEDAD',
         rating: 4.6,
-        reviewCount: 21
+        reviewCount: 21,
+        variants: {
+            'Tono': [
+                { value: 'Red Sparkle', colorCode: '#dc143c' },
+                { value: 'Pink Shimmer', colorCode: '#ff69b4' }
+            ]
+        }
     },
     {
         id: 46906,
@@ -233,7 +366,15 @@ export const allProducts: Product[] = [
         stock: 200,
         category: 'makeup',
         rating: 4.8,
-        reviewCount: 1045
+        reviewCount: 1045,
+        variants: {
+            'Tono': [
+                { value: 'Porcelain', colorCode: '#f5deb3' },
+                { value: 'Ivory', colorCode: '#fffff0' },
+                { value: 'Beige', colorCode: '#f5f5dc' },
+                { value: 'Sand', colorCode: '#c2b280' }
+            ]
+        }
     },
     {
         id: 42121,
@@ -246,7 +387,12 @@ export const allProducts: Product[] = [
         stock: 40,
         category: 'makeup',
         rating: 4.8,
-        reviewCount: 375
+        reviewCount: 375,
+        variants: {
+            'Tono': [
+                { value: 'Universal', colorCode: '#d8bfd8' }
+            ]
+        }
     },
     {
         id: 42102,
@@ -259,7 +405,13 @@ export const allProducts: Product[] = [
         stock: 120,
         category: 'makeup',
         rating: 4.8,
-        reviewCount: 1074
+        reviewCount: 1074,
+        variants: {
+            'Tono': [
+                { value: 'Light Ivory', colorCode: '#fff8dc' },
+                { value: 'Natural Beige', colorCode: '#eec591' }
+            ]
+        }
     },
     {
         id: 41107,
@@ -272,7 +424,13 @@ export const allProducts: Product[] = [
         stock: 95,
         category: 'makeup',
         rating: 4.8,
-        reviewCount: 1066
+        reviewCount: 1066,
+        variants: {
+            'Tono': [
+                { value: 'Light', colorCode: '#faebd7' },
+                { value: 'Medium', colorCode: '#deb887' }
+            ]
+        }
     },
     {
         id: 43244,
@@ -285,7 +443,14 @@ export const allProducts: Product[] = [
         stock: 80,
         category: 'makeup',
         rating: 4.8,
-        reviewCount: 1027
+        reviewCount: 1027,
+        variants: {
+            'Tono': [
+                { value: 'Vanilla', colorCode: '#f3e5ab' },
+                { value: 'Porcelain', colorCode: '#fddde6' },
+                { value: 'Marble', colorCode: '#f6e3d5' }
+            ]
+        }
     },
     {
         id: 41760,
@@ -311,7 +476,14 @@ export const allProducts: Product[] = [
         stock: 150,
         category: 'makeup',
         rating: 4.8,
-        reviewCount: 450
+        reviewCount: 450,
+        variants: {
+            'Tono': [
+                { value: 'Nude Rose', colorCode: '#ffe4e1' },
+                { value: 'Vintage Peach', colorCode: '#ffdab9' },
+                { value: 'Red Passion', colorCode: '#8b0000' }
+            ]
+        }
     },
     {
         id: 44835,
@@ -324,7 +496,13 @@ export const allProducts: Product[] = [
         stock: 100,
         category: 'makeup',
         rating: 4.8,
-        reviewCount: 372
+        reviewCount: 372,
+        variants: {
+            'Tono': [
+                { value: 'Light', colorCode: '#f0e68c' },
+                { value: 'Medium', colorCode: '#bdb76b' }
+            ]
+        }
     },
     {
         id: 34647,
@@ -337,7 +515,13 @@ export const allProducts: Product[] = [
         stock: 180,
         category: 'makeup',
         rating: 4.8,
-        reviewCount: 329
+        reviewCount: 329,
+        variants: {
+            'Tono': [
+                { value: 'Porcelain', colorCode: '#fff0f5' },
+                { value: 'Nude', colorCode: '#ffe4c4' }
+            ]
+        }
     },
     {
         id: 46588,
@@ -350,7 +534,13 @@ export const allProducts: Product[] = [
         stock: 250,
         category: 'makeup',
         rating: 4.7,
-        reviewCount: 1388
+        reviewCount: 1388,
+        variants: {
+            'Tono': [
+                { value: 'Candy Pink', colorCode: '#ffb6c1' },
+                { value: 'Peach Syrup', colorCode: '#ffcc99' }
+            ]
+        }
     },
     {
         id: 37728,
@@ -363,7 +553,14 @@ export const allProducts: Product[] = [
         stock: 130,
         category: 'makeup',
         rating: 4.7,
-        reviewCount: 1226
+        reviewCount: 1226,
+        variants: {
+            'Tono': [
+                { value: 'Nude', colorCode: '#deb887' },
+                { value: 'Rose', colorCode: '#ff007f' },
+                { value: 'Red', colorCode: '#ff0000' }
+            ]
+        }
     },
     {
         id: 46611,
@@ -376,7 +573,12 @@ export const allProducts: Product[] = [
         stock: 300,
         category: 'makeup',
         rating: 4.7,
-        reviewCount: 718
+        reviewCount: 718,
+        variants: {
+            'Tono': [
+                { value: 'Red Kiss', colorCode: '#ff0000' }
+            ]
+        }
     },
     {
         id: 46549,
@@ -389,7 +591,12 @@ export const allProducts: Product[] = [
         stock: 140,
         category: 'makeup',
         rating: 4.7,
-        reviewCount: 707
+        reviewCount: 707,
+        variants: {
+            'Tono': [
+                { value: 'Black', colorCode: '#000000' }
+            ]
+        }
     },
     {
         id: 46601,
@@ -402,7 +609,12 @@ export const allProducts: Product[] = [
         stock: 200,
         category: 'makeup',
         rating: 4.7,
-        reviewCount: 690
+        reviewCount: 690,
+        variants: {
+            'Tono': [
+                { value: 'Pink Orchid', colorCode: '#da70d6' }
+            ]
+        }
     },
     {
         id: 45361,
@@ -415,7 +627,13 @@ export const allProducts: Product[] = [
         stock: 100,
         category: 'makeup',
         rating: 4.7,
-        reviewCount: 649
+        reviewCount: 649,
+        variants: {
+            'Tono': [
+                { value: 'Steel', colorCode: '#778899' },
+                { value: 'Copper', colorCode: '#b87333' }
+            ]
+        }
     },
     {
         id: 38690,
@@ -428,7 +646,12 @@ export const allProducts: Product[] = [
         stock: 220,
         category: 'makeup',
         rating: 4.7,
-        reviewCount: 536
+        reviewCount: 536,
+        variants: {
+            'Tono': [
+                { value: 'Nude Peony', colorCode: '#d8bfd8' }
+            ]
+        }
     },
     {
         id: 46595,
@@ -441,7 +664,12 @@ export const allProducts: Product[] = [
         stock: 110,
         category: 'makeup',
         rating: 4.7,
-        reviewCount: 494
+        reviewCount: 494,
+        variants: {
+            'Tono': [
+                { value: 'Transparent', colorCode: '#ffffff' }
+            ]
+        }
     },
     {
         id: 38991,
@@ -454,6 +682,13 @@ export const allProducts: Product[] = [
         stock: 300,
         category: 'makeup',
         rating: 4.6,
-        reviewCount: 1740
+        reviewCount: 1740,
+        variants: {
+            'Tono': [
+                { value: 'Ice Cream', colorCode: '#fffdd0' },
+                { value: 'Minty', colorCode: '#98ff98' },
+                { value: 'Candy', colorCode: '#ff1493' }
+            ]
+        }
     }
 ];

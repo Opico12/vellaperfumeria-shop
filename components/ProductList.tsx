@@ -21,7 +21,7 @@ const SortIcon = () => (
 
 type MixedItem = 
   | { type: 'product', id: number }
-  | { type: 'banner-image', image: string, title: string, buttonText: string, link: string, colSpan?: number }
+  | { type: 'banner-image', image: string, title: string, buttonText: string, link: string, colSpan?: number, textColor?: string }
   | { type: 'banner-text', title: string, buttonText: string, link: string }
   | { type: 'banner-video', src: string, link?: string };
 
@@ -34,85 +34,61 @@ const ProductList: React.FC<{
     onQuickView: (product: Product) => void;
 }> = ({ onNavigate, onProductSelect, onAddToCart, onQuickAddToCart, currency, onQuickView }) => {
     
-    // Categorías para el menú de pestañas horizontal
+    // Quick Category Tabs
     const quickCategories = [
+        { id: 'new-arrivals', label: '2025 novedades al mejor precio', active: true },
         { id: 'ofertas', label: 'Solo las mejores ofertas' },
-        { id: 'skincare', label: 'Cuidado Facial' },
-        { id: 'makeup', label: 'Maquillaje' },
-        { id: 'perfume', label: 'Fragancias' },
-        { id: 'wellness', label: 'Wellness' },
-        { id: 'hair', label: 'Cabello' },
     ];
 
-    // Defined based on the HTML structure provided
+    // Mixed Content Layout matching the HTML provided
     const mixedContent: MixedItem[] = [
-        { type: 'product', id: 47188 },
-        { type: 'product', id: 47977 },
+        // 1. Banner "Un viaje a la Riviera"
+        { 
+            type: 'banner-image', 
+            image: "https://media-cdn.oriflame.com/contentImage?externalMediaId=eb8edbeb-1ff0-427f-878c-8b23062b1aa6&name=Promo_split_single_1&inputFormat=jpg",
+            title: "Un viaje a la Riviera para ella",
+            buttonText: "VER MÁS",
+            link: "products",
+            colSpan: 1,
+            textColor: "text-white"
+        },
+        // 2. Product 41070 (Novage+)
+        { type: 'product', id: 41070 },
+        // 3. Product 44098 (Novage+ SPF)
+        { type: 'product', id: 44098 },
+        // 4. Banner "Azur refinado"
         {
             type: 'banner-image',
-            image: "https://media-cdn.oriflame.com/contentImage?externalMediaId=89efb747-b19f-4e77-a3b9-5aa87b51f223&name=1_Promo_split_double_gifts&inputFormat=jpg",
-            title: "Selección de productos de belleza para iluminar las Fiestas de Navidad",
-            buttonText: "COMPRAR REGALOS",
-            link: "ofertas",
-            colSpan: 2
+            image: "https://media-cdn.oriflame.com/contentImage?externalMediaId=bda12c88-dee7-425a-9a32-8414adcf7d9f&name=Promo_split_single_2&inputFormat=jpg",
+            title: "Azur refinado para él",
+            buttonText: "COMPRAR",
+            link: "products",
+            colSpan: 1,
+            textColor: "text-white"
         },
-        { type: 'product', id: 48650 },
-        { type: 'product', id: 47253 },
-        { type: 'product', id: 46134 },
-        {
-            type: 'banner-text',
-            title: "Experimenta con maquillaje virtual en tiempo real",
-            buttonText: "PROBAR AHORA",
-            link: "ia"
-        },
-        { type: 'banner-video', src: "https://media-cdn.oriflame.com/static-media-web/0fa45d91-4c57-41ab-957e-9404e87544d8?mimeType=video%2fmp4" },
+        // 5. Banner "Catálogo 17" - UPDATED
         {
             type: 'banner-image',
-            image: "https://media-cdn.oriflame.com/contentImage?externalMediaId=179aab29-b41b-4e67-af6d-927cf4656de4&name=2_Promo_split_double_gifts&inputFormat=jpg",
-            title: "Regalos que deslumbran para todas las fans del maquillaje",
-            buttonText: "COMPRAR AHORA",
-            link: "ofertas",
-            colSpan: 2
+            image: "https://media-cdn.oriflame.com/contentImage?externalMediaId=10eada9f-b5ef-4854-911a-34f17f58b371&name=2_Promo_split_NewCollection_600x450&inputFormat=jpg",
+            title: "Catálogo 17: Especial Navidad",
+            buttonText: "VER CATÁLOGO",
+            link: "catalog",
+            colSpan: 1,
+            textColor: "text-white"
         },
-        { type: 'product', id: 46901 },
-        { type: 'product', id: 46929 },
-        { type: 'product', id: 48039 },
-        {
-            type: 'banner-text',
-            title: "Convierte tu regalo de belleza en un momento de alegría.",
-            buttonText: "AÑADE CAJITA DE REGALO",
-            link: "ofertas"
-        },
-        { type: 'banner-video', src: "https://media-cdn.oriflame.com/static-media-web/0c22a307-2248-4454-8c99-59a059540721?mimeType=video%2fmp4" },
-        { type: 'product', id: 46888 },
-        { type: 'product', id: 47704 },
-        { type: 'product', id: 46940 },
-        { type: 'product', id: 47180 },
-        { type: 'product', id: 47192 },
-        { type: 'product', id: 48640 },
-        { type: 'product', id: 46906 },
-        { type: 'product', id: 42121 },
-        { type: 'product', id: 42102 },
-        { type: 'product', id: 41107 },
-        { type: 'product', id: 43244 },
-        { type: 'product', id: 41760 },
-        { type: 'product', id: 42652 },
-        { type: 'product', id: 44835 },
-        { type: 'product', id: 34647 },
-        { type: 'product', id: 46588 },
-        { type: 'product', id: 37728 },
-        { type: 'product', id: 46611 },
-        { type: 'product', id: 46549 },
-        { type: 'product', id: 46601 },
-        { type: 'product', id: 45361 },
-        { type: 'product', id: 38690 },
-        { type: 'product', id: 46595 },
-        { type: 'product', id: 38991 },
+        // 6. Product 47514 (Miss Giordani)
+        { type: 'product', id: 47514 },
+        // 7. Product 47502 (Mister Giordani)
+        { type: 'product', id: 47502 },
+        // 8. Product 47499 (Elvie)
+        { type: 'product', id: 47499 },
     ];
 
     const handleClickLink = (link: string) => {
         if(link === 'ofertas') onNavigate('ofertas');
         else if (link === 'ia') onNavigate('ia');
+        else if (link === 'catalog') onNavigate('catalog');
+        else if (link === 'wellness') onNavigate('products', 'wellness');
         else onNavigate('products', 'all');
     }
 
@@ -123,24 +99,27 @@ const ProductList: React.FC<{
                 <div className="pt-4 pb-4">
                     <Breadcrumbs items={[
                         { label: 'Inicio', onClick: () => onNavigate('home') },
-                        { label: 'Maquillaje' }
+                        { label: '2025 novedades al mejor precio' }
                     ]} />
                     
                     <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 mt-2 font-serif tracking-tight">
-                        Maquillaje
+                        2025 novedades al mejor precio
                     </h1>
                 </div>
 
                 {/* 2. Category Bar */}
                 <div className="relative mb-6 border-b border-gray-200">
                     <div className="flex overflow-x-auto gap-6 pb-1 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
-                        {quickCategories.map((cat, index) => (
+                        {quickCategories.map((cat) => (
                             <button
                                 key={cat.id}
-                                onClick={() => onNavigate('products', cat.id === 'ofertas' ? 'all' : cat.id)}
+                                onClick={() => {
+                                    if(cat.id === 'ofertas') onNavigate('ofertas');
+                                    // else stay here
+                                }}
                                 className={`whitespace-nowrap pb-3 text-sm font-medium border-b-2 transition-colors duration-200 ${
-                                    index === 2 
-                                    ? 'border-black text-black' 
+                                    cat.active
+                                    ? 'border-brand-primary text-brand-primary' 
                                     : 'border-transparent text-gray-500 hover:text-black hover:border-gray-300'
                                 }`}
                             >
@@ -150,31 +129,38 @@ const ProductList: React.FC<{
                     </div>
                 </div>
 
-                {/* 3. Action Bar (Filter, Sort, Count) */}
+                {/* 3. Intro Text */}
+                <div className="mb-8 max-w-4xl">
+                    <p className="text-gray-600 leading-relaxed text-lg">
+                        ¿Busca nuevas ideas para regalar? Nada de déjà vu del año pasado. Esta Navidad, sorprenda a todos los miembros de su lista con los últimos lanzamientos, ahora a los mejores precios.
+                    </p>
+                </div>
+
+                {/* 4. Action Bar (Filter, Sort, Count) */}
                 <div className="flex flex-col sm:flex-row justify-between items-center py-4 mb-6 border-b border-gray-100">
                     <div className="flex items-center gap-6 w-full sm:w-auto">
-                        <button className="flex items-center gap-2 text-gray-800 hover:text-black transition-colors group">
+                        <button className="flex items-center gap-2 text-gray-800 hover:text-brand-primary transition-colors group">
                             <FilterIcon />
                             <span className="text-base font-medium group-hover:underline">Filtrar</span>
                         </button>
-                        <button className="flex items-center gap-2 text-gray-800 hover:text-black transition-colors group">
+                        <button className="flex items-center gap-2 text-gray-800 hover:text-brand-primary transition-colors group">
                             <SortIcon />
                             <span className="text-base font-medium group-hover:underline">Recomendado</span>
                         </button>
                     </div>
                     <div className="mt-4 sm:mt-0 text-sm text-gray-500 font-medium">
-                        177 productos
+                        30 productos
                     </div>
                 </div>
 
-                {/* 4. Mixed Content Grid */}
+                {/* 5. Mixed Content Grid */}
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                     {mixedContent.map((item, index) => {
                         if (item.type === 'banner-image') {
                             return (
                                 <div 
                                     key={`banner-img-${index}`} 
-                                    className={`relative flex flex-col justify-end overflow-hidden cursor-pointer group ${item.colSpan === 2 ? 'col-span-2' : 'col-span-1'} bg-gray-100 h-full`}
+                                    className={`relative flex flex-col justify-end overflow-hidden cursor-pointer group ${item.colSpan === 2 ? 'col-span-2' : 'col-span-1'} bg-gray-100 rounded-lg shadow-md border border-brand-secondary`}
                                     onClick={() => handleClickLink(item.link)}
                                     style={{ minHeight: '350px' }}
                                 >
@@ -184,39 +170,15 @@ const ProductList: React.FC<{
                                             alt={item.title} 
                                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                         />
+                                        {/* Gradient Overlay for Text Readability */}
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80"></div>
                                     </div>
-                                    <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 via-black/40 to-transparent text-white text-center flex flex-col items-center">
-                                        <h3 className="text-xl font-bold mb-3 leading-tight drop-shadow-md">{item.title}</h3>
-                                        <button className="text-xs font-bold uppercase tracking-widest border-b border-white pb-1 hover:text-gray-200 transition-colors">
+                                    <div className="absolute bottom-0 left-0 right-0 p-6 flex flex-col items-start text-left z-10">
+                                        <h3 className="text-xl font-bold mb-3 leading-tight text-white drop-shadow-md font-serif">{item.title}</h3>
+                                        <button className="text-xs font-bold uppercase tracking-widest border-b border-white text-white pb-1 hover:opacity-80 transition-opacity">
                                             {item.buttonText}
                                         </button>
                                     </div>
-                                </div>
-                            );
-                        } else if (item.type === 'banner-text') {
-                            return (
-                                <div 
-                                    key={`banner-txt-${index}`} 
-                                    className="relative flex flex-col justify-center items-center text-center p-6 bg-[#f9f3f1] cursor-pointer group col-span-1 h-full"
-                                    onClick={() => handleClickLink(item.link)}
-                                >
-                                    <h3 className="text-xl font-serif text-gray-900 mb-6 leading-snug">{item.title}</h3>
-                                    <button className="text-xs font-bold uppercase tracking-widest border-b border-black pb-1 hover:opacity-70 transition-opacity">
-                                        {item.buttonText}
-                                    </button>
-                                </div>
-                            );
-                        } else if (item.type === 'banner-video') {
-                            return (
-                                <div key={`banner-vid-${index}`} className="relative col-span-1 h-full min-h-[350px] bg-black cursor-pointer group" onClick={() => item.link && handleClickLink(item.link)}>
-                                    <video 
-                                        autoPlay 
-                                        muted 
-                                        loop 
-                                        playsInline 
-                                        className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
-                                        src={item.src}
-                                    />
                                 </div>
                             );
                         } else if (item.type === 'product' && item.id) {
@@ -240,13 +202,13 @@ const ProductList: React.FC<{
                     })}
                 </div>
 
-                {/* 5. Pagination / Load More */}
+                {/* 6. Pagination / Load More */}
                 <div className="mt-16 flex flex-col items-center justify-center max-w-md mx-auto text-center">
-                    <p className="text-gray-600 mb-4 font-medium">Mostrando 32 de 177 productos</p>
+                    <p className="text-gray-600 mb-4 font-medium">Mostrando 5 de 30 productos</p>
                     <div className="w-full h-1 bg-gray-200 rounded-full mb-6 overflow-hidden">
-                        <div className="h-full bg-black rounded-full transition-all duration-500" style={{ width: '18.08%' }}></div>
+                        <div className="h-full bg-brand-primary rounded-full transition-all duration-500" style={{ width: '16.66%' }}></div>
                     </div>
-                    <button className="px-10 py-3 border border-gray-300 rounded-full font-bold text-gray-800 hover:bg-gray-50 hover:border-gray-400 transition-all uppercase text-sm tracking-wide">
+                    <button className="px-10 py-3 border border-gray-300 rounded-full font-bold text-gray-800 hover:bg-brand-secondary hover:text-brand-primary hover:border-brand-primary transition-all uppercase text-sm tracking-wide">
                         Mostrar más
                     </button>
                 </div>
