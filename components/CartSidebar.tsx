@@ -261,8 +261,8 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose, cartItems, c
 
                                 {/* Botón de Navegación Interna a la Pasarela de Pago */}
                                 <button
-                                    onClick={onCheckout}
-                                    className="w-full bg-brand-purple text-brand-primary font-bold py-3 px-4 rounded-lg hover:bg-brand-purple-dark transition-colors flex justify-center items-center shadow-md transform active:scale-95 text-center"
+                                    onClick={() => window.location.href = 'https://vellaperfumeria.com/finalizar-compra/'}
+                                    className="w-full bg-brand-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-pink-700 transition-colors flex justify-center items-center shadow-md transform active:scale-95 text-center"
                                 >
                                      Finalizar Compra
                                 </button>

@@ -15,7 +15,7 @@ const ShopIcon = ({ isActive }: { isActive: boolean }) => (
     </svg>
 );
 
-const GiftIcon = ({ isActive }: { isActive: boolean }) => (
+const OffersIcon = ({ isActive }: { isActive: boolean }) => (
     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={isActive ? 2.5 : 2}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v13m0-13V6a2 2 0 012-2h2a2 2 0 012 2v2m-6 0h6m-6 0a2 2 0 00-2 2v11a2 2 0 002 2h6a2 2 0 002-2V10a2 2 0 00-2-2h-6z" />
     </svg>
@@ -27,9 +27,9 @@ const CatalogIcon = ({ isActive }: { isActive: boolean }) => (
     </svg>
 );
 
-const HelpIcon = ({ isActive }: { isActive: boolean }) => (
+const AIIcon = ({ isActive }: { isActive: boolean }) => (
     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={isActive ? 2.5 : 2}>
-       <path strokeLinecap="round" strokeLinejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.79 4 4 0 .863-.29 1.66-.785 2.298l-1.397 1.4c-.42.42-.663 1.004-.663 1.622v.51m-3.46-3.46a.75.75 0 011.06 0l2.5 2.5a.75.75 0 01-1.06 1.06l-2.5-2.5a.75.75 0 010-1.06zM12 21a9 9 0 100-18 9 9 0 000 18z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m1-9l2-2 2 2m-2 4v6m2-6l2 2-2 2M15 3l2 2-2 2m-2-4v4m2 4l2 2-2 2m-8 4h12" />
     </svg>
 );
 
@@ -51,16 +51,16 @@ interface NavItem {
 const BottomNavBar: React.FC<BottomNavBarProps> = ({ onNavigate, currentView, currentCategory }) => {
     
     const navItems: NavItem[] = [
-        { view: 'home', label: 'Inicio', icon: HomeIcon, payload: undefined, isExternal: true, href: 'https://vellaperfumeria.com' },
-        { view: 'products', label: 'Tienda', icon: ShopIcon, payload: 'all' },
-        { view: 'ofertas', label: 'Ofertas', icon: GiftIcon, payload: undefined },
+        { view: 'home', label: 'Inicio', icon: HomeIcon, payload: undefined },
         { view: 'catalog', label: 'Catálogo', icon: CatalogIcon, payload: undefined },
-        { view: 'contact', label: 'Ayuda', icon: HelpIcon, payload: undefined },
+        { view: 'ofertas', label: 'Ofertas', icon: OffersIcon, payload: undefined },
+        { view: 'ia', label: 'IA', icon: AIIcon, payload: undefined },
+        { view: 'products', label: 'Tienda', icon: ShopIcon, payload: 'all' },
     ];
 
     return (
-        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-[0_-2px_5px_rgba(0,0,0,0.05)] z-30">
-            <nav className="flex justify-around items-center h-16">
+        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-t border-gray-200 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-50 pb-safe">
+            <nav className="flex justify-around items-end h-16 pb-1">
                 {navItems.map(item => {
                     const isActive = item.view === 'products'
                         ? (currentView === 'products' || currentView === 'productDetail')
@@ -80,18 +80,21 @@ const BottomNavBar: React.FC<BottomNavBarProps> = ({ onNavigate, currentView, cu
                         <button
                             key={item.label}
                             onClick={handleClick}
-                            className={`flex flex-col items-center justify-center text-xs font-medium w-full h-full transition-colors ${
-                                isActive ? 'text-brand-purple-dark' : 'text-gray-500 hover:text-brand-purple-dark'
+                            className={`flex flex-col items-center justify-center w-full h-full transition-all duration-300 relative group ${
+                                isActive ? 'text-brand-primary' : 'text-gray-400 hover:text-brand-primary'
                             }`}
                             aria-label={item.label}
                             aria-current={isActive ? 'page' : undefined}
                         >
+                            <span className={`absolute -top-0.5 w-8 h-0.5 rounded-b-md bg-brand-primary transition-all duration-300 ${isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-50'}`}></span>
                             <Icon isActive={isActive} />
-                            <span>{item.label}</span>
+                            <span className={`text-[10px] font-medium tracking-wide ${isActive ? 'font-bold' : ''}`}>{item.label}</span>
                         </button>
                     )
                 })}
             </nav>
+            {/* Safe area spacing for iPhone X+ home indicator handled by padding-bottom if needed */}
+            <div className="h-[env(safe-area-inset-bottom)] bg-white"></div>
         </div>
     );
 };

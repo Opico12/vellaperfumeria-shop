@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, type ErrorInfo } from 'react';
 // Types
 import type { View, Product, CartItem } from './components/types';
 import type { Currency } from './components/currency';
@@ -32,19 +32,16 @@ interface ErrorBoundaryState {
 
 // Error Boundary mejorado
 class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
-    constructor(props: ErrorBoundaryProps) {
-        super(props);
-        this.state = {
-            hasError: false,
-            error: null
-        };
-    }
+    state: ErrorBoundaryState = {
+        hasError: false,
+        error: null
+    };
 
     static getDerivedStateFromError(error: Error): ErrorBoundaryState {
         return { hasError: true, error };
     }
 
-    componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    componentDidCatch(error: Error, errorInfo: ErrorInfo) {
         console.error("Error crítico en la aplicación:", error, errorInfo);
     }
 
@@ -60,7 +57,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
                         </div>
                         <button 
                             onClick={() => window.location.reload()} 
-                            className="w-full bg-pink-500 text-white font-bold px-6 py-3 rounded-full hover:bg-pink-600 transition-colors shadow-md"
+                            className="w-full bg-pink-50 text-white font-bold px-6 py-3 rounded-full hover:bg-pink-600 transition-colors shadow-md"
                         >
                             Recargar Página
                         </button>
