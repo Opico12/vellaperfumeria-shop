@@ -82,12 +82,12 @@ export const ProductCard: React.FC<{
             {/* Badges */}
             <div className="absolute top-2 left-2 z-10 flex flex-col gap-1">
                 {isDiscounted && (
-                    <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded uppercase">
+                    <span className="bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded uppercase">
                         -{Math.round(((product.regularPrice! - product.price) / product.regularPrice!) * 100)}%
                     </span>
                 )}
                 {product.tag && (
-                    <span className="bg-brand-purple text-brand-primary text-[10px] font-bold px-2 py-1 rounded uppercase shadow-sm">
+                    <span className="bg-gray-100 text-gray-800 text-[10px] font-bold px-2 py-1 rounded uppercase shadow-sm">
                         {product.tag}
                     </span>
                 )}
@@ -107,7 +107,7 @@ export const ProductCard: React.FC<{
                     </button>
                     <button
                         onClick={(e) => { e.stopPropagation(); onQuickView(product); }}
-                        className="p-2 rounded-full bg-white text-gray-600 shadow-md transition-all transform hover:scale-110 hover:text-brand-primary"
+                        className="p-2 rounded-full bg-white text-gray-600 shadow-md transition-all transform hover:scale-110 hover:text-black"
                         aria-label="Vista Rápida"
                     >
                         <EyeIcon />
@@ -124,7 +124,7 @@ export const ProductCard: React.FC<{
                         </div>
                     )}
                     <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1 block">{product.brand}</span>
-                    <h3 className="text-sm font-bold text-brand-primary leading-snug line-clamp-2 group-hover:text-brand-purple-dark transition-colors mb-2">
+                    <h3 className="text-sm font-bold text-gray-900 leading-snug line-clamp-2 group-hover:text-black transition-colors mb-2">
                         {product.name}
                     </h3>
                     
@@ -144,7 +144,7 @@ export const ProductCard: React.FC<{
                          {isDiscounted && (
                             <span className="text-xs text-gray-400 line-through decoration-red-300">{formatCurrency(product.regularPrice!, currency)}</span>
                         )}
-                        <span className={`text-lg font-extrabold ${isDiscounted ? 'text-red-600' : 'text-brand-primary'}`}>
+                        <span className={`text-lg font-extrabold ${isDiscounted ? 'text-red-700' : 'text-gray-900'}`}>
                             {formatCurrency(product.price, currency)}
                         </span>
                     </div>
@@ -152,7 +152,7 @@ export const ProductCard: React.FC<{
                     <button
                         ref={btnRef}
                         onClick={handleAddToCartClick}
-                        className="bg-black text-white p-2.5 rounded-lg shadow-lg hover:bg-brand-purple-dark hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center group/btn"
+                        className="bg-black text-white p-2.5 rounded-lg shadow-lg hover:bg-gray-800 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center group/btn"
                         aria-label={`Añadir ${product.name} al carrito`}
                         title="Añadir a la cesta"
                     >

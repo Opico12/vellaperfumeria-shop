@@ -1,7 +1,4 @@
 
-
-
-
 import React, { useRef, useState, useEffect } from 'react';
 import { ProductCard } from './ProductCard';
 import type { Product } from './types';
@@ -215,14 +212,14 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ product, currency
 
 
                 <div className="p-4 flex flex-col md:col-span-2">
-                    <h1 className="text-2xl md:text-3xl font-bold tracking-wide mb-2">{product.name}</h1>
+                    <h1 className="text-2xl md:text-3xl font-bold tracking-wide mb-2 text-gray-900">{product.name}</h1>
                     
                     <div className="flex items-baseline flex-wrap gap-x-3 gap-y-1 mb-4">
-                        <p className={`text-2xl font-bold ${isDiscounted ? 'text-brand-purple-dark' : 'text-gray-900'}`}>{formatCurrency(product.price, currency)}</p>
+                        <p className={`text-2xl font-bold ${isDiscounted ? 'text-gray-900' : 'text-gray-900'}`}>{formatCurrency(product.price, currency)}</p>
                         {isDiscounted && (
                             <>
                                 <p className="text-lg text-gray-500 line-through">{formatCurrency(product.regularPrice!, currency)}</p>
-                                <span className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full uppercase">
+                                <span className="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full uppercase">
                                     AHORRA {Math.round(((product.regularPrice! - product.price) / product.regularPrice!) * 100)}%
                                 </span>
                             </>
@@ -237,7 +234,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ product, currency
                     )}
                     
                      {product.beautyPoints && (
-                        <div className="flex items-center gap-2 text-black font-semibold my-3 p-3 bg-brand-purple/20 rounded-md border border-brand-purple/50">
+                        <div className="flex items-center gap-2 text-gray-800 font-semibold my-3 p-3 bg-gray-50 rounded-md border border-gray-200">
                             <SparklesIcon/>
                             <span>Consigue <b>+{product.beautyPoints} Puntos Beauty</b> con este producto</span>
                         </div>
@@ -262,7 +259,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ product, currency
                                                         <button
                                                             key={option.value}
                                                             onClick={() => handleVariantChange(type, option.value)}
-                                                            className={`w-8 h-8 rounded-full border-2 transition-all ${isSelected ? 'border-brand-purple-dark ring-2 ring-offset-1 ring-brand-purple' : 'border-gray-300'}`}
+                                                            className={`w-8 h-8 rounded-full border-2 transition-all ${isSelected ? 'border-black ring-1 ring-offset-1 ring-black' : 'border-gray-300'}`}
                                                             style={{ backgroundColor: option.colorCode }}
                                                             aria-label={`Seleccionar color ${option.value}`}
                                                         />
@@ -273,7 +270,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ product, currency
                                                     <button
                                                         key={option.value}
                                                         onClick={() => handleVariantChange(type, option.value)}
-                                                        className={`px-4 py-1.5 text-sm font-medium border rounded-md transition-colors ${isSelected ? 'bg-brand-purple text-brand-primary' : 'bg-white text-black hover:bg-gray-100'}`}
+                                                        className={`px-4 py-1.5 text-sm font-medium border rounded-md transition-colors ${isSelected ? 'bg-black text-white' : 'bg-white text-black hover:bg-gray-100'}`}
                                                     >
                                                         {option.value}
                                                     </button>
@@ -287,7 +284,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ product, currency
                     )}
                     
                     <div className="mb-6 mt-auto">
-                        <p className="text-sm font-semibold">Disponibilidad: <span className={`font-bold ${stockInfo.color}`}>{stockInfo.text}</span></p>
+                        <p className="text-sm font-semibold text-gray-700">Disponibilidad: <span className={`font-bold ${stockInfo.color}`}>{stockInfo.text}</span></p>
                     </div>
                     
                     <div className="flex flex-col gap-3">
@@ -299,7 +296,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ product, currency
                                 }
                             }}
                             disabled={isOutOfStock}
-                            className={`w-full font-semibold py-3 px-6 rounded-lg shadow-md transition-all duration-300 ${isOutOfStock ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-brand-purple text-brand-primary hover:bg-brand-purple-dark transform hover:scale-105 active:scale-95'}`}
+                            className={`w-full font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-300 ${isOutOfStock ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-black text-white hover:bg-gray-800 transform hover:scale-105 active:scale-95'}`}
                             aria-label={`Añadir ${product.name} al carrito`}
                         >
                             {isOutOfStock ? 'Agotado' : 'Añadir al carrito'}
@@ -309,7 +306,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ product, currency
                                setIsShareModalOpen(true);
                                setCopyButtonText('Copiar enlace');
                            }}
-                           className="w-full bg-gray-100 text-black font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-gray-200 transition-colors duration-300 active:scale-95"
+                           className="w-full bg-white text-black border border-black font-semibold py-3 px-6 rounded-lg shadow-sm hover:bg-gray-50 transition-colors duration-300 active:scale-95"
                            aria-label="Compartir este producto"
                         >
                            Compartir
@@ -323,14 +320,14 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ product, currency
                 <div className="flex border-b border-gray-200 mb-6">
                     <button 
                         onClick={() => setActiveTab('description')} 
-                        className={`py-3 px-1 mr-6 font-semibold text-base transition-colors focus:outline-none ${activeTab === 'description' ? 'border-b-2 border-brand-primary text-brand-primary' : 'text-gray-500 hover:text-brand-primary'}`}
+                        className={`py-3 px-1 mr-6 font-semibold text-base transition-colors focus:outline-none ${activeTab === 'description' ? 'border-b-2 border-black text-black' : 'text-gray-500 hover:text-black'}`}
                     >
                         Descripción
                     </button>
                     {product.howToUse && (
                         <button 
                             onClick={() => setActiveTab('howToUse')} 
-                            className={`py-3 px-1 font-semibold text-base transition-colors focus:outline-none ${activeTab === 'howToUse' ? 'border-b-2 border-brand-primary text-brand-primary' : 'text-gray-500 hover:text-brand-primary'}`}
+                            className={`py-3 px-1 font-semibold text-base transition-colors focus:outline-none ${activeTab === 'howToUse' ? 'border-b-2 border-black text-black' : 'text-gray-500 hover:text-black'}`}
                         >
                             Modo de Empleo
                         </button>
@@ -355,7 +352,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ product, currency
 
             {relatedProducts.length > 0 && (
                 <section className="mt-16">
-                    <h2 className="text-2xl font-bold mb-8 text-center">También te puede interesar</h2>
+                    <h2 className="text-2xl font-bold mb-8 text-center text-gray-900">También te puede interesar</h2>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         {relatedProducts.map(relatedProduct => (
                             <ProductCard
@@ -375,12 +372,12 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ product, currency
 
             {/* --- Reviews Section --- */}
             <div className="mt-12 pt-8 border-t">
-                <h2 className="text-xl font-bold mb-6">Valoraciones de Clientes</h2>
+                <h2 className="text-xl font-bold mb-6 text-gray-900">Valoraciones de Clientes</h2>
                 
                 {/* Review Form */}
                 <div className="bg-gray-50 p-6 rounded-lg mb-8 border border-gray-200">
                     <form onSubmit={handleReviewSubmit} className="space-y-4">
-                        <h3 className="text-lg font-semibold">Escribe tu opinión</h3>
+                        <h3 className="text-lg font-semibold text-gray-800">Escribe tu opinión</h3>
                         {showSuccessMessage && (
                              <div className="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded-md" role="alert">
                                 <p className="font-bold">¡Gracias!</p>
@@ -454,7 +451,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ product, currency
                             </div>
                             <div>
                                 <div className="flex items-center gap-4 mb-1">
-                                    <p className="font-bold">{review.author}</p>
+                                    <p className="font-bold text-gray-900">{review.author}</p>
                                     <div className="flex">
                                         {[...Array(5)].map((_, i) => (
                                             <StarIcon key={i} className={`w-4 h-4 ${i < review.rating ? 'text-amber-400' : 'text-gray-300'}`} />
@@ -492,7 +489,7 @@ const ProductDetailPage: React.FC<ProductDetailPageProps> = ({ product, currency
                             <CloseIcon />
                         </button>
                         
-                        <h2 id="share-modal-title" className="text-xl font-bold mb-2 text-center">Compartir Producto</h2>
+                        <h2 id="share-modal-title" className="text-xl font-bold mb-2 text-center text-gray-900">Compartir Producto</h2>
                         <p className="font-semibold truncate mb-4 text-center text-gray-700">{product.name}</p>
                         
                         <div className="flex justify-around items-center my-6">

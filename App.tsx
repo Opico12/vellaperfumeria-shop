@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, type ErrorInfo } from 'react';
+import React, { useState, useEffect, useCallback, Component, type ErrorInfo } from 'react';
 // Types
 import type { View, Product, CartItem } from './components/types';
 import type { Currency } from './components/currency';
@@ -31,7 +31,7 @@ interface ErrorBoundaryState {
 }
 
 // Error Boundary mejorado
-class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     state: ErrorBoundaryState = {
         hasError: false,
         error: null

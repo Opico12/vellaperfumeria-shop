@@ -1,7 +1,4 @@
 
-
-
-
 import React, { useState, useMemo, useEffect } from 'react';
 import { ProductCard } from './ProductCard';
 import type { Product } from './types';
@@ -71,7 +68,7 @@ const ShopPage: React.FC<{
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col md:flex-row gap-8">
                 <aside className="w-full md:w-1/4 lg:w-1/5">
-                    <h2 className="text-lg font-bold mb-4 border-b pb-2">Categorías</h2>
+                    <h2 className="text-lg font-bold mb-4 border-b pb-2 text-gray-900">Categorías</h2>
                     <ul className="space-y-2">
                         {categories.map(cat => (
                             <li key={cat.key}>
@@ -79,8 +76,8 @@ const ShopPage: React.FC<{
                                     onClick={() => setActiveCategory(cat.key)}
                                     className={`w-full text-left px-3 py-2 rounded-md transition-colors text-sm ${
                                         activeCategory === cat.key
-                                            ? 'bg-brand-purple text-brand-primary font-semibold'
-                                            : 'text-gray-700 hover:bg-gray-100'
+                                            ? 'bg-gray-100 text-black font-semibold'
+                                            : 'text-gray-700 hover:bg-gray-50'
                                     }`}
                                 >
                                     {cat.name}
@@ -91,15 +88,15 @@ const ShopPage: React.FC<{
                 </aside>
 
                 <main className="w-full md:w-3/4 lg:w-4/5">
-                    <h1 className="text-2xl font-bold text-brand-primary tracking-tight mb-4">{currentCategoryName}</h1>
-                    <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4 p-4 bg-white rounded-lg shadow-sm border">
+                    <h1 className="text-2xl font-bold text-gray-900 tracking-tight mb-4">{currentCategoryName}</h1>
+                    <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4 p-4 bg-white rounded-lg shadow-sm border border-gray-100">
                         <p className="text-sm text-gray-700">
                            Mostrando {filteredAndSortedProducts.length} productos
                         </p>
                         <form className="woocommerce-ordering">
                             <select 
                                 name="orderby" 
-                                className="orderby border border-gray-300 rounded-md py-2 px-3 text-sm focus:ring-brand-purple-dark focus:border-brand-purple-dark bg-white"
+                                className="orderby border border-gray-300 rounded-md py-2 px-3 text-sm focus:ring-black focus:border-black bg-white"
                                 aria-label="Pedido de la tienda"
                                 value={sortOrder}
                                 onChange={handleSortChange}
@@ -128,7 +125,7 @@ const ShopPage: React.FC<{
                             ))}
                         </div>
                     ) : (
-                        <div className="text-center py-16 border rounded-lg">
+                        <div className="text-center py-16 border rounded-lg bg-gray-50">
                             <p className="text-xl text-gray-600">No se encontraron productos en esta categoría.</p>
                         </div>
                     )}

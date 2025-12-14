@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { GoogleGenAI, Chat } from "@google/genai";
 
@@ -37,9 +36,10 @@ const AsistenteIAPage: React.FC = () => {
     const chatContainerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        // Check for API Key presence
+        // Use the key provided by the environment variable
         const apiKey = process.env.API_KEY;
-        if (!apiKey || apiKey.includes('placeholder')) {
+        
+        if (!apiKey) {
             setMissingApiKey(true);
             return;
         }
@@ -90,7 +90,9 @@ const AsistenteIAPage: React.FC = () => {
                 setMessages(prev => {
                     const newMessages = [...prev];
                     const lastMessage = newMessages[newMessages.length - 1];
-                    lastMessage.text += chunkText;
+                    if (chunkText) {
+                        lastMessage.text += chunkText;
+                    }
                     return newMessages;
                 });
             }
@@ -129,12 +131,6 @@ const AsistenteIAPage: React.FC = () => {
                     <p className="text-gray-600 mb-6">
                         El Asistente IA necesita una clave de API para funcionar.
                     </p>
-                    <div className="bg-gray-50 p-4 rounded text-left text-sm text-gray-700 font-mono mb-4 overflow-x-auto">
-                        1. Ve a Vercel Dashboard<br/>
-                        2. Settings &gt; Environment Variables<br/>
-                        3. Añade: <strong>API_KEY</strong><br/>
-                        4. Valor: Tu clave de Google Gemini
-                    </div>
                     <button onClick={() => window.location.reload()} className="btn-primary w-full">
                         Recargar Página
                     </button>
