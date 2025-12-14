@@ -27,7 +27,7 @@ const WhatsAppIcon = () => (
 );
 
 const VisaIcon = () => (
-    <svg className="w-10 h-6 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all" viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg className="w-10 h-6 opacity-80 hover:opacity-100 transition-all" viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
        <rect width="38" height="24" rx="2" fill="white"/>
        <path d="M15.5 15.5L13.5 4.5H11.5L9 10.5L7.5 6.5L7 4.5H5L8.5 15.5H11L13 9.5L14.5 4.5H15.5V15.5Z" fill="#1A1F71"/>
        <path d="M20.5 15.5L22.5 4.5H20.5L19.5 9L18.5 4.5H16.5L18.5 15.5H20.5Z" fill="#1A1F71"/>
@@ -41,7 +41,7 @@ const VisaIcon = () => (
 );
 
 const MastercardIcon = () => (
-    <svg className="w-10 h-6 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all" viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg className="w-10 h-6 opacity-80 hover:opacity-100 transition-all" viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect width="38" height="24" rx="2" fill="white"/>
         <circle cx="13" cy="12" r="7" fill="#EB001B"/>
         <circle cx="25" cy="12" r="7" fill="#F79E1B"/>
@@ -50,7 +50,7 @@ const MastercardIcon = () => (
 );
 
 const PayPalIcon = () => (
-    <svg className="w-10 h-6 grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all" viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg className="w-10 h-6 opacity-80 hover:opacity-100 transition-all" viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect width="38" height="24" rx="2" fill="white"/>
         <path d="M26.5 7.5L23.5 7.5L22.5 13.5L26.5 7.5Z" fill="#003087"/>
         <path d="M22.5 13.5L20.5 13.5L21.5 7.5L24.5 7.5L22.5 13.5Z" fill="#003087"/>
@@ -71,7 +71,7 @@ const FooterLink: React.FC<{ onClick: () => void; children: React.ReactNode }> =
     <li>
         <button 
             onClick={onClick}
-            className="text-gray-600 hover:text-brand-primary transition-colors hover:underline text-sm font-light"
+            className="text-gray-400 hover:text-white transition-colors hover:underline text-sm font-light"
         >
             {children}
         </button>
@@ -80,27 +80,27 @@ const FooterLink: React.FC<{ onClick: () => void; children: React.ReactNode }> =
 
 const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
     return (
-        <footer className="bg-gradient-to-t from-pink-50 to-white border-t border-pink-100 text-gray-800 font-sans mt-auto">
+        <footer className="bg-black border-t border-gray-800 text-white font-sans mt-auto">
             <div className="container mx-auto px-6 py-12">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 text-center md:text-left">
                     <div className="sm:col-span-2 lg:col-span-1 flex flex-col items-center text-center md:items-start md:text-left">
                          <button onClick={() => onNavigate('home')} className="inline-block hover:opacity-80 transition-opacity mb-4 cursor-pointer">
                             <img src="https://i0.wp.com/vellaperfumeria.com/wp-content/uploads/2025/06/1000003724-removebg-preview.png" alt="Vellaperfumeria Logo" className="h-24 w-auto" />
                         </button>
-                        <h2 className="text-2xl font-serif font-bold tracking-tight text-brand-primary mb-2">Vellaperfumeria</h2>
-                        <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
+                        <h2 className="text-2xl font-serif font-bold tracking-tight text-white mb-2">Vellaperfumeria</h2>
+                        <p className="text-gray-400 text-sm leading-relaxed max-w-xs">
                             Tu esencia, tu belleza, tu tienda.<br/>
                             Distribuidores oficiales de alta cosmética y wellness.
                         </p>
                     </div>
 
                     <div>
-                        <h3 className="text-xs font-bold tracking-[0.2em] uppercase mb-6 text-gray-900 border-b border-pink-200 pb-2 inline-block">Navegación</h3>
+                        <h3 className="text-xs font-bold tracking-[0.2em] uppercase mb-6 text-white border-b border-gray-700 pb-2 inline-block">Navegación</h3>
                         <ul className="space-y-3">
                            <li>
                                 <button
                                     onClick={() => onNavigate('home')}
-                                    className="text-gray-600 hover:text-brand-primary transition-colors hover:underline text-sm font-light"
+                                    className="text-gray-400 hover:text-white transition-colors hover:underline text-sm font-light"
                                 >
                                     Inicio
                                 </button>
@@ -114,26 +114,26 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                     </div>
 
                      <div>
-                        <h3 className="text-xs font-bold tracking-[0.2em] uppercase mb-6 text-gray-900 border-b border-pink-200 pb-2 inline-block">Atención al Cliente</h3>
+                        <h3 className="text-xs font-bold tracking-[0.2em] uppercase mb-6 text-white border-b border-gray-700 pb-2 inline-block">Atención al Cliente</h3>
                         <ul className="space-y-3">
                             <FooterLink onClick={() => onNavigate('about')}>Sobre Nosotros</FooterLink>
                             <FooterLink onClick={() => onNavigate('contact')}>Contacto</FooterLink>
                             <FooterLink onClick={() => onNavigate('blog')}>Blog de Belleza</FooterLink>
                             <FooterLink onClick={() => onNavigate('catalog')}>Catálogo Digital</FooterLink>
-                            <li className="text-gray-400 text-xs pt-2">Política de Privacidad</li>
+                            <li className="text-gray-500 text-xs pt-2">Política de Privacidad</li>
                         </ul>
                     </div>
 
                      <div className="flex flex-col items-center md:items-start">
-                        <h3 className="text-xs font-bold tracking-[0.2em] uppercase mb-6 text-gray-900 border-b border-pink-200 pb-2 inline-block">Síguenos</h3>
-                        <div className="flex justify-center md:justify-start space-x-6 text-brand-primary mb-8">
-                           <span className="cursor-pointer hover:text-pink-700 transition-all duration-300 transform hover:scale-110" aria-label="Threads"><ThreadsIcon /></span>
-                           <span className="cursor-pointer hover:text-pink-700 transition-all duration-300 transform hover:scale-110" aria-label="Instagram"><InstagramIcon /></span>
-                           <span className="cursor-pointer hover:text-pink-700 transition-all duration-300 transform hover:scale-110" aria-label="Facebook"><FacebookIcon /></span>
-                           <span className="cursor-pointer hover:text-pink-700 transition-all duration-300 transform hover:scale-110" aria-label="WhatsApp"><WhatsAppIcon /></span>
+                        <h3 className="text-xs font-bold tracking-[0.2em] uppercase mb-6 text-white border-b border-gray-700 pb-2 inline-block">Síguenos</h3>
+                        <div className="flex justify-center md:justify-start space-x-6 text-white mb-8">
+                           <span className="cursor-pointer hover:text-pink-400 transition-all duration-300 transform hover:scale-110" aria-label="Threads"><ThreadsIcon /></span>
+                           <span className="cursor-pointer hover:text-pink-400 transition-all duration-300 transform hover:scale-110" aria-label="Instagram"><InstagramIcon /></span>
+                           <span className="cursor-pointer hover:text-pink-400 transition-all duration-300 transform hover:scale-110" aria-label="Facebook"><FacebookIcon /></span>
+                           <span className="cursor-pointer hover:text-pink-400 transition-all duration-300 transform hover:scale-110" aria-label="WhatsApp"><WhatsAppIcon /></span>
                         </div>
                         
-                        <h3 className="text-xs font-bold tracking-[0.2em] uppercase mb-4 text-gray-900">Métodos de Pago</h3>
+                        <h3 className="text-xs font-bold tracking-[0.2em] uppercase mb-4 text-white">Métodos de Pago</h3>
                         <div className="flex justify-center md:justify-start space-x-3">
                             <VisaIcon />
                             <MastercardIcon />
@@ -143,10 +143,10 @@ const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 </div>
             </div>
             
-            <div className="bg-white border-t border-pink-100 py-6 text-center text-xs text-gray-400">
+            <div className="bg-black border-t border-gray-800 py-6 text-center text-xs text-gray-500">
                 <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
                     <p>&copy; {new Date().getFullYear()} Vellaperfumeria. Todos los derechos reservados.</p>
-                    <p className="mt-2 md:mt-0 font-serif italic text-brand-primary/50">Tu belleza, nuestra pasión.</p>
+                    <p className="mt-2 md:mt-0 font-serif italic text-gray-600">Tu belleza, nuestra pasión.</p>
                 </div>
             </div>
         </footer>
