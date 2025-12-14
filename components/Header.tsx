@@ -3,7 +3,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import type { View } from './types';
 import type { Currency } from './currency';
 
-// Social Icons
+// --- ICONS ---
+
 const ThreadsIcon = () => (
     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
         <path d="M8.01 3.51c-1.35 0-2.45 1.1-2.45 2.45v.38c0 .28.22.5.5.5h1.5c.28 0 .5-.22.5-.5v-.38c0-.69.56-1.25 1.25-1.25h.19c.69 0 1.25.56 1.25 1.25v2.87c0 1.35-1.1 2.45-2.45 2.45h-.87c-.28 0-.5.22-.5.5v1.5c0 .28.22.5.5.5h.87c2.21 0 4-1.79 4-4V5.96c0-1.35-1.1-2.45-2.45-2.45h-2.12zm-3.09 3.1h-1.5c-.28 0-.5.22-.5.5v.38c0 1.35 1.1 2.45 2.45 2.45h.19c.69 0 1.25-.56 1.25-1.25V5.96c0-1.35-1.1-2.45-2.45-2.45H3.01c-1.35 0-2.45 1.1-2.45 2.45v2.12c0 2.21 1.79 4 4 4h.87c.28 0 .5-.22.5-.5v-1.5c0-.28-.22-.5-.5-.5h-.87c-.69 0-1.25-.56-1.25-1.25v-.38c0-.28-.22-.5-.5-.5z"/>
@@ -42,13 +43,25 @@ const CloseIcon = () => (
 
 const CartIcon = () => (
     <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+      <path d="M6.434 9H4.5a1.5 1.5 0 0 0-1.486 1.703l1.227 9A1.5 1.5 0 0 0 5.728 21h12.254a1.5 1.5 0 0 0 1.486-1.297l1.227-9A1.5 1.5 0 0 0 19.21 9h-1.933c-.087-2.548-.848-4.078-1.933-4.96C14.208 3.118 12.826 3 11.855 3c-.975 0-2.355.126-3.49 1.051C7.282 4.936 6.521 6.464 6.434 9m1 0c.086-2.329.778-3.533 1.564-4.174.858-.7 1.942-.826 2.857-.826.917 0 2 .12 2.857.817.785.637 1.477 1.84 1.563 4.183zm8.868 1 .053 1.448a.5.5 0 0 0 1-.018c0-.528-.013-.987-.037-1.43h1.891a.5.5 0 0 1 .495.568l-1.227 9a.5.5 0 0 1-.495.432H5.728a.5.5 0 0 1-.496-.432l-1.227-9A.5.5 0 0 1 4.5 10h1.905q-.001.372.01.756.009.333.01.674a.5.5 0 1 0 1 0c0-.285-.006-.535-.012-.766-.005-.236-.01-.452-.008-.664z"></path>
     </svg>
 );
 
 const SearchIcon = () => (
-    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+    <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" stroke="currentColor">
+        <path d="M14.874 15.582a6 6 0 1 1 .707-.707l3.273 3.271a.5.5 0 0 1-.708.708zM16 11a5 5 0 1 0-10 0 5 5 0 0 0 10 0"></path>
+    </svg>
+);
+
+const UserIcon = () => (
+    <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+    </svg>
+);
+
+const HeartIcon = () => (
+    <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+        <path d="m12 20.5-.243.437-.002-.001-.006-.003-.021-.012-.08-.046-.293-.173a29 29 0 0 1-4.187-3.078C4.906 15.613 2.5 12.734 2.5 9.5c0-1.6.468-2.875 1.242-3.796A4.67 4.67 0 0 1 6.68 4.092c1.947-.28 4.088.582 5.321 2.528 1.233-1.946 3.374-2.809 5.321-2.528a4.67 4.67 0 0 1 2.937 1.612C21.032 6.624 21.5 7.9 21.5 9.5c0 3.233-2.406 6.113-4.668 8.124a29 29 0 0 1-4.531 3.28l-.029.017-.02.012-.007.003h-.001s-.001.001-.244-.436M4.508 6.348C3.907 7.063 3.5 8.1 3.5 9.5c0 2.767 2.094 5.387 4.332 7.376A28 28 0 0 0 12 19.922l.129-.077a28 28 0 0 0 4.04-2.97C18.406 14.887 20.5 12.267 20.5 9.5c0-1.4-.407-2.437-1.008-3.152a3.67 3.67 0 0 0-2.313-1.266c-1.781-.257-3.81.675-4.719 2.808L12 8.97l-.46-1.08c-.909-2.133-2.938-3.065-4.719-2.808a3.67 3.67 0 0 0-2.313 1.266M12 20.5l.244.437a.5.5 0 0 1-.487 0z"></path>
     </svg>
 );
 
@@ -74,21 +87,19 @@ const NavLink: React.FC<{
     isDark?: boolean,
     onMouseEnter?: () => void,
 }> = ({ onClick, href, children, className, isDark, onMouseEnter }) => {
-    const baseClass = `text-sm font-medium transition-colors duration-200 ${className}`;
-    const colorClass = isDark ? "text-white hover:text-gray-300" : "text-black hover:text-gray-700";
+    const baseClass = `font-serif tracking-widest text-xs font-bold transition-all duration-300 cursor-pointer uppercase py-4 border-b-2 border-transparent ${className}`;
+    const colorClass = isDark ? "text-white hover:text-pink-300" : "text-gray-900 hover:text-brand-primary hover:border-brand-primary";
     
-    const content = <span className={!isDark ? "hover-underline-effect" : ""}>{children}</span>;
-
     if (href) {
         return (
             <a href={href} className={`${baseClass} ${colorClass}`} onMouseEnter={onMouseEnter}>
-                {content}
+                {children}
             </a>
         );
     }
     return (
         <button onClick={onClick} className={`${baseClass} ${colorClass}`} onMouseEnter={onMouseEnter}>
-            {content}
+            {children}
         </button>
     );
 };
@@ -162,6 +173,16 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currency, onCurrencyChange,
                 { title: 'Marcas', items: [{ name: 'Giordani Gold', link: 'makeup' }, { name: 'THE ONE', link: 'makeup' }, { name: 'OnColour', link: 'makeup' }] },
             ],
             image: 'https://media-cdn.oriflame.com/contentImage?externalMediaId=179aab29-b41b-4e67-af6d-927cf4656de4&name=2_Promo_split_double_gifts&inputFormat=jpg'
+        },
+         'Fragancias': {
+            id: 'Fragancias',
+            label: 'Fragancias',
+            subcategories: [
+                { title: 'Mujer', items: [{ name: 'Eau de Parfum', link: 'perfume' }, { name: 'Eau de Toilette', link: 'perfume' }, { name: 'Body Mists', link: 'perfume' }] },
+                { title: 'Hombre', items: [{ name: 'Eau de Parfum', link: 'men' }, { name: 'Eau de Toilette', link: 'men' }] },
+                { title: 'Colecciones', items: [{ name: 'Giordani Gold', link: 'perfume' }, { name: 'Divine', link: 'perfume' }, { name: 'Eclat', link: 'perfume' }, { name: 'Love Potion', link: 'perfume' }] },
+            ],
+            image: 'https://media-cdn.oriflame.com/contentImage?externalMediaId=4139a5ab-c1f8-4d1f-86c8-e233f9fbc430&name=FRA_320x450&inputFormat=jpg'
         }
     };
 
@@ -189,145 +210,166 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currency, onCurrencyChange,
     }
 
     return (
-        <header className="bg-white shadow-sm sticky top-0 z-30" onMouseLeave={() => setActiveMegaMenu(null)}>
-            {/* Top Announcement Bar - Condensed */}
-            <div className="text-black py-1 text-xs font-medium" style={{ backgroundColor: '#f78df685' }}>
+        <header className="sticky top-0 z-30 font-sans" onMouseLeave={() => setActiveMegaMenu(null)}>
+            {/* Background Layer with Blur */}
+            <div className="absolute inset-0 bg-white/95 backdrop-blur-md shadow-sm pointer-events-none"></div>
+
+            {/* Top Announcement Bar */}
+            <div className="relative z-40 bg-pink-100 text-gray-900 py-1.5 text-xs font-medium tracking-wide">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-                    <div className="flex items-center space-x-3">
-                        <span className="cursor-pointer hover:opacity-75 transition-opacity text-black" aria-label="Threads"><ThreadsIcon /></span>
-                        <span className="cursor-pointer hover:opacity-75 transition-opacity text-black" aria-label="Instagram"><InstagramIcon /></span>
-                        <span className="cursor-pointer hover:opacity-75 transition-opacity text-black" aria-label="Facebook"><FacebookIcon /></span>
-                        <span className="cursor-pointer hover:opacity-75 transition-opacity text-black" aria-label="WhatsApp"><WhatsAppIcon /></span>
+                    <div className="flex items-center space-x-4 text-brand-primary">
+                        <span className="cursor-pointer hover:opacity-75 transition-opacity" aria-label="Threads"><ThreadsIcon /></span>
+                        <span className="cursor-pointer hover:opacity-75 transition-opacity" aria-label="Instagram"><InstagramIcon /></span>
+                        <span className="cursor-pointer hover:opacity-75 transition-opacity" aria-label="Facebook"><FacebookIcon /></span>
+                        <span className="cursor-pointer hover:opacity-75 transition-opacity" aria-label="WhatsApp"><WhatsAppIcon /></span>
                     </div>
-                    <button onClick={() => onNavigate('ofertas')} className="hidden md:block text-center text-black hover:underline truncate px-2">
+                    <button onClick={() => onNavigate('ofertas')} className="hidden md:block text-center hover:underline truncate px-2 font-serif italic">
                         <span>
-                            <span className="font-bold">CATÁLOGO 17</span> | ESPECIAL NAVIDAD | Envío GRATIS +35€
+                            Envío <span className="font-bold text-brand-primary">GRATIS</span> en pedidos +35€ | Especial Navidad
                         </span>
                     </button>
                     <div className="flex items-center space-x-4">
-                        {/* Right side spacer or user icon if needed */}
-                    </div>
-                </div>
-            </div>
-
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
-                {/* Logo Section */}
-                <div className="flex justify-center py-1 relative">
-                    <form action="https://vellaperfumeria.com" method="GET" target="_top">
-                        <button type="submit" className="hover:opacity-80 transition-opacity flex items-center">
-                            <img 
-                                src="https://i0.wp.com/vellaperfumeria.com/wp-content/uploads/2025/06/1000003724-removebg-preview.png" 
-                                alt="Vellaperfumeria Logo" 
-                                className="h-16 md:h-20 w-auto" 
-                            />
-                        </button>
-                    </form>
-                </div>
-
-                {/* Navbar */}
-                <div className="flex justify-between items-center pb-2 border-t border-gray-100 pt-1">
-                    <div className="flex-1 hidden md:flex items-center space-x-4">
                         <select
                             value={currency}
                             onChange={(e) => onCurrencyChange(e.target.value as Currency)}
-                            className="text-xs font-medium bg-transparent border-none focus:ring-0 cursor-pointer"
+                            className="text-[10px] font-bold bg-transparent border-none focus:ring-0 cursor-pointer text-gray-900 uppercase tracking-widest"
                             aria-label="Seleccionar moneda"
                         >
-                            <option value="EUR">EUR €</option>
-                            <option value="USD">USD $</option>
-                            <option value="GBP">GBP £</option>
+                            <option value="EUR">EUR</option>
+                            <option value="USD">USD</option>
+                            <option value="GBP">GBP</option>
                         </select>
-                         <button onClick={() => onNavigate('contact')} className="text-xs font-medium text-gray-600 hover:text-black transition-colors">
-                            Conviértete en Brand Partner
+                         <button onClick={() => onNavigate('contact')} className="hidden sm:block text-[10px] font-bold text-gray-900 hover:text-brand-primary transition-colors uppercase tracking-widest">
+                            Brand Partner
                         </button>
-                    </div>
-
-                    <nav className="hidden md:flex flex-auto justify-center items-center space-x-5 h-full">
-                        <NavLink href="https://vellaperfumeria.com" onMouseEnter={() => setActiveMegaMenu(null)}>Inicio</NavLink>
-                        
-                        <div className="h-full flex items-center" onMouseEnter={() => setActiveMegaMenu('Tienda')}>
-                            <NavLink onClick={() => onNavigate('products', 'all')} className="h-full flex items-center">Tienda</NavLink>
-                        </div>
-                        <div className="h-full flex items-center" onMouseEnter={() => setActiveMegaMenu('Cuidado Facial')}>
-                            <NavLink onClick={() => onNavigate('products', 'skincare')} className="h-full flex items-center">Cuidado Facial</NavLink>
-                        </div>
-                        <div className="h-full flex items-center" onMouseEnter={() => setActiveMegaMenu('Maquillaje')}>
-                            <NavLink onClick={() => onNavigate('products', 'makeup')} className="h-full flex items-center">Maquillaje</NavLink>
-                        </div>
-                        
-                        <NavLink onClick={() => onNavigate('products', 'hair')} onMouseEnter={() => setActiveMegaMenu(null)}>Cuidado Capilar</NavLink>
-                        <NavLink onClick={() => onNavigate('products', 'perfume')} onMouseEnter={() => setActiveMegaMenu(null)}>Fragancias</NavLink>
-                        <NavLink onClick={() => onNavigate('products', 'wellness')} onMouseEnter={() => setActiveMegaMenu(null)}>Wellness</NavLink>
-                        <NavLink onClick={() => onNavigate('ofertas')} onMouseEnter={() => setActiveMegaMenu(null)}>Ideas Regalo</NavLink>
-                        <NavLink onClick={() => onNavigate('catalog')} onMouseEnter={() => setActiveMegaMenu(null)}>Catálogo</NavLink>
-                        <NavLink onClick={() => onNavigate('ia')} onMouseEnter={() => setActiveMegaMenu(null)}>Asistente IA</NavLink>
-                    </nav>
-
-                    <div className="flex-1 flex justify-end items-center space-x-4">
-                        <button className="text-black hover:text-gray-700" aria-label="Buscar">
-                            <SearchIcon />
-                        </button>
-                        <button onClick={onCartClick} className="relative text-black hover:text-gray-700" aria-label={`Ver carrito, ${cartCount} artículos`}>
-                            <CartIcon />
-                            {cartCount > 0 && (
-                                <span key={cartCount} className={`absolute -top-2 -right-2 bg-brand-purple text-black text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center ${cartPulse ? 'animate-pop' : ''}`}>
-                                    {cartCount}
-                                </span>
-                            )}
-                        </button>
-                        <div className="md:hidden">
-                            <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} aria-label="Abrir menú">
-                                {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>
 
-            {/* Mega Menu Dropdown (Full Width, Black Background) */}
+            {/* Main Header Content */}
+            <div className="relative z-40 container mx-auto px-4 sm:px-6 lg:px-8">
+                
+                {/* Logo & Actions Row */}
+                <div className="flex justify-between items-center py-5 md:py-6 gap-6">
+                    {/* Left: Search Bar (Desktop) & Menu (Mobile) */}
+                    <div className="flex-1 flex items-center justify-start">
+                        <div className="md:hidden">
+                            <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} aria-label="Abrir menú" className="p-2 -ml-2 text-gray-800">
+                                {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
+                            </button>
+                        </div>
+                        <div className="hidden md:block w-full max-w-xs relative group">
+                            <input 
+                                type="text" 
+                                placeholder="Buscar..." 
+                                className="w-full bg-transparent border-b border-gray-300 py-2 pl-8 pr-4 text-sm focus:border-brand-primary focus:outline-none transition-all placeholder-gray-400 font-serif italic"
+                            />
+                            <div className="absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-400 group-hover:text-brand-primary transition-colors">
+                                <SearchIcon />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Center: Logo */}
+                    <div className="flex-shrink-0 flex justify-center">
+                        <button onClick={() => onNavigate('home')} className="hover:opacity-80 transition-opacity flex flex-col items-center">
+                            <img 
+                                src="https://i0.wp.com/vellaperfumeria.com/wp-content/uploads/2025/06/1000003724-removebg-preview.png" 
+                                alt="Vellaperfumeria" 
+                                className="h-12 md:h-16 w-auto" 
+                            />
+                        </button>
+                    </div>
+
+                    {/* Right: Actions */}
+                    <div className="flex-1 flex items-center justify-end space-x-2 md:space-x-6">
+                        <button className="hidden md:flex flex-col items-center justify-center text-gray-800 hover:text-brand-primary transition-colors group p-2">
+                             <UserIcon />
+                        </button>
+                        
+                        <button className="hidden md:flex flex-col items-center justify-center text-gray-800 hover:text-brand-primary transition-colors group p-2">
+                            <HeartIcon />
+                        </button>
+
+                        <button onClick={onCartClick} className="relative flex flex-col items-center justify-center text-gray-800 hover:text-brand-primary transition-colors group p-2" aria-label={`Ver carrito, ${cartCount} artículos`}>
+                            <div className="relative">
+                                <CartIcon />
+                                {cartCount > 0 && (
+                                    <span key={cartCount} className={`absolute -top-1.5 -right-1.5 bg-brand-primary text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center ${cartPulse ? 'animate-bounce' : ''}`}>
+                                        {cartCount}
+                                    </span>
+                                )}
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                {/* Navigation Row - Desktop Only - Centered & Serif */}
+                <div className="hidden md:block border-t border-gray-100">
+                    <nav className="flex justify-center items-center space-x-8">
+                        <NavLink onClick={() => { onNavigate('products', 'all'); setActiveMegaMenu(null); }} onMouseEnter={() => setActiveMegaMenu('Tienda')}>Tienda</NavLink>
+                        <NavLink onClick={() => { onNavigate('ofertas'); setActiveMegaMenu(null); }} className="text-pink-600 font-bold hover:text-pink-700">Ofertas</NavLink>
+                        <NavLink onClick={() => { onNavigate('products', 'skincare'); setActiveMegaMenu(null); }} onMouseEnter={() => setActiveMegaMenu('Cuidado Facial')}>Cuidado Facial</NavLink>
+                        <NavLink onClick={() => { onNavigate('products', 'makeup'); setActiveMegaMenu(null); }} onMouseEnter={() => setActiveMegaMenu('Maquillaje')}>Maquillaje</NavLink>
+                        <NavLink onClick={() => { onNavigate('products', 'perfume'); setActiveMegaMenu(null); }} onMouseEnter={() => setActiveMegaMenu('Fragancias')}>Fragancias</NavLink>
+                        <NavLink onClick={() => { onNavigate('products', 'wellness'); setActiveMegaMenu(null); }} onMouseEnter={() => setActiveMegaMenu(null)}>Wellness</NavLink>
+                        <NavLink onClick={() => { onNavigate('products', 'hair'); setActiveMegaMenu(null); }} onMouseEnter={() => setActiveMegaMenu(null)}>Cabello</NavLink>
+                        <NavLink onClick={() => { onNavigate('products', 'men'); setActiveMegaMenu(null); }} onMouseEnter={() => setActiveMegaMenu(null)}>Hombre</NavLink>
+                        <NavLink onClick={() => { onNavigate('catalog'); setActiveMegaMenu(null); }} className="text-gray-900">Catálogo</NavLink>
+                        <NavLink onClick={() => { onNavigate('ia'); setActiveMegaMenu(null); }} className="text-brand-primary">Asistente IA</NavLink>
+                    </nav>
+                </div>
+            </div>
+
+            {/* Mega Menu Dropdown (Full Width, Black Background as requested, but with Vellaperfumeria Style) */}
             {activeMegaMenu && megaMenuData[activeMegaMenu] && (
                 <div 
                     ref={megaMenuRef}
-                    className="absolute top-full left-0 w-full bg-black text-white shadow-2xl z-40 animate-fade-in-down origin-top border-t border-gray-800"
+                    className="absolute top-full left-0 w-full bg-gray-950 text-white shadow-2xl z-40 animate-fade-in-down origin-top border-t border-gray-800"
                     onMouseEnter={() => setActiveMegaMenu(activeMegaMenu)}
                     onMouseLeave={() => setActiveMegaMenu(null)}
                 >
-                    <div className="container mx-auto px-8 py-10">
-                        <div className="grid grid-cols-4 gap-8">
-                            {megaMenuData[activeMegaMenu].subcategories.map((sub, idx) => (
-                                <div key={idx} className="space-y-4">
-                                    <h3 className="text-pink-400 font-bold uppercase tracking-widest text-sm border-b border-gray-700 pb-2">{sub.title}</h3>
-                                    <ul className="space-y-2">
-                                        {sub.items.map((item, i) => (
-                                            <li key={i}>
-                                                <button 
-                                                    onClick={() => {
-                                                        onNavigate('products', item.link);
-                                                        setActiveMegaMenu(null);
-                                                    }}
-                                                    className="text-gray-300 hover:text-white hover:translate-x-1 transition-all text-sm text-left"
-                                                >
-                                                    {item.name}
-                                                </button>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            ))}
-                            {/* Promotional Image in Menu */}
+                    <div className="container mx-auto px-8 py-12">
+                        <div className="grid grid-cols-12 gap-12">
+                            {/* Categories Columns */}
+                            <div className="col-span-9 grid grid-cols-3 gap-10">
+                                {megaMenuData[activeMegaMenu].subcategories.map((sub, idx) => (
+                                    <div key={idx} className="space-y-6">
+                                        <h3 className="text-pink-300 font-serif font-bold text-xl italic border-b border-gray-800 pb-3">{sub.title}</h3>
+                                        <ul className="space-y-3">
+                                            {sub.items.map((item, i) => (
+                                                <li key={i}>
+                                                    <button 
+                                                        onClick={() => {
+                                                            onNavigate('products', item.link);
+                                                            setActiveMegaMenu(null);
+                                                        }}
+                                                        className="text-gray-300 hover:text-white hover:translate-x-1 transition-all text-sm text-left block w-full tracking-wide uppercase font-light"
+                                                    >
+                                                        {item.name}
+                                                    </button>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                ))}
+                            </div>
+                            
+                            {/* Promotional Image Column */}
                             {megaMenuData[activeMegaMenu].image && (
-                                <div className="col-span-1 relative overflow-hidden rounded-lg group cursor-pointer" onClick={() => {
+                                <div className="col-span-3 relative overflow-hidden rounded-sm group cursor-pointer h-72 border border-gray-800" onClick={() => {
                                     onNavigate('products', 'all');
                                     setActiveMegaMenu(null);
                                 }}>
                                     <img 
                                         src={megaMenuData[activeMegaMenu].image} 
                                         alt="Promoción" 
-                                        className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
+                                        className="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity duration-500 scale-100 group-hover:scale-105"
                                     />
-                                    <div className="absolute inset-0 flex items-center justify-center">
-                                        <span className="bg-white/10 backdrop-blur-md px-4 py-2 text-white font-bold uppercase tracking-wider border border-white/30 hover:bg-white/20 transition-colors">
-                                            Ver Todo
+                                    <div className="absolute bottom-0 left-0 w-full p-6 bg-gradient-to-t from-black via-black/50 to-transparent">
+                                        <p className="text-pink-200 font-serif text-lg italic mb-1">Descubre más</p>
+                                        <span className="text-white font-bold uppercase tracking-widest text-sm border-b-2 border-pink-500 pb-1 inline-block">
+                                            Ver Colección
                                         </span>
                                     </div>
                                 </div>
@@ -339,44 +381,38 @@ const Header: React.FC<HeaderProps> = ({ onNavigate, currency, onCurrencyChange,
 
             {/* Mobile Menu - Black Background, Full Width */}
             {isMobileMenuOpen && (
-                 <div ref={navRef} className="absolute top-full left-0 w-full bg-black text-white shadow-xl z-50 animate-fade-in-down origin-top">
-                     <div className="p-3 text-center bg-gray-900 font-bold text-xs uppercase tracking-widest text-pink-300">
-                        <button onClick={() => handleMobileNav('ofertas')} className="w-full h-full block">
-                            Catálogo 17 | Especial Navidad
-                        </button>
+                 <div ref={navRef} className="absolute top-full left-0 w-full bg-gray-950 text-white shadow-xl z-50 animate-fade-in-down origin-top h-[calc(100vh-140px)] overflow-y-auto">
+                     <div className="p-6 border-b border-gray-800">
+                        <div className="relative w-full">
+                            <input 
+                                type="text" 
+                                placeholder="Buscar en Vellaperfumeria..." 
+                                className="w-full bg-gray-900 border-none border-b border-gray-700 rounded-none py-3 pl-10 pr-4 text-base text-white focus:border-pink-500 focus:ring-0 font-serif italic"
+                            />
+                            <div className="absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-500">
+                                <SearchIcon />
+                            </div>
+                        </div>
                      </div>
-                     <nav className="flex flex-col p-6 space-y-4">
-                         <NavLink isDark onClick={() => handleMobileNav('home')} className="text-lg border-b border-gray-800 pb-2">Inicio</NavLink>
-                         <NavLink isDark onClick={() => handleMobileNav('products', 'all')} className="text-lg border-b border-gray-800 pb-2">Tienda</NavLink>
-                         <NavLink isDark onClick={() => handleMobileNav('ofertas')} className="text-lg font-bold text-pink-300 border-b border-gray-800 pb-2">Solo las mejores ofertas</NavLink>
-                         <NavLink isDark onClick={() => handleMobileNav('products', 'skincare')} className="text-lg border-b border-gray-800 pb-2">Cuidado Facial</NavLink>
-                         <NavLink isDark onClick={() => handleMobileNav('products', 'makeup')} className="text-lg border-b border-gray-800 pb-2">Maquillaje</NavLink>
-                         <NavLink isDark onClick={() => handleMobileNav('products', 'perfume')} className="text-lg border-b border-gray-800 pb-2">Fragancias</NavLink>
-                         <NavLink isDark onClick={() => handleMobileNav('products', 'wellness')} className="text-lg border-b border-gray-800 pb-2">Wellness</NavLink>
-                         <NavLink isDark onClick={() => handleMobileNav('catalog')} className="text-lg border-b border-gray-800 pb-2">Catálogo Digital</NavLink>
-                         <NavLink isDark onClick={() => handleMobileNav('ia')} className="text-lg border-b border-gray-800 pb-2">Asistente IA</NavLink>
+                     <nav className="flex flex-col p-8 space-y-6">
+                         <NavLink isDark onClick={() => handleMobileNav('home')} className="text-xl">Inicio</NavLink>
+                         <NavLink isDark onClick={() => handleMobileNav('ofertas')} className="text-xl text-pink-400">Ofertas Especiales</NavLink>
+                         <NavLink isDark onClick={() => handleMobileNav('products', 'all')} className="text-xl">Tienda</NavLink>
+                         <div className="pl-6 space-y-4 border-l border-gray-800 flex flex-col my-2">
+                            <NavLink isDark onClick={() => handleMobileNav('products', 'skincare')} className="text-lg text-gray-400 font-normal">Cuidado Facial</NavLink>
+                            <NavLink isDark onClick={() => handleMobileNav('products', 'makeup')} className="text-lg text-gray-400 font-normal">Maquillaje</NavLink>
+                            <NavLink isDark onClick={() => handleMobileNav('products', 'perfume')} className="text-lg text-gray-400 font-normal">Fragancias</NavLink>
+                            <NavLink isDark onClick={() => handleMobileNav('products', 'wellness')} className="text-lg text-gray-400 font-normal">Wellness</NavLink>
+                         </div>
+                         <NavLink isDark onClick={() => handleMobileNav('catalog')} className="text-xl">Catálogo Digital</NavLink>
+                         <NavLink isDark onClick={() => handleMobileNav('ia')} className="text-xl text-pink-300">Asistente IA</NavLink>
                      </nav>
-                     <div className="p-6 bg-gray-900 flex flex-col space-y-4">
-                        <button onClick={() => { handleMobileNav('contact'); }} className="text-sm font-medium text-gray-400 hover:text-white transition-colors text-left">
-                            Conviértete en Brand Partner
-                        </button>
-                        <select
-                            value={currency}
-                            onChange={(e) => onCurrencyChange(e.target.value as Currency)}
-                            className="text-sm font-medium bg-black border border-gray-700 text-white rounded p-2 focus:ring-pink-500 w-full"
-                            aria-label="Seleccionar moneda"
-                        >
-                            <option value="EUR">EUR €</option>
-                            <option value="USD">USD $</option>
-                            <option value="GBP">GBP £</option>
-                        </select>
-                     </div>
                 </div>
             )}
             <style>{`
                 @keyframes fadeInDown {
-                    from { opacity: 0; transform: scaleY(0); }
-                    to { opacity: 1; transform: scaleY(1); }
+                    from { opacity: 0; transform: translateY(-10px); }
+                    to { opacity: 1; transform: translateY(0); }
                 }
                 .animate-fade-in-down {
                     animation: fadeInDown 0.2s ease-out forwards;
