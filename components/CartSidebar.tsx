@@ -1,4 +1,3 @@
-
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import type { CartItem, View } from './types';
 import type { Currency } from './currency';
@@ -261,7 +260,7 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose, cartItems, c
 
                                 {/* Botón de Navegación Interna a la Pasarela de Pago */}
                                 <button
-                                    onClick={() => window.location.href = 'https://vellaperfumeria.com/finalizar-compra/'}
+                                    onClick={onCheckout}
                                     className="w-full bg-brand-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-pink-700 transition-colors flex justify-center items-center shadow-md transform active:scale-95 text-center"
                                 >
                                      Finalizar Compra

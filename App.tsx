@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, Component, type ErrorInfo } from 'react';
+import React, { useState, useEffect, useCallback, type ErrorInfo, Component, type ReactNode } from 'react';
 // Types
 import type { View, Product, CartItem } from './components/types';
 import type { Currency } from './components/currency';
@@ -19,10 +19,11 @@ import QuickViewModal from './components/QuickViewModal';
 import Breadcrumbs, { type BreadcrumbItem } from './components/Breadcrumbs';
 import CheckoutPage from './components/CheckoutPage';
 import BottomNavBar from './components/BottomNavBar';
+import WhatsAppFloat from './components/WhatsAppFloat';
 import { allProducts } from './components/products';
 
 interface ErrorBoundaryProps {
-    children?: React.ReactNode;
+    children?: ReactNode;
 }
 
 interface ErrorBoundaryState {
@@ -32,10 +33,13 @@ interface ErrorBoundaryState {
 
 // Error Boundary mejorado
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
-    state: ErrorBoundaryState = {
-        hasError: false,
-        error: null
-    };
+    constructor(props: ErrorBoundaryProps) {
+        super(props);
+        this.state = {
+            hasError: false,
+            error: null
+        };
+    }
 
     static getDerivedStateFromError(error: Error): ErrorBoundaryState {
         return { hasError: true, error };
@@ -297,7 +301,7 @@ const AppContent: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col min-h-screen bg-gradient-to-br from-pink-50 via-white to-pink-50 font-sans text-gray-800">
+        <div className="flex flex-col min-h-screen bg-white font-sans text-gray-800">
             <Header
                 onNavigate={handleNavigate}
                 currency={currency}
@@ -337,6 +341,8 @@ const AppContent: React.FC = () => {
                 />
             )}
             
+            <WhatsAppFloat />
+
             <BottomNavBar
                 onNavigate={handleNavigate}
                 currentView={view.current}
@@ -356,7 +362,7 @@ const AppContent: React.FC = () => {
                 }
                 
                 body {
-                    background-color: #fdf2f8; /* Pink 50 */
+                    background-color: #ffffff; /* White */
                 }
 
                 /* Selection Color */

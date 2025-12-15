@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo, useEffect } from 'react';
 import { ProductCard } from './ProductCard';
 import type { Product } from './types';
@@ -16,6 +15,12 @@ const categories = [
     { key: 'men', name: 'Hombre' },
     { key: 'accessories', name: 'Accesorios' },
 ];
+
+const DownloadIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+    </svg>
+);
 
 const ShopPage: React.FC<{
     currency: Currency;
@@ -62,75 +67,165 @@ const ShopPage: React.FC<{
         setSortOrder(e.target.value);
     };
 
-    const currentCategoryName = categories.find(c => c.key === activeCategory)?.name || 'Tienda';
+    const handleDownloadCSV = () => {
+        // Headers estándar para importación de productos en WooCommerce
+        const headers = [
+            "ID", "Type", "SKU", "Name", "Published", "Is featured?", "Visibility in catalog", 
+            "Short description", "Description", "Date sale price starts", "Date sale price ends", 
+            "Tax status", "Tax class", "In stock?", "Stock", "Low stock amount", 
+            "Backorders allowed?", "Sold individually?", "Weight (kg)", "Length (cm)", "Width (cm)", 
+            "Height (cm)", "Allow customer reviews?", "Purchase note", "Sale price", "Regular price", 
+            "Categories", "Tags", "Shipping class", "Images", "Download limit", "Download expiry days", 
+            "Parent", "Grouped products", "Upsells", "Cross-sells", "External URL", "Button text", 
+            "Position", "Attribute 1 name", "Attribute 1 value(s)"
+        ];
+        
+        // Helper para escapar campos CSV correctamente (Excel friendly)
+        const escapeCSV = (value: any) => {
+            if (value === null || value === undefined) return "";
+            const stringValue = String(value);
+            // Si contiene comillas, comas o saltos de línea, encerramos entre comillas y duplicamos las comillas internas
+            if (stringValue.includes('"') || stringValue.includes(',') || stringValue.includes('\n') || stringValue.includes('\r')) {
+                return `"${stringValue.replace(/"/g, '""')}"`;
+            }
+            return stringValue;
+        };
+
+        const csvRows = filteredAndSortedProducts.map(p => {
+            // Lógica básica para variantes en WooCommerce (separadas por |)
+            let attrName = "";
+            let attrValues = "";
+            if (p.variants) {
+                const keys = Object.keys(p.variants);
+                if (keys.length > 0) {
+                    attrName = keys[0];
+                    attrValues = p.variants[attrName].map(v => v.value).join(" | ");
+                }
+            }
+
+            return [
+                escapeCSV(p.id),
+                escapeCSV("simple"),
+                escapeCSV(""), // SKU
+                escapeCSV(p.name),
+                escapeCSV(1), // Published
+                escapeCSV(0), // Is featured?
+                escapeCSV("visible"),
+                escapeCSV(p.brand), // Short description
+                escapeCSV(p.description), // Description
+                escapeCSV(""), // Date sale price starts
+                escapeCSV(""),
+                escapeCSV("taxable"),
+                escapeCSV(""), // Tax class
+                escapeCSV(1), // In stock
+                escapeCSV(p.stock),
+                escapeCSV(""), // Low stock amount
+                escapeCSV(0), // Backorders
+                escapeCSV(0), // Sold individually
+                escapeCSV(""), // Weight
+                escapeCSV(""), // Dimensions
+                escapeCSV(""),
+                escapeCSV(""),
+                escapeCSV(1), // Reviews
+                escapeCSV(""), // Purchase note
+                escapeCSV(p.price),
+                escapeCSV(p.regularPrice || ""),
+                escapeCSV(p.category),
+                escapeCSV(p.tag || ""),
+                escapeCSV(""), // Shipping class
+                escapeCSV(p.imageUrl), // Images - URL directa
+                escapeCSV(""), // Downloads
+                escapeCSV(""),
+                escapeCSV(""), // Parent
+                escapeCSV(""), // Grouped
+                escapeCSV(""), // Upsells
+                escapeCSV(""), // Cross-sells
+                escapeCSV(""), // External URL
+                escapeCSV(""), // Button text
+                escapeCSV(0), // Position
+                escapeCSV(attrName),
+                escapeCSV(attrValues)
+            ].join(",");
+        });
+
+        // BOM para que Excel reconozca UTF-8 correctamente
+        const csvContent = "\uFEFF" + headers.join(",") + "\n" + csvRows.join("\n");
+
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", `products-${activeCategory}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    };
 
     return (
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row gap-8">
-                <aside className="w-full md:w-1/4 lg:w-1/5">
-                    <h2 className="text-lg font-bold mb-4 border-b pb-2 text-gray-900">Categorías</h2>
-                    <ul className="space-y-2">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+                <h1 className="text-3xl font-bold text-gray-900 font-serif">Tienda</h1>
+                
+                <div className="flex items-center gap-4 overflow-x-auto w-full md:w-auto pb-2 md:pb-0">
+                    <select 
+                        value={activeCategory} 
+                        onChange={(e) => setActiveCategory(e.target.value)}
+                        className="bg-white border border-gray-300 rounded-md py-2 px-4 text-sm focus:outline-none focus:ring-1 focus:ring-brand-primary cursor-pointer"
+                    >
                         {categories.map(cat => (
-                            <li key={cat.key}>
-                                <button
-                                    onClick={() => setActiveCategory(cat.key)}
-                                    className={`w-full text-left px-3 py-2 rounded-md transition-colors text-sm ${
-                                        activeCategory === cat.key
-                                            ? 'bg-gray-100 text-black font-semibold'
-                                            : 'text-gray-700 hover:bg-gray-50'
-                                    }`}
-                                >
-                                    {cat.name}
-                                </button>
-                            </li>
+                            <option key={cat.key} value={cat.key}>{cat.name}</option>
                         ))}
-                    </ul>
-                </aside>
+                    </select>
 
-                <main className="w-full md:w-3/4 lg:w-4/5">
-                    <h1 className="text-2xl font-bold text-gray-900 tracking-tight mb-4">{currentCategoryName}</h1>
-                    <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4 p-4 bg-white rounded-lg shadow-sm border border-gray-100">
-                        <p className="text-sm text-gray-700">
-                           Mostrando {filteredAndSortedProducts.length} productos
-                        </p>
-                        <form className="woocommerce-ordering">
-                            <select 
-                                name="orderby" 
-                                className="orderby border border-gray-300 rounded-md py-2 px-3 text-sm focus:ring-black focus:border-black bg-white"
-                                aria-label="Pedido de la tienda"
-                                value={sortOrder}
-                                onChange={handleSortChange}
-                            >
-                                <option value="menu_order">Orden predeterminado</option>
-                                <option value="popularity">Ordenar por popularidad</option>
-                                <option value="rating">Ordenar por puntuación media</option>
-                                <option value="price">Ordenar por precio: bajo a alto</option>
-                                <option value="price-desc">Ordenar por precio: alto a bajo</option>
-                            </select>
-                        </form>
-                    </div>
+                    <select 
+                        value={sortOrder} 
+                        onChange={handleSortChange}
+                        className="bg-white border border-gray-300 rounded-md py-2 px-4 text-sm focus:outline-none focus:ring-1 focus:ring-brand-primary cursor-pointer"
+                    >
+                        <option value="menu_order">Orden predeterminado</option>
+                        <option value="popularity">Popularidad</option>
+                        <option value="rating">Puntuación media</option>
+                        <option value="price">Precio: bajo a alto</option>
+                        <option value="price-desc">Precio: alto a bajo</option>
+                    </select>
 
-                    {filteredAndSortedProducts.length > 0 ? (
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 auto-rows-fr">
-                            {filteredAndSortedProducts.map(product => (
-                                <ProductCard
-                                    key={product.id}
-                                    product={product}
-                                    currency={currency}
-                                    onAddToCart={onAddToCart}
-                                    onQuickAddToCart={onQuickAddToCart}
-                                    onProductSelect={onProductSelect}
-                                    onQuickView={onQuickView}
-                                />
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="text-center py-16 border rounded-lg bg-gray-50">
-                            <p className="text-xl text-gray-600">No se encontraron productos en esta categoría.</p>
-                        </div>
-                    )}
-                </main>
+                    <button 
+                        onClick={handleDownloadCSV}
+                        className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md transition-colors text-sm font-medium"
+                        title="Descargar Catálogo CSV"
+                    >
+                        <DownloadIcon />
+                        <span className="hidden sm:inline">Exportar CSV</span>
+                    </button>
+                </div>
             </div>
+
+            {filteredAndSortedProducts.length > 0 ? (
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    {filteredAndSortedProducts.map(product => (
+                        <ProductCard
+                            key={product.id}
+                            product={product}
+                            currency={currency}
+                            onAddToCart={onAddToCart}
+                            onQuickAddToCart={onQuickAddToCart}
+                            onProductSelect={onProductSelect}
+                            onQuickView={onQuickView}
+                        />
+                    ))}
+                </div>
+            ) : (
+                <div className="text-center py-20">
+                    <p className="text-gray-500 text-lg">No se encontraron productos en esta categoría.</p>
+                    <button 
+                        onClick={() => setActiveCategory('all')}
+                        className="mt-4 text-brand-primary font-semibold hover:underline"
+                    >
+                        Ver todos los productos
+                    </button>
+                </div>
+            )}
         </div>
     );
 };
