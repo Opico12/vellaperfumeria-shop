@@ -74,6 +74,70 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ cartItems, currency, onClea
         return Object.keys(newErrors).length === 0;
     };
 
+    const handleDownloadOrderCSV = () => {
+        if (cartItems.length === 0) return;
+
+        const headers = ["Dato", "Valor"];
+        
+        const escapeCSV = (value: any) => {
+            if (value === null || value === undefined) return "";
+            const stringValue = String(value);
+            if (stringValue.includes('"') || stringValue.includes(',') || stringValue.includes('\n')) {
+                return `"${stringValue.replace(/"/g, '""')}"`;
+            }
+            return stringValue;
+        };
+
+        const csvRows = [];
+
+        // Customer Info
+        csvRows.push(["--- DATOS DEL CLIENTE ---", ""].join(","));
+        csvRows.push(["Nombre", escapeCSV(`${formData.firstName} ${formData.lastName}`)].join(","));
+        csvRows.push(["Dirección", escapeCSV(formData.address)].join(","));
+        csvRows.push(["Ciudad", escapeCSV(formData.city)].join(","));
+        csvRows.push(["Código Postal", escapeCSV(formData.zip)].join(","));
+        csvRows.push(["Teléfono", escapeCSV(formData.phone)].join(","));
+        csvRows.push(["Email", escapeCSV(formData.email)].join(","));
+        csvRows.push(["Notas", escapeCSV(formData.notes)].join(","));
+        csvRows.push(["", ""].join(","));
+
+        // Order Header
+        csvRows.push(["--- DETALLES DEL PEDIDO ---", ""].join(","));
+        csvRows.push(["ID Producto", "Nombre", "Variante", "Cantidad", "Precio", "Total"].join(","));
+
+        // Items
+        cartItems.forEach(item => {
+            const variantString = item.selectedVariant 
+                ? Object.values(item.selectedVariant).join(" - ") 
+                : "";
+            
+            csvRows.push([
+                escapeCSV(item.product.id),
+                escapeCSV(item.product.name),
+                escapeCSV(variantString),
+                escapeCSV(item.quantity),
+                escapeCSV(item.product.price.toFixed(2)),
+                escapeCSV((item.product.price * item.quantity).toFixed(2))
+            ].join(","));
+        });
+
+        csvRows.push(["", "", "", "", "", ""].join(","));
+        csvRows.push(["", "", "", "", "Subtotal", escapeCSV(subtotal.toFixed(2))].join(","));
+        csvRows.push(["", "", "", "", "Envío", escapeCSV(shippingCost.toFixed(2))].join(","));
+        csvRows.push(["", "", "", "", "TOTAL", escapeCSV(total.toFixed(2))].join(","));
+
+        const csvContent = "\uFEFF" + csvRows.join("\n");
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", `pedido-${formData.firstName || 'cliente'}-${new Date().toISOString().slice(0, 10)}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    };
+
     const handlePlaceOrder = () => {
         if (cartItems.length === 0) return;
 
@@ -116,7 +180,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ cartItems, currency, onClea
         message += `Espero confirmación para realizar el pago (Bizum/Transferencia). ¡Gracias!`;
 
         // Número de teléfono de Vellaperfumeria
-        const phoneNumber = "34600000000"; 
+        const phoneNumber = "34661202616"; 
         
         const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
         
@@ -295,6 +359,18 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ cartItems, currency, onClea
                                         <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.894 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 4.315 1.919 6.066l-1.475 5.422 5.571-1.469z" />
                                     </svg>
                                     Enviar Pedido por WhatsApp
+                                </button>
+
+                                {/* Download CSV Button */}
+                                <button
+                                    type="button"
+                                    onClick={handleDownloadOrderCSV}
+                                    className="w-full bg-gray-100 text-gray-800 font-bold py-3 rounded-lg shadow-sm hover:bg-gray-200 transition-colors flex justify-center items-center gap-2"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                    </svg>
+                                    Descargar Pedido (CSV)
                                 </button>
 
                                 <button 

@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 const WhatsAppIcon = () => (
@@ -9,7 +8,7 @@ const WhatsAppIcon = () => (
 
 const WhatsAppFloat: React.FC = () => {
     // Número de teléfono para el botón flotante (Atención al cliente)
-    const phoneNumber = "34600000000"; // Reemplazar con el número real de Vellaperfumeria
+    const phoneNumber = "34661202616"; // Número real de Vellaperfumeria actualizado
     const message = "Hola! Tengo una consulta sobre los productos de Vellaperfumeria.";
 
     const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;

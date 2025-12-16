@@ -40,6 +40,12 @@ const ShareIcon = () => (
     </svg>
 );
 
+const DownloadIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+    </svg>
+);
+
 const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose, cartItems, currency, onUpdateQuantity, onRemoveItem, onCheckout, isCheckingOut, checkoutError, onNavigate }) => {
     const sidebarRef = useRef<HTMLDivElement>(null);
     const [shareLinkStatus, setShareLinkStatus] = useState<'idle' | 'copied'>('idle');
@@ -143,6 +149,55 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose, cartItems, c
         } catch (e) {
             console.error("Failed to generate link", e);
         }
+    };
+
+    // --- Feature: Download Cart CSV ---
+    const handleDownloadCSV = () => {
+        if (cartItems.length === 0) return;
+
+        const headers = ["ID Producto", "Nombre", "Marca", "Variante", "Precio Unitario", "Cantidad", "Subtotal"];
+        
+        const escapeCSV = (value: any) => {
+            if (value === null || value === undefined) return "";
+            const stringValue = String(value);
+            if (stringValue.includes('"') || stringValue.includes(',') || stringValue.includes('\n')) {
+                return `"${stringValue.replace(/"/g, '""')}"`;
+            }
+            return stringValue;
+        };
+
+        const csvRows = cartItems.map(item => {
+            const variantString = item.selectedVariant 
+                ? Object.values(item.selectedVariant).join(" - ") 
+                : "";
+            
+            return [
+                escapeCSV(item.product.id),
+                escapeCSV(item.product.name),
+                escapeCSV(item.product.brand),
+                escapeCSV(variantString),
+                escapeCSV(item.product.price.toFixed(2)),
+                escapeCSV(item.quantity),
+                escapeCSV((item.product.price * item.quantity).toFixed(2))
+            ].join(",");
+        });
+
+        // Add Summary Rows
+        csvRows.push(["", "", "", "", "", "Subtotal", escapeCSV(subtotal.toFixed(2))].join(","));
+        csvRows.push(["", "", "", "", "", "Descuento", escapeCSV(discountAmount.toFixed(2))].join(","));
+        csvRows.push(["", "", "", "", "", "Envío", escapeCSV(shippingCost.toFixed(2))].join(","));
+        csvRows.push(["", "", "", "", "", "TOTAL", escapeCSV(total.toFixed(2))].join(","));
+
+        const csvContent = "\uFEFF" + headers.join(",") + "\n" + csvRows.join("\n");
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", `carrito-vellaperfumeria-${new Date().toISOString().slice(0, 10)}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
     };
 
     return (
@@ -249,14 +304,25 @@ const CartSidebar: React.FC<CartSidebarProps> = ({ isOpen, onClose, cartItems, c
                                     </div>
                                 )}
                                 
-                                {/* Botón para Generar Enlace de Pago */}
-                                <button
-                                    onClick={handleCreateShareLink}
-                                    className={`w-full py-2 px-4 rounded-lg text-sm font-bold transition-colors flex justify-center items-center gap-2 border ${shareLinkStatus === 'copied' ? 'bg-green-50 text-green-700 border-green-300' : 'bg-white text-brand-purple-dark border-brand-purple-dark hover:bg-brand-purple-dark hover:text-white'}`}
-                                >
-                                    <ShareIcon />
-                                    {shareLinkStatus === 'copied' ? '¡Enlace copiado al portapapeles!' : 'Generar Enlace de Cesta'}
-                                </button>
+                                <div className="grid grid-cols-2 gap-3">
+                                    {/* Botón para Generar Enlace */}
+                                    <button
+                                        onClick={handleCreateShareLink}
+                                        className={`py-2 px-2 rounded-lg text-xs font-bold transition-colors flex justify-center items-center gap-1 border ${shareLinkStatus === 'copied' ? 'bg-green-50 text-green-700 border-green-300' : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'}`}
+                                    >
+                                        <ShareIcon />
+                                        {shareLinkStatus === 'copied' ? 'Copiado' : 'Enlace'}
+                                    </button>
+
+                                    {/* Botón para Descargar CSV */}
+                                    <button
+                                        onClick={handleDownloadCSV}
+                                        className="py-2 px-2 rounded-lg text-xs font-bold transition-colors flex justify-center items-center gap-1 border bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+                                    >
+                                        <DownloadIcon />
+                                        CSV
+                                    </button>
+                                </div>
 
                                 {/* Botón de Navegación Interna a la Pasarela de Pago */}
                                 <button

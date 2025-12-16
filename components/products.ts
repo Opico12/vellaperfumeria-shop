@@ -2,6 +2,22 @@
 import type { Product } from './types';
 
 export const allProducts: Product[] = [
+    // --- PRODUCTO SOLICITADO COMO EJEMPLO PARA CSV ---
+    {
+        id: 44962,
+        name: "Exfoliante Purificante Cuero Cabelludo DUOLOGI",
+        brand: "DUOLOGI",
+        price: 9.99,
+        regularPrice: 18.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F44962%2F44962_1.png",
+        description: "Exfoliante refrescante para el cuero cabelludo que elimina la acumulación de productos, grasa y caspa, revitalizando el cabello desde la raíz. Con ácido salicílico.",
+        stock: 50,
+        category: "hair",
+        tag: "NOVEDAD",
+        rating: 4.9,
+        reviewCount: 30,
+        howToUse: "Úsalo una vez a la semana. Aplícalo sobre el cuero cabelludo mojado, masajea suavemente hasta formar espuma y aclara."
+    },
     // --- MAQUILLAJE & NOVEDADES (Desde tu HTML) ---
     {
         id: 47188,

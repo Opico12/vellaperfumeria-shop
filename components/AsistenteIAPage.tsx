@@ -31,21 +31,13 @@ const AsistenteIAPage: React.FC = () => {
     const [isProcessing, setIsProcessing] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [chat, setChat] = useState<Chat | null>(null);
-    const [missingApiKey, setMissingApiKey] = useState(false);
 
     const chatContainerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        // Use the key provided by the environment variable
-        const apiKey = process.env.API_KEY;
-        
-        if (!apiKey) {
-            setMissingApiKey(true);
-            return;
-        }
-
+        // Assume API key is pre-configured and valid
         try {
-            const ai = new GoogleGenAI({ apiKey: apiKey });
+            const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
             const newChat = ai.chats.create({
                 model: 'gemini-2.5-flash',
                 config: {
@@ -67,10 +59,7 @@ const AsistenteIAPage: React.FC = () => {
 
     const handleSendMessage = async (messageText: string) => {
         if (!messageText.trim() || isProcessing) return;
-        if (missingApiKey) {
-            alert("El asistente no está configurado. Falta la API Key.");
-            return;
-        }
+        
         if (!chat) {
             setError("El chat no se ha inicializado correctamente. Recarga la página.");
             return;
@@ -121,23 +110,6 @@ const AsistenteIAPage: React.FC = () => {
         "¿Qué tenéis para piel seca?",
         "Busco un regalo de Navidad por menos de 20€",
     ];
-
-    if (missingApiKey) {
-        return (
-            <div className="container mx-auto px-4 py-16 flex justify-center">
-                <div className="bg-white p-8 rounded-xl shadow-lg border border-red-100 max-w-md text-center">
-                    <div className="flex justify-center"><WarningIcon /></div>
-                    <h2 className="text-xl font-bold text-gray-900 mb-2">Configuración Requerida</h2>
-                    <p className="text-gray-600 mb-6">
-                        El Asistente IA necesita una clave de API para funcionar.
-                    </p>
-                    <button onClick={() => window.location.reload()} className="btn-primary w-full">
-                        Recargar Página
-                    </button>
-                </div>
-            </div>
-        );
-    }
 
     return (
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 h-[calc(100vh-140px)] flex flex-col">

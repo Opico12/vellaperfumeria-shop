@@ -93,8 +93,8 @@ export const ProductCard: React.FC<{
                 )}
             </div>
 
-            <div className="relative cursor-pointer overflow-hidden bg-gray-50 aspect-[4/5]">
-                <img src={product.imageUrl} alt={product.name} className="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-110" />
+            <div className="relative cursor-pointer overflow-hidden bg-white aspect-[4/5]">
+                <img src={product.imageUrl} alt={product.name} className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110" />
 
                 {/* Hover Overlay Actions */}
                 <div className="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -124,8 +124,9 @@ export const ProductCard: React.FC<{
                         </div>
                     )}
                     <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1 block">{product.brand}</span>
-                    <h3 className="text-sm font-bold text-gray-900 leading-snug line-clamp-2 group-hover:text-black transition-colors mb-2">
-                        {product.name}
+                    {/* Fixed Name Display: Removed line-clamp, forced black color */}
+                    <h3 className="text-sm font-bold text-black leading-snug mb-2 group-hover:text-pink-600 transition-colors">
+                        {product.name || "Producto sin nombre"}
                     </h3>
                     
                      {product.variants?.Tono && (
@@ -138,7 +139,7 @@ export const ProductCard: React.FC<{
                     )}
                 </div>
                 
-                {/* Price & Basket Area - Designed to look like "names in little baskets" */}
+                {/* Price & Basket Area */}
                 <div className="mt-3 flex items-end justify-between gap-2 pt-3 border-t border-gray-50">
                     <div className="flex flex-col">
                          {isDiscounted && (

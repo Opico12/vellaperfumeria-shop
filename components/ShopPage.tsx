@@ -1,6 +1,7 @@
+
 import React, { useState, useMemo, useEffect } from 'react';
 import { ProductCard } from './ProductCard';
-import type { Product } from './types';
+import type { Product, VariantOption } from './types';
 import type { Currency } from './currency';
 import { allProducts } from './products';
 
@@ -68,94 +69,158 @@ const ShopPage: React.FC<{
     };
 
     const handleDownloadCSV = () => {
-        // Headers estándar para importación de productos en WooCommerce
+        // Headers oficiales de WooCommerce para importación
         const headers = [
-            "ID", "Type", "SKU", "Name", "Published", "Is featured?", "Visibility in catalog", 
-            "Short description", "Description", "Date sale price starts", "Date sale price ends", 
-            "Tax status", "Tax class", "In stock?", "Stock", "Low stock amount", 
-            "Backorders allowed?", "Sold individually?", "Weight (kg)", "Length (cm)", "Width (cm)", 
-            "Height (cm)", "Allow customer reviews?", "Purchase note", "Sale price", "Regular price", 
-            "Categories", "Tags", "Shipping class", "Images", "Download limit", "Download expiry days", 
-            "Parent", "Grouped products", "Upsells", "Cross-sells", "External URL", "Button text", 
-            "Position", "Attribute 1 name", "Attribute 1 value(s)"
+            "ID", 
+            "Type", 
+            "SKU", 
+            "Name", 
+            "Published", 
+            "Is featured?", 
+            "Visibility in catalog", 
+            "Short description", 
+            "Description", 
+            "Date sale price starts", 
+            "Date sale price ends", 
+            "Tax status", 
+            "Tax class", 
+            "In stock?", 
+            "Stock", 
+            "Low stock amount", 
+            "Backorders allowed?", 
+            "Sold individually?", 
+            "Weight (kg)", 
+            "Length (cm)", 
+            "Width (cm)", 
+            "Height (cm)", 
+            "Allow customer reviews?", 
+            "Purchase note", 
+            "Sale price", 
+            "Regular price", 
+            "Categories", 
+            "Tags", 
+            "Shipping class", 
+            "Images", 
+            "Download limit", 
+            "Download expiry days", 
+            "Parent", 
+            "Grouped products", 
+            "Upsells", 
+            "Cross-sells", 
+            "External URL", 
+            "Button text", 
+            "Position", 
+            "Attribute 1 name", 
+            "Attribute 1 value(s)", 
+            "Attribute 1 visible", 
+            "Attribute 1 global"
         ];
         
-        // Helper para escapar campos CSV correctamente (Excel friendly)
+        // Función para escapar valores CSV de forma robusta
         const escapeCSV = (value: any) => {
-            if (value === null || value === undefined) return "";
-            const stringValue = String(value);
-            // Si contiene comillas, comas o saltos de línea, encerramos entre comillas y duplicamos las comillas internas
-            if (stringValue.includes('"') || stringValue.includes(',') || stringValue.includes('\n') || stringValue.includes('\r')) {
-                return `"${stringValue.replace(/"/g, '""')}"`;
-            }
-            return stringValue;
+            if (value === null || value === undefined) return '""';
+            let stringValue = String(value);
+            // Reemplazar saltos de línea con espacio
+            stringValue = stringValue.replace(/(\r\n|\n|\r)/gm, " ");
+            // Escapar comillas dobles (reemplazar " por "")
+            stringValue = stringValue.replace(/"/g, '""');
+            // Envolver todo en comillas
+            return `"${stringValue}"`;
         };
 
-        const csvRows = filteredAndSortedProducts.map(p => {
-            // Lógica básica para variantes en WooCommerce (separadas por |)
+        const csvRows = allProducts.map(p => {
+            // Lógica para Variantes (Atributos)
             let attrName = "";
             let attrValues = "";
+            let attrVisible = "";
+            let attrGlobal = "";
+
             if (p.variants) {
                 const keys = Object.keys(p.variants);
                 if (keys.length > 0) {
-                    attrName = keys[0];
+                    attrName = keys[0]; 
                     attrValues = p.variants[attrName].map(v => v.value).join(" | ");
+                    attrVisible = "1"; 
+                    attrGlobal = "1"; 
                 }
             }
 
+            // Imágenes
+            const images = [p.imageUrl];
+            if (p.variants) {
+                (Object.values(p.variants) as VariantOption[][]).forEach(options => {
+                    options.forEach(opt => {
+                        if (opt.imageUrl && !images.includes(opt.imageUrl)) {
+                            images.push(opt.imageUrl);
+                        }
+                    });
+                });
+            }
+            const imagesString = images.join(", "); 
+
+            const priceFormatted = p.price.toFixed(2);
+            const regularPriceFormatted = p.regularPrice ? p.regularPrice.toFixed(2) : "";
+            const categoryName = categories.find(c => c.key === p.category)?.name || p.category;
+            const productName = p.name || "Producto sin nombre";
+
             return [
                 escapeCSV(p.id),
-                escapeCSV("simple"),
-                escapeCSV(""), // SKU
-                escapeCSV(p.name),
+                escapeCSV("simple"), 
+                escapeCSV(`SKU-${p.id}`), 
+                escapeCSV(productName),
                 escapeCSV(1), // Published
                 escapeCSV(0), // Is featured?
                 escapeCSV("visible"),
-                escapeCSV(p.brand), // Short description
+                escapeCSV(p.description.substring(0, 150) + "..."), // Short description
                 escapeCSV(p.description), // Description
-                escapeCSV(""), // Date sale price starts
-                escapeCSV(""),
+                escapeCSV(""), 
+                escapeCSV(""), 
                 escapeCSV("taxable"),
-                escapeCSV(""), // Tax class
+                escapeCSV(""), 
                 escapeCSV(1), // In stock
                 escapeCSV(p.stock),
-                escapeCSV(""), // Low stock amount
-                escapeCSV(0), // Backorders
-                escapeCSV(0), // Sold individually
-                escapeCSV(""), // Weight
-                escapeCSV(""), // Dimensions
+                escapeCSV(""), 
+                escapeCSV(0), 
+                escapeCSV(0), 
+                escapeCSV(""), 
+                escapeCSV(""), 
+                escapeCSV(""), 
+                escapeCSV(""), 
+                escapeCSV(1), // Reviews allowed
+                escapeCSV(""), 
+                escapeCSV(priceFormatted), // Sale price
+                escapeCSV(regularPriceFormatted), // Regular price
+                escapeCSV(categoryName), 
+                escapeCSV(p.tag || ""), 
+                escapeCSV(""), 
+                escapeCSV(imagesString), // Images
+                escapeCSV(""), 
                 escapeCSV(""),
-                escapeCSV(""),
-                escapeCSV(1), // Reviews
-                escapeCSV(""), // Purchase note
-                escapeCSV(p.price),
-                escapeCSV(p.regularPrice || ""),
-                escapeCSV(p.category),
-                escapeCSV(p.tag || ""),
-                escapeCSV(""), // Shipping class
-                escapeCSV(p.imageUrl), // Images - URL directa
-                escapeCSV(""), // Downloads
-                escapeCSV(""),
-                escapeCSV(""), // Parent
-                escapeCSV(""), // Grouped
-                escapeCSV(""), // Upsells
-                escapeCSV(""), // Cross-sells
-                escapeCSV(""), // External URL
-                escapeCSV(""), // Button text
-                escapeCSV(0), // Position
-                escapeCSV(attrName),
-                escapeCSV(attrValues)
+                escapeCSV(""), 
+                escapeCSV(""), 
+                escapeCSV(""), 
+                escapeCSV(""), 
+                escapeCSV(""), 
+                escapeCSV(""), 
+                escapeCSV(0), 
+                escapeCSV(attrName), 
+                escapeCSV(attrValues), 
+                escapeCSV(attrVisible), 
+                escapeCSV(attrGlobal) 
             ].join(",");
         });
 
-        // BOM para que Excel reconozca UTF-8 correctamente
-        const csvContent = "\uFEFF" + headers.join(",") + "\n" + csvRows.join("\n");
+        // Añadir BOM (\uFEFF) para UTF-8.
+        // Añadir 'sep=,' en la primera línea para forzar a Excel a usar comas como separador.
+        // NOTA: Si vas a importar directamente a WooCommerce, borra la primera línea (sep=,) en un editor de texto si te da error.
+        // Pero esto solucionará el problema de visualización en Excel.
+        const csvContent = "\uFEFFsep=,\n" + headers.join(",") + "\n" + csvRows.join("\n");
 
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.setAttribute("href", url);
-        link.setAttribute("download", `products-${activeCategory}.csv`);
+        link.setAttribute("download", `productos-vellaperfumeria-woocommerce-${new Date().toISOString().slice(0, 10)}.csv`);
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -192,11 +257,11 @@ const ShopPage: React.FC<{
 
                     <button 
                         onClick={handleDownloadCSV}
-                        className="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md transition-colors text-sm font-medium"
-                        title="Descargar Catálogo CSV"
+                        className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md transition-colors text-sm font-bold shadow-sm whitespace-nowrap"
+                        title="Generar archivo CSV compatible con importador de WooCommerce"
                     >
                         <DownloadIcon />
-                        <span className="hidden sm:inline">Exportar CSV</span>
+                        Exportar CSV para WooCommerce
                     </button>
                 </div>
             </div>

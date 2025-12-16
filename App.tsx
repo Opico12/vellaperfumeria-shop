@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, type ErrorInfo, Component, type ReactNode } from 'react';
+import React, { useState, useEffect, useCallback, type ErrorInfo, type ReactNode } from 'react';
 // Types
 import type { View, Product, CartItem } from './components/types';
 import type { Currency } from './components/currency';
@@ -32,14 +32,11 @@ interface ErrorBoundaryState {
 }
 
 // Error Boundary mejorado
-class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
-    constructor(props: ErrorBoundaryProps) {
-        super(props);
-        this.state = {
-            hasError: false,
-            error: null
-        };
-    }
+class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+    public state: ErrorBoundaryState = {
+        hasError: false,
+        error: null
+    };
 
     static getDerivedStateFromError(error: Error): ErrorBoundaryState {
         return { hasError: true, error };
