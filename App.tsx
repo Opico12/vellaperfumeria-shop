@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useCallback, type ErrorInfo, type ReactNode } from 'react';
+
+
+import React, { Component, useState, useEffect, useCallback, type ErrorInfo, type ReactNode } from 'react';
 // Types
 import type { View, Product, CartItem } from './components/types';
 import type { Currency } from './components/currency';
@@ -32,11 +34,15 @@ interface ErrorBoundaryState {
 }
 
 // Error Boundary mejorado
+// Fix: Using React.Component explicitly to ensure proper type inheritance for state and props in the environment
 class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
-    public state: ErrorBoundaryState = {
-        hasError: false,
-        error: null
-    };
+    constructor(props: ErrorBoundaryProps) {
+        super(props);
+        this.state = {
+            hasError: false,
+            error: null
+        };
+    }
 
     static getDerivedStateFromError(error: Error): ErrorBoundaryState {
         return { hasError: true, error };
@@ -47,6 +53,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
     }
 
     render() {
+        // Fix: accessing this.state which is now correctly recognized due to React.Component inheritance
         if (this.state.hasError) {
             return (
                 <div className="flex flex-col items-center justify-center min-h-screen bg-pink-50 text-center p-4">
@@ -54,6 +61,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
                         <h1 className="text-2xl font-bold text-pink-600 mb-2">¡Vaya! Algo salió mal</h1>
                         <p className="text-gray-600 mb-6 text-sm">Hemos tenido un problema técnico cargando la tienda.</p>
                         <div className="bg-gray-100 p-3 rounded text-xs text-left text-gray-700 font-mono mb-6 overflow-auto max-h-32">
+                            {/* Fix: accessing inherited state property error */}
                             {this.state.error?.message || 'Error desconocido'}
                         </div>
                         <button 
@@ -66,6 +74,8 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
                 </div>
             );
         }
+        
+        // Fix: accessing this.props.children which is now correctly recognized
         return this.props.children;
     }
 }

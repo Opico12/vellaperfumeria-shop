@@ -38,9 +38,8 @@ const ProductList: React.FC<{
     const [isLoadingMore, setIsLoadingMore] = useState(false);
     const totalProducts = 177;
 
-    // Categorías para el menú de pestañas horizontal
     const quickCategories = [
-        { id: 'ofertas', label: 'Solo las mejores ofertas' },
+        { id: 'ofertas', label: 'Especial Enero -50%' },
         { id: 'skincare', label: 'Cuidado Facial' },
         { id: 'makeup', label: 'Maquillaje' },
         { id: 'perfume', label: 'Fragancias' },
@@ -48,16 +47,15 @@ const ProductList: React.FC<{
         { id: 'hair', label: 'Cabello' },
     ];
 
-    // Base layout structure
     const initialMixedContent: MixedItem[] = [
         { type: 'product', id: 47188 },
         { type: 'product', id: 47977 },
         {
             type: 'banner-image',
-            image: "https://media-cdn.oriflame.com/contentImage?externalMediaId=89efb747-b19f-4e77-a3b9-5aa87b51f223&name=1_Promo_split_double_gifts&inputFormat=jpg",
-            title: "Selección de productos de belleza para iluminar las Fiestas de Navidad",
-            buttonText: "COMPRAR REGALOS",
-            link: "ofertas",
+            image: "https://media-cdn.oriflame.com/contentImage?externalMediaId=78093358-84b4-48bc-b818-814071e28cf5&name=2x1_TheOne_Split_970x450&inputFormat=jpg",
+            title: "Maquillaje THE ONE con hasta 50% dto. ¡Solo Online!",
+            buttonText: "VER OFERTA THE ONE",
+            link: "products",
             colSpan: 2
         },
         { type: 'product', id: 48650 },
@@ -65,17 +63,17 @@ const ProductList: React.FC<{
         { type: 'product', id: 46134 },
         {
             type: 'banner-text',
-            title: "Experimenta con maquillaje virtual en tiempo real",
+            title: "Prueba el maquillaje virtual de Vellaperfumeria",
             buttonText: "PROBAR AHORA",
             link: "ia"
         },
         { type: 'banner-video', src: "https://media-cdn.oriflame.com/static-media-web/0fa45d91-4c57-41ab-957e-9404e87544d8?mimeType=video%2fmp4" },
         {
             type: 'banner-image',
-            image: "https://media-cdn.oriflame.com/contentImage?externalMediaId=179aab29-b41b-4e67-af6d-927cf4656de4&name=2_Promo_split_double_gifts&inputFormat=jpg",
-            title: "Regalos que deslumbran para todas las fans del maquillaje",
-            buttonText: "COMPRAR AHORA",
-            link: "ofertas",
+            image: "https://media-cdn.oriflame.com/contentImage?externalMediaId=62bf98fd-8dcd-4996-bd59-22cf7c4b47fe&name=2x1_OnColour_Split_970x450&inputFormat=jpg",
+            title: "Selección OnColour: Hasta -50% hasta el 6 de Enero",
+            buttonText: "COMPRAR ONCOLOUR",
+            link: "products",
             colSpan: 2
         },
         { type: 'product', id: 46901 },
@@ -83,9 +81,9 @@ const ProductList: React.FC<{
         { type: 'product', id: 48039 },
         {
             type: 'banner-text',
-            title: "Convierte tu regalo de belleza en un momento de alegría.",
-            buttonText: "AÑADE CAJITA DE REGALO",
-            link: "ofertas"
+            title: "¿Buscas consejo personalizado de belleza?",
+            buttonText: "HABLAR CON IA",
+            link: "ia"
         },
         { type: 'banner-video', src: "https://media-cdn.oriflame.com/static-media-web/0c22a307-2248-4454-8c99-59a059540721?mimeType=video%2fmp4" },
         { type: 'product', id: 46888 },
@@ -114,26 +112,19 @@ const ProductList: React.FC<{
         { type: 'product', id: 38991 },
     ];
 
-    // Function to generate more content based on visibleCount
     const getVisibleContent = () => {
         const content = [...initialMixedContent];
-        
-        // If we want more than the initial set, we add products from allProducts cyclically
         if (visibleCount > initialMixedContent.length) {
             const extraCount = visibleCount - initialMixedContent.length;
             let added = 0;
             let i = 0;
-            
             while (added < extraCount) {
                 const product = allProducts[i % allProducts.length];
-                // Only add if not already in the list to avoid immediate dupes next to each other
-                // ideally, but for simulation, cycling is fine
                 content.push({ type: 'product', id: product.id });
                 added++;
                 i++;
             }
         }
-        
         return content;
     };
 
@@ -145,7 +136,7 @@ const ProductList: React.FC<{
         setTimeout(() => {
             setVisibleCount(prev => Math.min(prev + 16, totalProducts));
             setIsLoadingMore(false);
-        }, 800); // Simulate network delay
+        }, 800);
     };
 
     const handleClickLink = (link: string) => {
@@ -157,7 +148,6 @@ const ProductList: React.FC<{
     return (
         <div className="bg-white pb-12">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                {/* 1. Breadcrumbs & Title */}
                 <div className="pt-4 pb-4">
                     <Breadcrumbs items={[
                         { label: 'Inicio', onClick: () => onNavigate('home') },
@@ -165,11 +155,10 @@ const ProductList: React.FC<{
                     ]} />
                     
                     <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 mt-2 font-serif tracking-tight">
-                        Maquillaje
+                        Especial Maquillaje -50%
                     </h1>
                 </div>
 
-                {/* 2. Category Bar */}
                 <div className="relative mb-6 border-b border-gray-200">
                     <div className="flex overflow-x-auto gap-6 pb-1 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
                         {quickCategories.map((cat, index) => (
@@ -177,8 +166,8 @@ const ProductList: React.FC<{
                                 key={cat.id}
                                 onClick={() => onNavigate('products', cat.id === 'ofertas' ? 'all' : cat.id)}
                                 className={`whitespace-nowrap pb-3 text-sm font-medium border-b-2 transition-colors duration-200 ${
-                                    index === 2 
-                                    ? 'border-black text-black' 
+                                    index === 0 
+                                    ? 'border-brand-primary text-brand-primary' 
                                     : 'border-transparent text-gray-500 hover:text-black hover:border-gray-300'
                                 }`}
                             >
@@ -188,7 +177,6 @@ const ProductList: React.FC<{
                     </div>
                 </div>
 
-                {/* 3. Action Bar (Filter, Sort, Count) */}
                 <div className="flex flex-col sm:flex-row justify-between items-center py-4 mb-6 border-b border-gray-100">
                     <div className="flex items-center gap-6 w-full sm:w-auto">
                         <button className="flex items-center gap-2 text-gray-800 hover:text-black transition-colors group">
@@ -201,11 +189,10 @@ const ProductList: React.FC<{
                         </button>
                     </div>
                     <div className="mt-4 sm:mt-0 text-sm text-gray-500 font-medium">
-                        {totalProducts} productos
+                        {totalProducts} productos disponibles
                     </div>
                 </div>
 
-                {/* 4. Mixed Content Grid */}
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
                     {mixedContent.map((item, index) => {
                         if (item.type === 'banner-image') {
@@ -223,9 +210,9 @@ const ProductList: React.FC<{
                                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                         />
                                     </div>
-                                    <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/70 via-black/40 to-transparent text-white text-center flex flex-col items-center">
+                                    <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 via-black/40 to-transparent text-white text-center flex flex-col items-center">
                                         <h3 className="text-xl font-bold mb-3 leading-tight drop-shadow-md">{item.title}</h3>
-                                        <button className="text-xs font-bold uppercase tracking-widest border-b border-white pb-1 hover:text-gray-200 transition-colors">
+                                        <button className="text-[10px] font-bold uppercase tracking-[0.2em] border-b-2 border-brand-primary pb-1 hover:text-brand-primary transition-colors">
                                             {item.buttonText}
                                         </button>
                                     </div>
@@ -235,11 +222,11 @@ const ProductList: React.FC<{
                             return (
                                 <div 
                                     key={`banner-txt-${index}`} 
-                                    className="relative flex flex-col justify-center items-center text-center p-6 bg-[#f9f3f1] cursor-pointer group col-span-1 h-full animate-fade-in"
+                                    className="relative flex flex-col justify-center items-center text-center p-6 bg-gray-50 border border-gray-100 cursor-pointer group col-span-1 h-full animate-fade-in"
                                     onClick={() => handleClickLink(item.link)}
                                 >
                                     <h3 className="text-xl font-serif text-gray-900 mb-6 leading-snug">{item.title}</h3>
-                                    <button className="text-xs font-bold uppercase tracking-widest border-b border-black pb-1 hover:opacity-70 transition-opacity">
+                                    <button className="text-[10px] font-bold uppercase tracking-[0.2em] border-b-2 border-black pb-1 hover:text-brand-primary hover:border-brand-primary transition-all">
                                         {item.buttonText}
                                     </button>
                                 </div>
@@ -252,7 +239,7 @@ const ProductList: React.FC<{
                                         muted 
                                         loop 
                                         playsInline 
-                                        className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+                                        className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
                                         src={item.src}
                                     />
                                 </div>
@@ -278,7 +265,6 @@ const ProductList: React.FC<{
                     })}
                 </div>
 
-                {/* 5. Pagination / Load More */}
                 {visibleCount < totalProducts && (
                     <div className="mt-16 flex flex-col items-center justify-center max-w-md mx-auto text-center">
                         <p className="text-gray-600 mb-4 font-medium">Mostrando {visibleCount} de {totalProducts} productos</p>
@@ -299,30 +285,18 @@ const ProductList: React.FC<{
                                     Cargando...
                                 </>
                             ) : (
-                                'Mostrar más'
+                                'Mostrar más productos'
                             )}
                         </button>
                     </div>
                 )}
-
-                <div className="mt-12 border-t border-gray-200 pt-8"></div>
             </div>
             
             <style>{`
-                .scrollbar-hide::-webkit-scrollbar {
-                    display: none;
-                }
-                .scrollbar-hide {
-                    -ms-overflow-style: none;
-                    scrollbar-width: none;
-                }
-                @keyframes fadeIn {
-                    from { opacity: 0; transform: translateY(10px); }
-                    to { opacity: 1; transform: translateY(0); }
-                }
-                .animate-fade-in {
-                    animation: fadeIn 0.5s ease-out forwards;
-                }
+                .scrollbar-hide::-webkit-scrollbar { display: none; }
+                .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+                @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+                .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
             `}</style>
         </div>
     );
