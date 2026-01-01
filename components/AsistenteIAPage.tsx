@@ -1,7 +1,6 @@
 
-
 import React, { useState, useRef, useEffect } from 'react';
-import { GoogleGenAI, type GenerateContentResponse } from "@google/genai";
+import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
 
 interface Message {
     role: 'user' | 'model';
@@ -39,6 +38,9 @@ const AsistenteIAPage: React.FC = () => {
         if (!messageText.trim() || isProcessing) return;
         
         const userMessage: Message = { role: 'user', text: messageText };
+        // Capture current messages to reconstruct history before updating local state
+        const previousMessages = [...messages];
+        
         // We add the user message and an empty model message to the UI state immediately
         setMessages(prev => [...prev, userMessage, { role: 'model', text: '' }]);
         setInput('');
@@ -49,28 +51,22 @@ const AsistenteIAPage: React.FC = () => {
             // Fix: Initializing GoogleGenAI right before the API call as per guidelines
             const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
             
-            // Reconstructing history from previous messages (excluding the last two we just added)
-            // roles for Gemini API are 'user' and 'model'
-            const history = messages.map(m => ({
+            // Reconstructing history from previous messages for context
+            const history = previousMessages.map(m => ({
                 role: m.role,
                 parts: [{ text: m.text }]
             }));
 
-            // Fix: Using correct model name and following chat creation pattern
+            // Fix: Using correct model name and passing history for context
             const chat = ai.chats.create({
                 model: 'gemini-3-flash-preview',
+                history: history,
                 config: {
                     systemInstruction: 'Eres un asistente de belleza personal y experto de la tienda online "Vellaperfumeria". Tu misión es doble: 1) Ayudar a los clientes a encontrar productos perfectos del catálogo de Oriflame. 2) Recibir y agradecer cualquier SUGERENCIA o feedback que tengan para la tienda. Sé amable, servicial y utiliza un tono cercano, "rosa" y positivo. Si preguntan por productos, ofrece recomendaciones personalizadas. Si dan una sugerencia, agradécela efusivamente y diles que se tendrá en cuenta para mejorar. Bajo ninguna circunstancia menciones marcas de la competencia. Céntrate exclusivamente en Vellaperfumeria.',
                 },
-                // Note: The history can be passed here to initialize the chat state
-                // However, many SDK versions might use 'contents' for initialization in generateContent,
-                // for chats specifically, it usually is managed by the chat instance.
             });
 
-            // Note: If initialization with history is needed via create, it might look like this:
-            // But if we want to follow the strict provided snippet which doesn't show history in create,
-            // we'll assume the model is stateless for this request or the history is handled via previous turns.
-            // Since we're recreating the chat instance, we'll send the prompt.
+            // Fix: Correct call to sendMessageStream as per Gemini SDK
             const responseStream = await chat.sendMessageStream({ message: messageText });
 
             for await (const chunk of responseStream) {
