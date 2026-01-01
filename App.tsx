@@ -1,4 +1,5 @@
 
+
 import React, { Component, useState, useEffect, useCallback, type ErrorInfo, type ReactNode } from 'react';
 // Types
 import type { View, Product, CartItem } from './components/types';
@@ -33,7 +34,7 @@ interface ErrorBoundaryState {
 }
 
 // Error Boundary mejorado
-// Fix: Use named Component import to resolve inheritance issues in the environment
+// Fix: Use explicit Component extension from react to ensure 'state' and 'props' are correctly inherited and recognized by the compiler
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     constructor(props: ErrorBoundaryProps) {
         super(props);

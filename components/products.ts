@@ -91,7 +91,47 @@ export const allProducts: Product[] = [
         reviewCount: 548
     },
 
-    // --- LÍNEA MILK & HONEY GOLD (Catálogo Nuevo) ---
+    // --- CUIDADO BUCAL (Catálogo 2026) ---
+    {
+        id: 49135,
+        name: "Cepillo de Dientes para Niños Suave Optifresh",
+        brand: "Optifresh",
+        price: 2.15,
+        regularPrice: 5.00,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F49135%2F49135_1.png",
+        description: "Filamentos de dureza suave diseñados especialmente para la boca de los más pequeños.",
+        stock: 400,
+        category: "personal-care",
+        tag: "NOVEDAD",
+        rating: 4.8,
+        reviewCount: 12
+    },
+    {
+        id: 44952,
+        name: "Pasta de Dientes Máxima Frescura Optifresh",
+        brand: "Optifresh",
+        price: 7.70,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F44952%2F44952_1.png",
+        description: "Frescura intensa y protección anticaries para una sonrisa saludable.",
+        stock: 500,
+        category: "personal-care",
+        rating: 4.8,
+        reviewCount: 1350
+    },
+    {
+        id: 44954,
+        name: "Pasta de Dientes Suave Fresa para Niños",
+        brand: "Optifresh",
+        price: 4.24,
+        imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F44954%2F44954_1.png",
+        description: "Con delicioso sabor a fresa y nivel óptimo de flúor para dientes de leche.",
+        stock: 350,
+        category: "personal-care",
+        rating: 4.8,
+        reviewCount: 995
+    },
+
+    // --- LÍNEA MILK & HONEY GOLD ---
     {
         id: 47697,
         name: "Champú Nutritivo Milk & Honey Gold",

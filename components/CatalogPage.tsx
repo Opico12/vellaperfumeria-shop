@@ -44,8 +44,8 @@ const CatalogPage: React.FC<CatalogPageProps> = ({ onAddToCart, onQuickAddToCart
         <div className="w-full px-4 py-8 bg-gray-50 min-h-screen">
             <div className="container mx-auto max-w-7xl flex flex-col lg:flex-row gap-10">
                 
-                {/* Visualizador de Catálogo */}
-                <div className="flex-grow">
+                {/* Visualizador de Catálogo - FULL PAGE en móvil */}
+                <div className="flex-grow w-full">
                     <div className="mb-6 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
                         <div>
                             <h1 className="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-2">Catálogo Interactivo 2026</h1>
@@ -62,20 +62,21 @@ const CatalogPage: React.FC<CatalogPageProps> = ({ onAddToCart, onQuickAddToCart
                         </a>
                     </div>
                     
-                    <div className="bg-white rounded-[2rem] shadow-2xl overflow-hidden border border-gray-100 aspect-[4/3] md:aspect-[16/9] relative group">
+                    {/* Contenedor del Catálogo: h-[80vh] en móvil para ocupar toda la página */}
+                    <div className="bg-white rounded-[2rem] shadow-2xl overflow-hidden border border-gray-100 h-[80vh] md:h-auto md:aspect-[16/9] relative group">
                         {!isCatalogLoaded ? (
                             <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center bg-gradient-to-br from-white via-pink-50/30 to-gray-50">
                                 <div className="w-40 h-56 bg-white rounded-xl shadow-xl mb-8 flex items-center justify-center border-4 border-pink-100 transform -rotate-3 group-hover:rotate-0 transition-transform duration-500 overflow-hidden">
                                     <img src="https://cdn.ipaper.io/iPaper/Papers/0ae94f9f-dbf1-41ce-8890-85ef3c56310d/Pages/1/Zoom.jpg" className="w-full h-full object-cover opacity-80" alt="Cover" />
                                 </div>
-                                <h3 className="text-2xl font-bold mb-4 text-gray-800">Visualizador Oficial de Oriflame</h3>
-                                <p className="text-gray-500 max-w-sm mb-10 text-sm leading-relaxed">Si el navegador bloquea la conexión por seguridad, pulsa el botón negro de arriba para abrirlo externamente.</p>
+                                <h3 className="text-2xl font-bold mb-4 text-gray-800">Visualizador Oficial</h3>
+                                <p className="text-gray-500 max-w-sm mb-10 text-sm leading-relaxed">Cargando la mejor cosmética de Oriflame...</p>
                                 
                                 <button 
                                     onClick={() => setIsCatalogLoaded(true)}
                                     className="bg-brand-primary text-white font-bold py-4 px-12 rounded-full hover:bg-pink-600 transition-all shadow-xl hover:-translate-y-1 active:scale-95"
                                 >
-                                    CARGAR CATÁLOGO AQUÍ
+                                    ABRIR CATÁLOGO
                                 </button>
                             </div>
                         ) : (
@@ -134,15 +135,6 @@ const CatalogPage: React.FC<CatalogPageProps> = ({ onAddToCart, onQuickAddToCart
                                 </p>
                             </div>
                         )}
-
-                        <div className="mt-12 pt-8 border-t border-gray-100 flex flex-col items-center">
-                            <p className="text-[10px] uppercase tracking-[0.3em] text-gray-300 mb-6 font-bold">Pagos Seguros Garantizados</p>
-                            <div className="flex gap-6 opacity-30 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500">
-                                <span className="text-3xl">💳</span>
-                                <span className="text-3xl">🅿️</span>
-                                <span className="text-3xl">🏦</span>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

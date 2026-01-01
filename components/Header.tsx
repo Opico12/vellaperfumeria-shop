@@ -1,7 +1,9 @@
 
 import React, { useState } from 'react';
-import type { View } from './types';
+import type { View, Product } from './types';
 import type { Currency } from './currency';
+import { formatCurrency } from './currency';
+import { allProducts } from './products';
 
 // --- ICONS ---
 const SearchIcon = () => (
@@ -24,131 +26,29 @@ const CartIcon = () => (
 
 const MenuIcon = () => (
     <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
     </svg>
 );
 
-const CloseIcon = () => (
-    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-    </svg>
+const FilterIcon = () => (
+    <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium w-5 h-5 mr-2" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M9.437 7a2 2 0 0 1-3.874 0H4.5a.5.5 0 0 1 0-1h1.063a2 2 0 0 1 3.874 0H19.5a.5.5 0 0 1 0 1zM6.5 6.5a1 1 0 1 0 2 0 1 1 0 0 0-2 0m11.937 5H19.5a.5.5 0 0 1 0 1h-1.063a2 2 0 0 1-3.874 0H4.5a.5.5 0 0 1 0-1h10.063a2 2 0 0 1 3.874 0m-.937.5a1 1 0 1 0-2 0 1 1 0 0 0 2 0m-6.063 5H19.5a.5.5 0 0 1 0 1h-8.063a2 2 0 0 1-3.874 0H4.5a.5.5 0 0 1 0-1h3.063a2 2 0 0 1 3.874 0m-.937.5a1 1 0 1 0-2 0 1 1 0 0 0 2 0" fill="currentColor"></path></svg>
 );
 
-// --- MEGA MENU DATA ---
-interface SubCategory {
-    name: string;
-    link: string;
-    payload?: any;
-}
+const SortIcon = () => (
+    <svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium w-5 h-5 mr-2" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M3.5 6a.5.5 0 0 0 0 1h10a.5.5 0 0 0 0-1zm0 5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1zm0 5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1zM19 6.5a.5.5 0 0 0-1 0v9.793l-2.146-2.147a.5.5 0 0 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L19 16.293z" fill="currentColor"></path></svg>
+);
 
-interface MenuSection {
-    title: string;
-    items: SubCategory[];
-}
+const StarIcon: React.FC<{ filled: boolean }> = ({ filled }) => (
+    <svg className={`w-3 h-3 ${filled ? 'text-amber-400' : 'text-gray-600'}`} focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="m14.494 8.18-1.468-3.8c-.362-.938-1.69-.938-2.052 0l-1.468 3.8a1 1 0 0 1-.774.627l-4.152.667c-.968.156-1.264 1.405-.469 1.979l3.041 2.192a1 1 0 0 1 .392 1.027l-.961 4.345c-.222 1.001.925 1.734 1.74 1.113l3.07-2.34a1 1 0 0 1 1.213 0l3.07 2.34c.816.621 1.963-.112 1.741-1.113l-.96-4.345a1 1 0 0 1 .39-1.027l3.042-2.192c.795-.574.5-1.823-.47-1.979l-4.151-.667a1 1 0 0 1-.774-.627" fill="currentColor"></path></svg>
+);
 
-interface MegaMenuCategory {
-    label: string;
-    sections: MenuSection[];
-    promoImage: string;
-    promoText: string;
-}
+const HeartIcon = () => (
+    <svg className="w-5 h-5" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="m12 20.5-.243.437-.002-.001-.006-.003-.021-.012-.08-.046-.293-.173a29 29 0 0 1-4.187-3.078C4.906 15.613 2.5 12.734 2.5 9.5c0-1.6.468-2.875 1.242-3.796A4.67 4.67 0 0 1 6.68 4.092c1.947-.28 4.088.582 5.321 2.528 1.233-1.946 3.374-2.809 5.321-2.528a4.67 4.67 0 0 1 2.937 1.612C21.032 6.624 21.5 7.9 21.5 9.5c0 3.233-2.406 6.113-4.668 8.124a29 29 0 0 1-4.531 3.28l-.029.017-.02.012-.007.003h-.001s-.001.001-.244-.436M4.508 6.348C3.907 7.063 3.5 8.1 3.5 9.5c0 2.767 2.094 5.387 4.332 7.376A28 28 0 0 0 12 19.922l.129-.077a28 28 0 0 0 4.04-2.97C18.406 14.887 20.5 12.267 20.5 9.5c0-1.4-.407-2.437-1.008-3.152a3.67 3.67 0 0 0-2.313-1.266c-1.781-.257-3.81.675-4.719 2.808L12 8.97l-.46-1.08c-.909-2.133-2.938-3.065-4.719-2.808a3.67 3.67 0 0 0-2.313 1.266M12 20.5l.244.437a.5.5 0 0 1-.487 0z" fill="currentColor"></path></svg>
+);
 
-const megaMenuData: Record<string, MegaMenuCategory> = {
-    'MAQUILLAJE': {
-        label: 'Maquillaje',
-        promoImage: 'https://media-cdn.oriflame.com/contentImage?externalMediaId=e6a950aa-3fef-457c-bcbf-1058993497d0&name=3_Promo_split_GiftSets_600x450&inputFormat=jpg',
-        promoText: 'Descubre THE ONE Enero',
-        sections: [
-            {
-                title: 'Rostro',
-                items: [
-                    { name: 'Bases y BB Creams', link: 'products', payload: 'makeup' },
-                    { name: 'Correctores', link: 'products', payload: 'makeup' },
-                    { name: 'Polvos y Fijadores', link: 'products', payload: 'makeup' },
-                    { name: 'Coloretes', link: 'products', payload: 'makeup' },
-                ]
-            },
-            {
-                title: 'Ojos y Labios',
-                items: [
-                    { name: 'Máscaras de Pestañas', link: 'products', payload: 'makeup' },
-                    { name: 'Delineadores', link: 'products', payload: 'makeup' },
-                    { name: 'Sombras de Ojos', link: 'products', payload: 'makeup' },
-                    { name: 'Barras de Labios', link: 'products', payload: 'makeup' },
-                ]
-            },
-            {
-                title: 'Por Marca',
-                items: [
-                    { name: 'Giordani Gold Luxury', link: 'products', payload: 'makeup' },
-                    { name: 'THE ONE Performance', link: 'products', payload: 'makeup' },
-                    { name: 'OnColour Pop', link: 'products', payload: 'makeup' },
-                ]
-            }
-        ]
-    },
-    'TRATAMIENTOS': {
-        label: 'Cuidado Facial',
-        promoImage: 'https://media-cdn.oriflame.com/contentImage?externalMediaId=6efc6ae1-0a1d-4df6-97f8-d785fa0c0476&name=5_Promo_split_Novage_600x450&inputFormat=jpg',
-        promoText: 'Sistemas Novage+ 2026',
-        sections: [
-            {
-                title: 'Rutinas Completas',
-                items: [
-                    { name: 'Novage+ Antiedad', link: 'products', payload: 'skincare' },
-                    { name: 'Optimals Hidratación', link: 'products', payload: 'skincare' },
-                    { name: 'Love Nature Eco', link: 'products', payload: 'skincare' },
-                ]
-            },
-            {
-                title: 'Específicos',
-                items: [
-                    { name: 'Limpiadores y Tónicos', link: 'products', payload: 'skincare' },
-                    { name: 'Serums y Tratamientos', link: 'products', payload: 'skincare' },
-                    { name: 'Contorno de Ojos', link: 'products', payload: 'skincare' },
-                ]
-            },
-            {
-                title: 'Cuidado Corporal',
-                items: [
-                    { name: 'Milk & Honey Gold', link: 'products', payload: 'personal-care' },
-                    { name: 'Essense & Co', link: 'products', payload: 'personal-care' },
-                    { name: 'Cuidado de Manos', link: 'products', payload: 'personal-care' },
-                ]
-            }
-        ]
-    },
-    'FRAGANCIAS': {
-        label: 'Fragancias',
-        promoImage: 'https://media-cdn.oriflame.com/contentImage?externalMediaId=36924433-3518-4215-a3be-a4ab341f18a1&name=FRA_01&inputFormat=jpg',
-        promoText: 'Tu esencia ideal',
-        sections: [
-            {
-                title: 'Mujer',
-                items: [
-                    { name: 'Parfums Premium', link: 'products', payload: 'perfume' },
-                    { name: 'Eau de Parfum', link: 'products', payload: 'perfume' },
-                    { name: 'Brumas Corporales', link: 'products', payload: 'perfume' },
-                ]
-            },
-            {
-                title: 'Hombre',
-                items: [
-                    { name: 'Eau de Toilette', link: 'products', payload: 'perfume' },
-                    { name: 'Sets de Regalo', link: 'products', payload: 'perfume' },
-                    { name: 'Cuidado Personal', link: 'products', payload: 'men' },
-                ]
-            },
-            {
-                title: 'Especiales',
-                items: [
-                    { name: 'Best Sellers', link: 'products', payload: 'perfume' },
-                    { name: 'Novedades 2026', link: 'products', payload: 'perfume' },
-                ]
-            }
-        ]
-    }
-};
+const QuickBuyIcon = () => (
+    <svg className="w-5 h-5" focusable="false" aria-hidden="true" viewBox="0 0 24 24"><path d="M6.434 9H4.5a1.5 1.5 0 0 0-1.486 1.703l1.227 9A1.5 1.5 0 0 0 5.728 21h12.254a1.5 1.5 0 0 0 1.486-1.297l1.227-9A1.5 1.5 0 0 0 19.21 9h-1.933c-.087-2.548-.848-4.078-1.933-4.96C14.208 3.118 12.826 3 11.855 3c-.975 0-2.355.126-3.49 1.051C7.282 4.936 6.521 6.464 6.434 9m1 0c.086-2.329.778-3.533 1.564-4.174.858-.7 1.942-.826 2.857-.826.917 0 2 .12 2.857.817.785.637 1.477 1.84 1.563 4.183zm8.868 1 .053 1.448a.5.5 0 0 0 1-.018c0-.528-.013-.987-.037-1.43h1.891a.5.5 0 0 1 .495.568l-1.227 9a.5.5 0 0 1-.495.432H5.728a.5.5 0 0 1-.496-.432l-1.227-9A.5.5 0 0 1 4.5 10h1.905q-.001.372.01.756.009.333.01.674a.5.5 0 1 0 1 0c0-.285-.006-.535-.012-.766-.005-.236-.01-.452-.008-.664z" fill="currentColor"></path></svg>
+);
 
 const Header: React.FC<{
     onNavigate: (view: View, payload?: any) => void;
@@ -157,47 +57,50 @@ const Header: React.FC<{
     cartCount: number;
     onCartClick: () => void;
 }> = ({ onNavigate, currency, onCurrencyChange, cartCount, onCartClick }) => {
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [activeMenu, setActiveMenu] = useState<string | null>(null);
+    const [showMegaMenu, setShowMegaMenu] = useState(false);
+
+    // Seleccionamos los productos específicos del HTML proporcionado para el dropdown
+    const featuredProducts = allProducts.filter(p => [48028, 46801, 47760, 46807].includes(p.id));
 
     return (
-        <header className="relative z-50 bg-white" onMouseLeave={() => setActiveMenu(null)}>
+        <header className="relative z-50 bg-white" onMouseLeave={() => setShowMegaMenu(false)}>
             {/* Promo Top Bar */}
             <div className="bg-pink-50 text-pink-700 py-1.5 px-4 text-[10px] md:text-[11px] font-bold tracking-[0.2em] text-center uppercase border-b border-pink-100">
                 ENVÍO GRATIS EN PEDIDOS +35€ | CALIDAD ORIFLAME GARANTIZADA 🌸
             </div>
 
-            {/* Middle Bar: Logo and Tools */}
-            <div className="container mx-auto px-4 md:px-8 py-3 md:py-4">
+            {/* Main Bar with Centered Logo */}
+            <div className="container mx-auto px-4 md:px-8 py-4">
                 <div className="flex justify-between items-center h-12 md:h-20">
-                    {/* Search & Burger (Mobile) */}
-                    <div className="flex items-center gap-3 flex-1">
-                        <button className="md:hidden p-1.5 text-gray-800" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-                            {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
+                    
+                    {/* Left Side: Burger (mobile) or Search (desktop) */}
+                    <div className="flex-1 flex items-center">
+                        <button className="md:hidden p-2 text-gray-800 hover:text-pink-600 transition-colors" onClick={() => onNavigate('home')}>
+                            <MenuIcon />
                         </button>
-                        <div className="hidden md:flex items-center bg-gray-50 border border-gray-100 rounded-full px-5 py-2 w-72 group focus-within:ring-1 focus-within:ring-pink-400 focus-within:bg-white transition-all shadow-inner">
+                        <div className="hidden md:flex items-center bg-gray-50 border border-gray-100 rounded-full px-5 py-2 w-72 transition-all shadow-inner focus-within:bg-white focus-within:ring-1 focus-within:ring-pink-300">
                             <SearchIcon />
                             <input 
                                 type="text" 
-                                placeholder="¿Qué buscas hoy?" 
-                                className="bg-transparent border-none focus:ring-0 text-sm ml-2 w-full placeholder-gray-400 font-medium"
+                                placeholder="Buscar productos..." 
+                                className="bg-transparent border-none focus:ring-0 text-sm ml-2 w-full"
                             />
                         </div>
                     </div>
 
-                    {/* Central Logo */}
-                    <div className="flex-shrink-0">
+                    {/* Center Side: Logo ALWAYS centered */}
+                    <div className="flex-shrink-0 flex justify-center">
                         <button onClick={() => onNavigate('home')} className="hover:opacity-90 transition-opacity">
                             <img 
                                 src="https://i0.wp.com/vellaperfumeria.com/wp-content/uploads/2025/06/1000003724-removebg-preview.png" 
                                 alt="Vellaperfumeria" 
-                                className="h-12 md:h-20 w-auto" 
+                                className="h-14 md:h-20 w-auto" 
                             />
                         </button>
                     </div>
 
-                    {/* Icons Right */}
-                    <div className="flex items-center justify-end gap-1 md:gap-3 flex-1">
+                    {/* Right Side: Actions */}
+                    <div className="flex items-center justify-end gap-2 md:gap-4 flex-1">
                         <button className="p-2 text-gray-800 hover:text-pink-600 transition-colors hidden sm:block">
                             <UserIcon />
                         </button>
@@ -213,143 +116,140 @@ const Header: React.FC<{
                 </div>
             </div>
 
-            {/* MAIN NAVIGATION BAR (FULL WIDTH BLACK) */}
-            <nav className="hidden md:block bg-black w-full border-t border-gray-900 shadow-xl overflow-visible">
+            {/* FULL WIDTH NAVIGATION BAR (BLACK) */}
+            <nav className="bg-black w-full shadow-xl">
                 <div className="container mx-auto px-4">
                     <ul className="flex justify-center items-center">
                         <li>
                             <button 
                                 onClick={() => onNavigate('home')} 
-                                className="text-white text-[11px] font-bold tracking-[0.3em] uppercase hover:text-pink-400 transition-all px-8 py-5"
+                                className="text-white text-[11px] font-bold tracking-[0.3em] uppercase hover:text-pink-400 transition-all px-6 py-5"
                             >
                                 Inicio
                             </button>
                         </li>
-                        
-                        {Object.keys(megaMenuData).map((key) => (
-                            <li key={key}>
-                                <button 
-                                    onMouseEnter={() => setActiveMenu(key)}
-                                    className={`text-white text-[11px] font-bold tracking-[0.3em] uppercase transition-all px-8 py-5 border-b-2 ${activeMenu === key ? 'border-pink-500 text-pink-400' : 'border-transparent hover:text-pink-300'}`}
-                                >
-                                    {megaMenuData[key].label}
-                                </button>
-                            </li>
-                        ))}
-                        
                         <li>
-                            <button onClick={() => onNavigate('catalog')} className="text-white text-[11px] font-bold tracking-[0.3em] uppercase hover:text-pink-400 transition-all px-8 py-5">
-                                Catálogo 📖
+                            <button 
+                                onMouseEnter={() => setShowMegaMenu(true)}
+                                className={`text-white text-[11px] font-bold tracking-[0.3em] uppercase transition-all px-6 py-5 border-b-2 ${showMegaMenu ? 'border-pink-500 text-pink-400' : 'border-transparent hover:text-pink-300'}`}
+                            >
+                                Tienda
+                            </button>
+                        </li>
+                        <li className="hidden lg:block">
+                            <button onClick={() => onNavigate('catalog')} className="text-white text-[11px] font-bold tracking-[0.3em] uppercase hover:text-pink-400 transition-all px-6 py-5">
+                                Catálogo Digital
                             </button>
                         </li>
                         <li>
-                            <button onClick={() => onNavigate('ofertas')} className="text-pink-400 text-[11px] font-bold tracking-[0.3em] uppercase hover:text-pink-300 transition-all px-8 py-5">
+                            <button onClick={() => onNavigate('ofertas')} className="text-pink-400 text-[11px] font-bold tracking-[0.3em] uppercase hover:text-pink-300 transition-all px-6 py-5">
                                 Ofertas 🔥
                             </button>
                         </li>
                         <li>
-                            <button onClick={() => onNavigate('ia')} className="text-white text-[11px] font-bold tracking-[0.3em] uppercase flex items-center gap-2 px-8 py-5 group">
-                                <span className="text-pink-500 group-hover:animate-pulse">✨</span> IA
+                            <button onClick={() => onNavigate('ia')} className="text-white text-[11px] font-bold tracking-[0.3em] uppercase flex items-center gap-2 px-6 py-5 group">
+                                <span className="text-pink-500 group-hover:animate-pulse">✨</span> IA Beauty
                             </button>
                         </li>
                     </ul>
                 </div>
             </nav>
 
-            {/* MEGA MENU DROPDOWN (VISIBLE BLACK BACKGROUND - FULL WIDTH) */}
-            {activeMenu && megaMenuData[activeMenu] && (
+            {/* MEGA DROPDOWN (FULL WIDTH BLACK) */}
+            {showMegaMenu && (
                 <div 
-                    className="absolute top-full left-0 w-full bg-black text-white shadow-[0_30px_60px_rgba(0,0,0,0.7)] animate-menu-slide origin-top z-50 border-t border-gray-800"
-                    onMouseEnter={() => setActiveMenu(activeMenu)}
-                    onMouseLeave={() => setActiveMenu(null)}
+                    className="absolute top-full left-0 w-full bg-[#0a0a0a] text-white shadow-2xl z-50 border-t border-gray-900 animate-menu-slide origin-top"
+                    onMouseEnter={() => setShowMegaMenu(true)}
                 >
-                    <div className="container mx-auto grid grid-cols-12 gap-10 py-12 px-8">
-                        {/* Categories columns */}
-                        <div className="col-span-8 grid grid-cols-3 gap-8">
-                            {megaMenuData[activeMenu].sections.map((section, idx) => (
-                                <div key={idx} className="space-y-6">
-                                    <h3 className="text-pink-500 font-serif text-lg italic font-bold tracking-widest border-b border-gray-900 pb-2">
-                                        {section.title}
-                                    </h3>
-                                    <ul className="space-y-3">
-                                        {section.items.map((item, i) => (
-                                            <li key={i}>
-                                                <button 
-                                                    onClick={() => {
-                                                        onNavigate(item.link as View, item.payload);
-                                                        setActiveMenu(null);
-                                                    }}
-                                                    className="text-gray-400 hover:text-white hover:translate-x-1 transition-all text-[11px] uppercase tracking-[0.25em] text-left block w-full"
-                                                >
-                                                    {item.name}
-                                                </button>
-                                            </li>
-                                        ))}
-                                    </ul>
+                    <div className="ProductList-root container mx-auto px-8 py-12" data-testid="Presentation-product-list-product-list">
+                        <div className="products-app-emotion-rgisos">
+                            {/* Actions bar inside dropdown */}
+                            <div data-testid="Presentation-product-list-actions-root" className="flex flex-col md:flex-row justify-between items-center mb-10 pb-6 border-b border-gray-800">
+                                <div className="flex gap-8">
+                                    <div data-testid="Presentation-product-list-facet-filter-button" className="flex items-center cursor-pointer hover:text-pink-400 transition-colors group">
+                                        <FilterIcon />
+                                        <p className="text-[12px] font-bold uppercase tracking-widest">Filtrar</p>
+                                    </div>
+                                    <div data-testid="Presentation-product-list-sorting" className="flex items-center cursor-pointer hover:text-pink-400 transition-colors group">
+                                        <SortIcon />
+                                        <p className="text-[12px] font-bold uppercase tracking-widest">Recomendado</p>
+                                    </div>
                                 </div>
-                            ))}
-                        </div>
+                                <div className="mt-4 md:mt-0">
+                                    <p className="text-gray-500 text-[11px] uppercase tracking-widest font-bold" data-testid="Presentation-product-list-items-counter">107 productos disponibles</p>
+                                </div>
+                            </div>
 
-                        {/* Right Promo Box */}
-                        <div className="col-span-4 flex flex-col gap-4">
-                            <div 
-                                className="relative flex-grow group cursor-pointer overflow-hidden rounded-xl border border-gray-800 bg-gray-900" 
-                                onClick={() => { onNavigate('products', 'all'); setActiveMenu(null); }}
-                            >
-                                <img 
-                                    src={megaMenuData[activeMenu].promoImage} 
-                                    alt="Promo" 
-                                    className="w-full h-full object-cover opacity-60 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-6">
-                                    <p className="text-white font-serif italic text-2xl mb-1">{megaMenuData[activeMenu].promoText}</p>
-                                    <p className="text-pink-400 font-bold text-[9px] tracking-[0.3em] uppercase">Ver Colección Completa</p>
+                            {/* Product Grid inside dropdown */}
+                            <div className="products-app-emotion-10sxxhj">
+                                <div data-testid="Presentation-product-list-ContentRows" className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                                    {featuredProducts.map(product => (
+                                        <div key={product.id} className="group relative bg-black/40 p-4 rounded-xl border border-gray-900 hover:border-pink-500/30 transition-all duration-500 cursor-pointer" onClick={() => { onNavigate('productDetail', product); setShowMegaMenu(false); }}>
+                                            <div className="relative aspect-[4/5] overflow-hidden rounded-lg bg-white mb-4">
+                                                <img 
+                                                    alt={product.name} 
+                                                    className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-700" 
+                                                    src={product.imageUrl} 
+                                                />
+                                                {product.tag === 'NOVEDAD' && (
+                                                    <div className="absolute top-2 left-2 bg-pink-600 text-white text-[9px] font-black px-2 py-1 rounded uppercase tracking-tighter">Novedad</div>
+                                                )}
+                                                <div className="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                    <button className="bg-black/80 p-2 rounded-full hover:text-pink-400"><QuickBuyIcon/></button>
+                                                    <button className="bg-black/80 p-2 rounded-full hover:text-red-500"><HeartIcon/></button>
+                                                </div>
+                                            </div>
+                                            
+                                            <div className="space-y-2">
+                                                <div className="flex gap-0.5">
+                                                    {[...Array(5)].map((_, i) => <StarIcon key={i} filled={i < Math.floor(product.rating || 0)} />)}
+                                                    <span className="text-[9px] text-gray-500 ml-1">({product.reviewCount})</span>
+                                                </div>
+                                                <span className="text-[9px] font-black text-pink-500 uppercase tracking-widest">{product.brand}</span>
+                                                <h4 className="text-[11px] font-bold text-gray-200 leading-tight h-8 line-clamp-2">{product.name}</h4>
+                                                <div className="flex items-baseline gap-2">
+                                                    <p className="text-sm font-black text-white">{formatCurrency(product.price, currency)}</p>
+                                                    {product.regularPrice && (
+                                                        <p className="text-[10px] text-gray-600 line-through">{formatCurrency(product.regularPrice, currency)}</p>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
+                            </div>
+                            
+                            {/* Bottom CTA */}
+                            <div className="mt-12 text-center">
+                                <button 
+                                    onClick={() => { onNavigate('products', 'all'); setShowMegaMenu(false); }}
+                                    className="bg-white text-black text-[10px] font-black px-10 py-3.5 rounded-full hover:bg-pink-500 hover:text-white transition-all tracking-[0.2em] uppercase shadow-xl"
+                                >
+                                    Ver todos los productos
+                                </button>
                             </div>
                         </div>
                     </div>
-                    {/* Aesthetic Bottom line */}
-                    <div className="w-full h-px bg-gradient-to-r from-transparent via-pink-600 to-transparent opacity-20"></div>
-                </div>
-            )}
-
-            {/* Mobile Nav Overlay */}
-            {isMobileMenuOpen && (
-                <div className="fixed inset-0 top-[110px] bg-black/98 backdrop-blur-md text-white z-50 p-6 animate-fade-in flex flex-col overflow-y-auto">
-                    <nav className="flex flex-col gap-6 text-xl font-serif tracking-[0.1em] uppercase text-center mt-10">
-                        <button onClick={() => {onNavigate('home'); setIsMobileMenuOpen(false)}} className="hover:text-pink-400 py-3 border-b border-gray-900">Inicio</button>
-                        <button onClick={() => {onNavigate('catalog'); setIsMobileMenuOpen(false)}} className="hover:text-pink-400 py-3 border-b border-gray-900 font-bold">Catálogo 📖</button>
-                        <button onClick={() => {onNavigate('products', 'all'); setIsMobileMenuOpen(false)}} className="hover:text-pink-400 py-3 border-b border-gray-900">Tienda</button>
-                        <button onClick={() => {onNavigate('ofertas'); setIsMobileMenuOpen(false)}} className="text-pink-400 py-3 border-b border-gray-900">Ofertas 🔥</button>
-                        <button onClick={() => {onNavigate('ia'); setIsMobileMenuOpen(false)}} className="text-pink-300 italic py-3">Asistente Virtual ✨</button>
-                    </nav>
-                    <div className="mt-auto py-10 flex flex-col items-center gap-4 border-t border-gray-900">
-                        <p className="text-xs text-gray-500 uppercase tracking-widest">Sigue nuestra belleza</p>
-                        <div className="flex gap-6 text-gray-400">
-                            {/* Simple social icons placeholders */}
-                            <span className="w-6 h-6 rounded-full bg-gray-900"></span>
-                            <span className="w-6 h-6 rounded-full bg-gray-900"></span>
-                            <span className="w-6 h-6 rounded-full bg-gray-900"></span>
-                        </div>
-                    </div>
+                    {/* Aesthetic line */}
+                    <div className="w-full h-px bg-gradient-to-r from-transparent via-pink-500/40 to-transparent"></div>
                 </div>
             )}
 
             <style>{`
                 @keyframes menuSlide {
-                    from { opacity: 0; transform: scaleY(0.9) translateY(-10px); }
-                    to { opacity: 1; transform: scaleY(1) translateY(0); }
+                    from { opacity: 0; transform: scaleY(0.95); }
+                    to { opacity: 1; transform: scaleY(1); }
                 }
                 .animate-menu-slide {
-                    animation: menuSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-                }
-                .animate-pop {
-                    animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                    animation: menuSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
                 }
                 @keyframes pop {
-                    0% { transform: scale(0.5); }
-                    70% { transform: scale(1.2); }
+                    0% { transform: scale(1); }
+                    50% { transform: scale(1.2); }
                     100% { transform: scale(1); }
+                }
+                .animate-pop {
+                    animation: pop 0.3s ease-out;
                 }
             `}</style>
         </header>
