@@ -1,5 +1,5 @@
 
-import React, { Component, useState, useEffect, useCallback, type ErrorInfo, type ReactNode } from 'react';
+import React, { useState, useEffect, useCallback, type ErrorInfo, type ReactNode } from 'react';
 // Types
 import type { View, Product, CartItem } from './components/types';
 import type { Currency } from './components/currency';
@@ -32,9 +32,7 @@ interface ErrorBoundaryState {
     error: Error | null;
 }
 
-// Error Boundary mejorado
-// Fix: Import Component directly and extend it to ensure 'state' and 'props' are correctly inherited and recognized by the compiler
-class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
     constructor(props: ErrorBoundaryProps) {
         super(props);
         this.state = {
@@ -52,7 +50,6 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     }
 
     render() {
-        // Fix: state is now correctly recognized as an inherited property from Component
         if (this.state.hasError) {
             return (
                 <div className="flex flex-col items-center justify-center min-h-screen bg-pink-50 text-center p-4">
@@ -72,8 +69,6 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
                 </div>
             );
         }
-        
-        // Fix: props is now correctly recognized as an inherited property from Component
         return this.props.children;
     }
 }
@@ -90,19 +85,15 @@ const AppContent: React.FC = () => {
     const [isCartOpen, setIsCartOpen] = useState(false);
     const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
 
-    // Load cart from local storage OR URL param on initial render
     useEffect(() => {
-        // 1. Check for shared cart in URL
         const searchParams = new URLSearchParams(window.location.search);
         const sharedCartData = searchParams.get('cart');
 
         if (sharedCartData) {
             try {
-                // Decode base64 string
                 const decodedData = atob(sharedCartData);
                 const parsedData = JSON.parse(decodedData);
                 
-                // Reconstruct cart items based on IDs to ensure data freshness
                 const restoredCart: CartItem[] = parsedData.map((item: any) => {
                     const product = allProducts.find(p => p.id === item.productId);
                     if (product) {
@@ -118,8 +109,7 @@ const AppContent: React.FC = () => {
 
                 if (restoredCart.length > 0) {
                     setCartItems(restoredCart);
-                    setIsCartOpen(true); // Open cart to show user the shared items
-                    // Clean URL
+                    setIsCartOpen(true);
                     window.history.replaceState({}, document.title, window.location.pathname);
                     return; 
                 }
@@ -128,7 +118,6 @@ const AppContent: React.FC = () => {
             }
         }
 
-        // 2. If no URL cart, try LocalStorage
         try {
             const storedCart = localStorage.getItem('vellaperfumeria_cart');
             if (storedCart) {
@@ -139,7 +128,6 @@ const AppContent: React.FC = () => {
         }
     }, []);
 
-    // Save cart to local storage whenever it changes
     useEffect(() => {
         try {
             localStorage.setItem('vellaperfumeria_cart', JSON.stringify(cartItems));
@@ -148,13 +136,11 @@ const AppContent: React.FC = () => {
         }
     }, [cartItems]);
     
-    // Scroll to top on view change
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [view]);
 
     const handleNavigate = useCallback((newView: View, payload?: any) => {
-        // Close overlays when navigating
         setIsCartOpen(false);
         setQuickViewProduct(null);
         setView({ current: newView, payload });
@@ -162,14 +148,6 @@ const AppContent: React.FC = () => {
 
     const handleProductSelect = (product: Product) => {
         handleNavigate('productDetail', product);
-    };
-
-    const showAddToCartConfirmation = (buttonElement: HTMLButtonElement | null) => {
-        if (!buttonElement) return;
-        buttonElement.classList.add('ring-2', 'ring-pink-400');
-        setTimeout(() => {
-            buttonElement.classList.remove('ring-2', 'ring-pink-400');
-        }, 1000);
     };
 
     const handleAddToCart = (product: Product, buttonElement: HTMLButtonElement | null, selectedVariant: Record<string, string> | null) => {
@@ -188,7 +166,6 @@ const AppContent: React.FC = () => {
         }
         
         setIsCartOpen(true);
-        if(buttonElement) showAddToCartConfirmation(buttonElement);
     };
     
     const handleQuickAddToCart = (product: Product, buttonElement: HTMLButtonElement | null, selectedVariant: Record<string, string> | null) => {
@@ -198,7 +175,7 @@ const AppContent: React.FC = () => {
 
     const handleUpdateQuantity = (cartItemId: string, newQuantity: number) => {
         if (newQuantity <= 0) {
-            handleRemoveItem(cartItemId);
+            setCartItems(cartItems.filter(item => item.id !== cartItemId));
         } else {
             setCartItems(cartItems.map(item =>
                 item.id === cartItemId ? { ...item, quantity: newQuantity } : item
@@ -282,7 +259,7 @@ const AppContent: React.FC = () => {
                 }
                 break;
             case 'ofertas':
-                crumbs.push({ label: 'Ideas Regalo' });
+                crumbs.push({ label: 'Ofertas 🔥' });
                 break;
              case 'ia':
                 crumbs.push({ label: 'Asistente IA' });
@@ -315,7 +292,9 @@ const AppContent: React.FC = () => {
                 onCartClick={() => setIsCartOpen(true)}
             />
              <main className="flex-grow py-2 mb-16 md:mb-0">
-                <Breadcrumbs items={buildBreadcrumbs()} />
+                <div className="mt-4">
+                    <Breadcrumbs items={buildBreadcrumbs()} />
+                </div>
                 {renderContent()}
             </main>
             <Footer onNavigate={handleNavigate} />
@@ -356,27 +335,23 @@ const AppContent: React.FC = () => {
 
             <style>{`
                 :root {
-                    /* TRANSPARENT PINK THEME (Glassmorphism) */
-                    --color-primary: #ec4899; /* Pink 500 (Main Buttons, Highlights) */
-                    --color-primary-hover: #db2777; /* Pink 600 */
-                    --color-secondary: #fce7f3; /* Pink 100 (Backgrounds) */
-                    
+                    --color-primary: #ec4899;
+                    --color-primary-hover: #db2777;
+                    --color-secondary: #fce7f3;
                     --glass-bg: rgba(255, 255, 255, 0.7);
                     --glass-border: rgba(236, 72, 153, 0.2);
                     --glass-blur: 12px;
                 }
                 
                 body {
-                    background-color: #ffffff; /* White */
+                    background-color: #ffffff;
                 }
 
-                /* Selection Color */
                 ::selection {
-                    background-color: #f472b6; /* Pink 400 */
+                    background-color: #f472b6;
                     color: white;
                 }
                 
-                /* Buttons */
                 .btn-primary {
                     background-color: var(--color-primary);
                     color: white;
@@ -392,28 +367,22 @@ const AppContent: React.FC = () => {
                     box-shadow: 0 6px 8px -1px rgba(236, 72, 153, 0.4);
                 }
 
-                /* Updated Brand Classes for Components */
                 .bg-brand-primary { background-color: var(--color-primary); }
                 .text-brand-primary { color: var(--color-primary); }
                 
-                /* The "Purple" classes now map to Transparent Pink/Rose styles */
                 .bg-brand-purple { 
                     background-color: rgba(255, 255, 255, 0.6); 
                     backdrop-filter: blur(var(--glass-blur));
                     border: 1px solid var(--glass-border);
                 }
-                .text-brand-purple { color: #be185d; } /* Pink 700 */
+                .text-brand-purple { color: #be185d; }
                 
-                .bg-brand-purple-dark { background-color: #fbcfe8; } /* Pink 200 */
-                .text-brand-purple-dark { color: #831843; } /* Pink 900 */
+                .bg-brand-purple-dark { background-color: #fbcfe8; }
+                .text-brand-purple-dark { color: #831843; }
                 
                 .border-brand-purple { border-color: #fbcfe8; }
                 .border-brand-purple-dark { border-color: #ec4899; }
                 
-                .ring-brand-purple { --tw-ring-color: #fbcfe8; }
-                .ring-brand-purple-dark { --tw-ring-color: #ec4899; }
-
-                /* Hover Effects */
                 .hover-underline-effect {
                     display: inline-block;
                     position: relative;
@@ -433,16 +402,6 @@ const AppContent: React.FC = () => {
                 .hover-underline-effect:hover::after {
                     transform: scaleX(1);
                     transform-origin: bottom left;
-                }
-
-                /* Animation */
-                @keyframes pop {
-                    0% { transform: scale(1); }
-                    50% { transform: scale(1.2); }
-                    100% { transform: scale(1); }
-                }
-                .animate-pop {
-                    animation: pop 0.3s ease-out;
                 }
             `}</style>
         </div>
