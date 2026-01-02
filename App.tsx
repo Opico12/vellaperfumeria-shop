@@ -1,5 +1,6 @@
 
-import React, { Component, useState, useEffect, useCallback, type ErrorInfo, type ReactNode } from 'react';
+
+import React, { useState, useEffect, useCallback, type ErrorInfo, type ReactNode } from 'react';
 // Types
 import type { View, Product, CartItem } from './components/types';
 import type { Currency } from './components/currency';
@@ -32,8 +33,8 @@ interface ErrorBoundaryState {
     error: Error | null;
 }
 
-// Fixed ErrorBoundary by extending Component and correctly typing it to avoid 'state' and 'props' errors
-class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+// Corrected ErrorBoundary by using React.Component to ensure 'state' and 'props' are correctly typed
+class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
     constructor(props: ErrorBoundaryProps) {
         super(props);
         this.state = {
