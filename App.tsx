@@ -1,5 +1,4 @@
 
-
 import React, { useState, useEffect, useCallback, type ErrorInfo, type ReactNode } from 'react';
 // Types
 import type { View, Product, CartItem } from './components/types';
@@ -22,6 +21,7 @@ import Breadcrumbs, { type BreadcrumbItem } from './components/Breadcrumbs';
 import CheckoutPage from './components/CheckoutPage';
 import BottomNavBar from './components/BottomNavBar';
 import WhatsAppFloat from './components/WhatsAppFloat';
+import GiftWrappingPage from './components/GiftWrappingPage';
 import { allProducts } from './components/products';
 
 interface ErrorBoundaryProps {
@@ -33,7 +33,10 @@ interface ErrorBoundaryState {
     error: Error | null;
 }
 
-// Corrected ErrorBoundary by using React.Component to ensure 'state' and 'props' are correctly typed
+/**
+ * Fixed ErrorBoundary inheritance by using React.Component explicitly.
+ * This resolves TypeScript errors where 'state' and 'props' were not recognized.
+ */
 class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
     constructor(props: ErrorBoundaryProps) {
         super(props);
@@ -222,6 +225,8 @@ const AppContent: React.FC = () => {
                  return <BlogPostPage post={view.payload} allPosts={blogPosts} onSelectPost={handleSelectPost} onBack={() => handleNavigate('blog')} />;
             case 'checkout':
                 return <CheckoutPage cartItems={cartItems} currency={currency} onClearCart={handleClearCart} onNavigate={handleNavigate} />;
+            case 'gift-wrapping':
+                return <GiftWrappingPage currency={currency} onAddToCart={handleAddToCart} onQuickAddToCart={handleQuickAddToCart} onProductSelect={handleProductSelect} onQuickView={setQuickViewProduct} />;
             default:
                 return <ProductList onNavigate={handleNavigate} onProductSelect={handleProductSelect} onAddToCart={handleAddToCart} onQuickAddToCart={handleQuickAddToCart} currency={currency} onQuickView={setQuickViewProduct} />;
         }
@@ -278,6 +283,9 @@ const AppContent: React.FC = () => {
                 break;
             case 'checkout':
                 crumbs.push({ label: 'Finalizar Compra' });
+                break;
+            case 'gift-wrapping':
+                crumbs.push({ label: 'Envoltorio de Regalo' });
                 break;
         }
 

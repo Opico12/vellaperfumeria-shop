@@ -21,7 +21,7 @@ const SortIcon = () => (
 
 type MixedItem = 
   | { type: 'product', id: number }
-  | { type: 'banner-image', image: string, title: string, buttonText: string, link: string, colSpan?: number }
+  | { type: 'banner-image', image: string, title: string, buttonText: string, link: string, colSpan?: number, textColor?: string }
   | { type: 'banner-text', title: string, buttonText: string, link: string }
   | { type: 'banner-video', src: string, link?: string };
 
@@ -48,8 +48,19 @@ const ProductList: React.FC<{
     ];
 
     const initialMixedContent: MixedItem[] = [
-        { type: 'product', id: 47188 },
-        { type: 'product', id: 47977 },
+        { type: 'product', id: 49135 },
+        { type: 'product', id: 48082 },
+        {
+            type: 'banner-image',
+            image: "https://media-cdn.oriflame.com/contentImage?externalMediaId=96119198-b8ab-4de1-a77e-0d923a0753de&name=2_2x1_GiftWrapping_Split_970x450&inputFormat=jpg",
+            title: "Convierte tu regalo de belleza en un momento de alegría",
+            buttonText: "LEER MÁS SOBRE REGALOS",
+            link: "gift-wrapping",
+            colSpan: 2,
+            textColor: "text-gray-900"
+        },
+        { type: 'product', id: 47847 },
+        { type: 'product', id: 48115 },
         {
             type: 'banner-image',
             image: "https://media-cdn.oriflame.com/contentImage?externalMediaId=78093358-84b4-48bc-b818-814071e28cf5&name=2x1_TheOne_Split_970x450&inputFormat=jpg",
@@ -58,9 +69,8 @@ const ProductList: React.FC<{
             link: "products",
             colSpan: 2
         },
-        { type: 'product', id: 48650 },
-        { type: 'product', id: 47253 },
-        { type: 'product', id: 46134 },
+        { type: 'product', id: 48540 },
+        { type: 'product', id: 48048 },
         {
             type: 'banner-text',
             title: "Prueba el maquillaje virtual de Vellaperfumeria",
@@ -68,48 +78,6 @@ const ProductList: React.FC<{
             link: "ia"
         },
         { type: 'banner-video', src: "https://media-cdn.oriflame.com/static-media-web/0fa45d91-4c57-41ab-957e-9404e87544d8?mimeType=video%2fmp4" },
-        {
-            type: 'banner-image',
-            image: "https://media-cdn.oriflame.com/contentImage?externalMediaId=62bf98fd-8dcd-4996-bd59-22cf7c4b47fe&name=2x1_OnColour_Split_970x450&inputFormat=jpg",
-            title: "Selección OnColour: Hasta -50% hasta el 6 de Enero",
-            buttonText: "COMPRAR ONCOLOUR",
-            link: "products",
-            colSpan: 2
-        },
-        { type: 'product', id: 46901 },
-        { type: 'product', id: 46929 },
-        { type: 'product', id: 48039 },
-        {
-            type: 'banner-text',
-            title: "¿Buscas consejo personalizado de belleza?",
-            buttonText: "HABLAR CON IA",
-            link: "ia"
-        },
-        { type: 'banner-video', src: "https://media-cdn.oriflame.com/static-media-web/0c22a307-2248-4454-8c99-59a059540721?mimeType=video%2fmp4" },
-        { type: 'product', id: 46888 },
-        { type: 'product', id: 47704 },
-        { type: 'product', id: 46940 },
-        { type: 'product', id: 47180 },
-        { type: 'product', id: 47192 },
-        { type: 'product', id: 48640 },
-        { type: 'product', id: 46906 },
-        { type: 'product', id: 42121 },
-        { type: 'product', id: 42102 },
-        { type: 'product', id: 41107 },
-        { type: 'product', id: 43244 },
-        { type: 'product', id: 41760 },
-        { type: 'product', id: 42652 },
-        { type: 'product', id: 44835 },
-        { type: 'product', id: 34647 },
-        { type: 'product', id: 46588 },
-        { type: 'product', id: 37728 },
-        { type: 'product', id: 46611 },
-        { type: 'product', id: 46549 },
-        { type: 'product', id: 46601 },
-        { type: 'product', id: 45361 },
-        { type: 'product', id: 38690 },
-        { type: 'product', id: 46595 },
-        { type: 'product', id: 38991 },
     ];
 
     const getVisibleContent = () => {
@@ -142,6 +110,7 @@ const ProductList: React.FC<{
     const handleClickLink = (link: string) => {
         if(link === 'ofertas') onNavigate('ofertas');
         else if (link === 'ia') onNavigate('ia');
+        else if (link === 'gift-wrapping') onNavigate('gift-wrapping');
         else onNavigate('products', 'all');
     }
 
@@ -151,11 +120,11 @@ const ProductList: React.FC<{
                 <div className="pt-4 pb-4">
                     <Breadcrumbs items={[
                         { label: 'Inicio', onClick: () => onNavigate('home') },
-                        { label: 'Maquillaje' }
+                        { label: 'Tienda' }
                     ]} />
                     
-                    <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 mt-2 font-serif tracking-tight">
-                        Especial Maquillaje -50%
+                    <h1 className="text-3xl md:text-4xl font-black text-gray-900 mt-2 uppercase tracking-tight">
+                        Catálogo de Belleza
                     </h1>
                 </div>
 
@@ -165,10 +134,10 @@ const ProductList: React.FC<{
                             <button
                                 key={cat.id}
                                 onClick={() => onNavigate('products', cat.id === 'ofertas' ? 'all' : cat.id)}
-                                className={`whitespace-nowrap pb-3 text-sm font-medium border-b-2 transition-colors duration-200 ${
+                                className={`whitespace-nowrap pb-3 text-sm font-bold uppercase tracking-widest border-b-2 transition-colors duration-200 ${
                                     index === 0 
                                     ? 'border-brand-primary text-brand-primary' 
-                                    : 'border-transparent text-gray-500 hover:text-black hover:border-gray-300'
+                                    : 'border-transparent text-gray-400 hover:text-black hover:border-gray-300'
                                 }`}
                             >
                                 {cat.label}
@@ -181,14 +150,14 @@ const ProductList: React.FC<{
                     <div className="flex items-center gap-6 w-full sm:w-auto">
                         <button className="flex items-center gap-2 text-gray-800 hover:text-black transition-colors group">
                             <FilterIcon />
-                            <span className="text-base font-medium group-hover:underline">Filtrar</span>
+                            <span className="text-sm font-bold uppercase tracking-widest group-hover:underline">Filtrar</span>
                         </button>
                         <button className="flex items-center gap-2 text-gray-800 hover:text-black transition-colors group">
                             <SortIcon />
-                            <span className="text-base font-medium group-hover:underline">Recomendado</span>
+                            <span className="text-sm font-bold uppercase tracking-widest group-hover:underline">Recomendado</span>
                         </button>
                     </div>
-                    <div className="mt-4 sm:mt-0 text-sm text-gray-500 font-medium">
+                    <div className="mt-4 sm:mt-0 text-[10px] font-black uppercase tracking-widest text-gray-400">
                         {totalProducts} productos disponibles
                     </div>
                 </div>
@@ -199,7 +168,7 @@ const ProductList: React.FC<{
                             return (
                                 <div 
                                     key={`banner-img-${index}`} 
-                                    className={`relative flex flex-col justify-end overflow-hidden cursor-pointer group ${item.colSpan === 2 ? 'col-span-2' : 'col-span-1'} bg-gray-100 h-full animate-fade-in`}
+                                    className={`relative flex flex-col justify-end overflow-hidden cursor-pointer group ${item.colSpan === 2 ? 'col-span-2' : 'col-span-1'} bg-gray-100 h-full animate-fade-in rounded-3xl shadow-lg border border-gray-100`}
                                     onClick={() => handleClickLink(item.link)}
                                     style={{ minHeight: '350px' }}
                                 >
@@ -207,12 +176,12 @@ const ProductList: React.FC<{
                                         <img 
                                             src={item.image} 
                                             alt={item.title} 
-                                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                            className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                                         />
                                     </div>
-                                    <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 via-black/40 to-transparent text-white text-center flex flex-col items-center">
-                                        <h3 className="text-xl font-bold mb-3 leading-tight drop-shadow-md">{item.title}</h3>
-                                        <button className="text-[10px] font-bold uppercase tracking-[0.2em] border-b-2 border-brand-primary pb-1 hover:text-brand-primary transition-colors">
+                                    <div className={`absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-black/60 via-black/20 to-transparent text-center flex flex-col items-center ${item.textColor || 'text-white'}`}>
+                                        <h3 className="text-2xl font-black mb-4 leading-tight uppercase tracking-tight drop-shadow-lg">{item.title}</h3>
+                                        <button className="text-[10px] font-black uppercase tracking-[0.3em] bg-white text-black px-6 py-3 rounded-full hover:bg-brand-primary hover:text-white transition-all shadow-xl">
                                             {item.buttonText}
                                         </button>
                                     </div>
@@ -222,26 +191,31 @@ const ProductList: React.FC<{
                             return (
                                 <div 
                                     key={`banner-txt-${index}`} 
-                                    className="relative flex flex-col justify-center items-center text-center p-6 bg-gray-50 border border-gray-100 cursor-pointer group col-span-1 h-full animate-fade-in"
+                                    className="relative flex flex-col justify-center items-center text-center p-8 bg-[#fcfcfc] border border-gray-100 cursor-pointer group col-span-1 h-full animate-fade-in rounded-3xl shadow-sm"
                                     onClick={() => handleClickLink(item.link)}
                                 >
-                                    <h3 className="text-xl font-serif text-gray-900 mb-6 leading-snug">{item.title}</h3>
-                                    <button className="text-[10px] font-bold uppercase tracking-[0.2em] border-b-2 border-black pb-1 hover:text-brand-primary hover:border-brand-primary transition-all">
+                                    <h3 className="text-xl font-black text-gray-900 mb-8 uppercase tracking-tight leading-snug">{item.title}</h3>
+                                    <button className="text-[10px] font-black uppercase tracking-[0.2em] border-b-4 border-brand-primary pb-1 hover:text-brand-primary transition-all">
                                         {item.buttonText}
                                     </button>
                                 </div>
                             );
                         } else if (item.type === 'banner-video') {
                             return (
-                                <div key={`banner-vid-${index}`} className="relative col-span-1 h-full min-h-[350px] bg-black cursor-pointer group animate-fade-in" onClick={() => item.link && handleClickLink(item.link)}>
+                                <div key={`banner-vid-${index}`} className="relative col-span-1 h-full min-h-[350px] bg-black cursor-pointer group animate-fade-in rounded-3xl overflow-hidden shadow-lg border border-gray-800" onClick={() => item.link && handleClickLink(item.link)}>
                                     <video 
                                         autoPlay 
                                         muted 
                                         loop 
                                         playsInline 
-                                        className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                                        className="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity duration-1000"
                                         src={item.src}
                                     />
+                                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                        <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white scale-0 group-hover:scale-100 transition-transform duration-500">
+                                            <svg className="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                        </div>
+                                    </div>
                                 </div>
                             );
                         } else if (item.type === 'product' && item.id) {
@@ -267,25 +241,25 @@ const ProductList: React.FC<{
 
                 {visibleCount < totalProducts && (
                     <div className="mt-16 flex flex-col items-center justify-center max-w-md mx-auto text-center">
-                        <p className="text-gray-600 mb-4 font-medium">Mostrando {visibleCount} de {totalProducts} productos</p>
-                        <div className="w-full h-1 bg-gray-200 rounded-full mb-6 overflow-hidden">
+                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-4">Descubiertos {visibleCount} de {totalProducts}</p>
+                        <div className="w-full h-1 bg-gray-100 rounded-full mb-6 overflow-hidden">
                             <div 
-                                className="h-full bg-black rounded-full transition-all duration-500 ease-out" 
+                                className="h-full bg-black rounded-full transition-all duration-1000 ease-out" 
                                 style={{ width: `${progressPercentage}%` }}
                             ></div>
                         </div>
                         <button 
                             onClick={handleLoadMore}
                             disabled={isLoadingMore}
-                            className="px-10 py-3 border border-gray-300 rounded-full font-bold text-gray-800 hover:bg-gray-50 hover:border-gray-400 transition-all uppercase text-sm tracking-wide disabled:opacity-50 disabled:cursor-wait flex items-center gap-2"
+                            className="px-10 py-4 bg-black text-white rounded-full font-black uppercase text-[10px] tracking-[0.3em] hover:bg-gray-800 transition-all shadow-xl disabled:opacity-50 disabled:cursor-wait flex items-center gap-3"
                         >
                             {isLoadingMore ? (
                                 <>
-                                    <span className="w-4 h-4 border-2 border-gray-600 border-t-transparent rounded-full animate-spin"></span>
-                                    Cargando...
+                                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                                    Actualizando...
                                 </>
                             ) : (
-                                'Mostrar más productos'
+                                'Cargar más tesoros'
                             )}
                         </button>
                     </div>
@@ -295,8 +269,8 @@ const ProductList: React.FC<{
             <style>{`
                 .scrollbar-hide::-webkit-scrollbar { display: none; }
                 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-                @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-                .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+                @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+                .animate-fade-in { animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
             `}</style>
         </div>
     );
