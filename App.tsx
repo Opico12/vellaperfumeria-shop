@@ -1,6 +1,5 @@
 
-
-import React, { Component, useState, useEffect, useCallback, type ErrorInfo, type ReactNode } from 'react';
+import React, { useState, useEffect, useCallback, type ErrorInfo, type ReactNode } from 'react';
 // Types
 import type { View, Product, CartItem } from './components/types';
 import type { Currency } from './components/currency';
@@ -34,8 +33,8 @@ interface ErrorBoundaryState {
 }
 
 // Error Boundary mejorado
-// Fix: Use explicit Component extension from react to ensure 'state' and 'props' are correctly inherited and recognized by the compiler
-class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+// Fix: Use explicit React.Component extension to ensure 'state' and 'props' are correctly inherited and recognized by the compiler
+class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
     constructor(props: ErrorBoundaryProps) {
         super(props);
         this.state = {
@@ -53,7 +52,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     }
 
     render() {
-        // Fix: Inherited state is now correctly recognized through standard Component extension
+        // Fix: Inherited state is now correctly recognized through standard React.Component extension
         if (this.state.hasError) {
             return (
                 <div className="flex flex-col items-center justify-center min-h-screen bg-pink-50 text-center p-4">
