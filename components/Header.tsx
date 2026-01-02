@@ -30,12 +30,12 @@ const MenuIcon = () => (
     </svg>
 );
 
-const FilterIcon = () => (
-    <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor"><path d="M9.437 7a2 2 0 0 1-3.874 0H4.5a.5.5 0 0 1 0-1h1.063a2 2 0 0 1 3.874 0H19.5a.5.5 0 0 1 0 1zM6.5 6.5a1 1 0 1 0 2 0 1 1 0 0 0-2 0m11.937 5H19.5a.5.5 0 0 1 0 1h-1.063a2 2 0 0 1-3.874 0H4.5a.5.5 0 0 1 0-1h10.063a2 2 0 0 1 3.874 0m-.937.5a1 1 0 1 0-2 0 1 1 0 0 0 2 0m-6.063 5H19.5a.5.5 0 0 1 0 1h-8.063a2 2 0 0 1-3.874 0H4.5a.5.5 0 0 1 0-1h3.063a2 2 0 0 1 3.874 0m-.937.5a1 1 0 1 0-2 0 1 1 0 0 0 2 0"/></svg>
+const QuickBuyIcon = () => (
+    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M6.434 9H4.5a1.5 1.5 0 0 0-1.486 1.703l1.227 9A1.5 1.5 0 0 0 5.728 21h12.254a1.5 1.5 0 0 0 1.486-1.297l1.227-9A1.5 1.5 0 0 0 19.21 9h-1.933c-.087-2.548-.848-4.078-1.933-4.96C14.208 3.118 12.826 3 11.855 3c-.975 0-2.355.126-3.49 1.051C7.282 4.936 6.521 6.464 6.434 9m1 0c.086-2.329.778-3.533 1.564-4.174.858-.7 1.942-.826 2.857-.826.917 0 2 .12 2.857.817.785.637 1.477 1.84 1.563 4.183zm8.868 1 .053 1.448a.5.5 0 0 0 1-.018c0-.528-.013-.987-.037-1.43h1.891a.5.5 0 0 1 .495.568l-1.227 9a.5.5 0 0 1-.495.432H5.728a.5.5 0 0 1-.496-.432l-1.227-9A.5.5 0 0 1 4.5 10h1.905q-.001.372.01.756.009.333.01.674a.5.5 0 1 0 1 0c0-.285-.006-.535-.012-.766-.005-.236-.01-.452-.008-.664z"/></svg>
 );
 
-const SortIcon = () => (
-    <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor"><path d="M3.5 6a.5.5 0 0 0 0 1h10a.5.5 0 0 0 0-1zm0 5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1zm0 5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1zM19 6.5a.5.5 0 0 0-1 0v9.793l-2.146-2.147a.5.5 0 0 0-.708.708l3 3a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L19 16.293z"/></svg>
+const HeartIcon = () => (
+    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="m12 20.5-.243.437-.002-.001-.006-.003-.021-.012-.08-.046-.293-.173a29 29 0 0 1-4.187-3.078C4.906 15.613 2.5 12.734 2.5 9.5c0-1.6.468-2.875 1.242-3.796A4.67 4.67 0 0 1 6.68 4.092c1.947-.28 4.088.582 5.321 2.528 1.233-1.946 3.374-2.809 5.321-2.528a4.67 4.67 0 0 1 2.937 1.612C21.032 6.624 21.5 7.9 21.5 9.5c0 3.233-2.406 6.113-4.668 8.124a29 29 0 0 1-4.531 3.28l-.029.017-.02.012-.007.003h-.001s-.001.001-.244-.436"/></svg>
 );
 
 const StarIcon: React.FC<{ filled: boolean }> = ({ filled }) => (
@@ -51,47 +51,67 @@ const Header: React.FC<{
 }> = ({ onNavigate, currency, onCurrencyChange, cartCount, onCartClick }) => {
     const [showMegaMenu, setShowMegaMenu] = useState(false);
 
-    // Seleccionamos los productos específicos para el mega dropdown
-    const featuredProducts = allProducts.filter(p => [48922, 47697, 47262, 46985].includes(p.id));
+    // Definimos los productos exactos del HTML proporcionado por el usuario
+    const snippetProducts = [
+        {
+            id: 49135,
+            name: "Cepillo de Dientes para Niños Dureza Suave Optifresh",
+            brand: "Optifresh",
+            price: 2.15,
+            regularPrice: 5.00,
+            imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F49135%2F49135_1.png&MediaId=20702750&Version=1&w=600&bc=%23f5f5f5&ib=%23f5f5f5&h=600&q=90&imageFormat=WebP",
+            tag: "Novedad",
+            rating: 0,
+            reviewCount: 0
+        },
+        {
+            id: 44952,
+            name: "Pasta de Dientes Máxima Frescura Optifresh",
+            brand: "Optifresh",
+            price: 7.70,
+            imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F44952%2F44952_1.png&MediaId=14708973&Version=2&w=600&bc=%23f5f5f5&ib=%23f5f5f5&h=600&q=90&imageFormat=WebP",
+            tag: "Nueva edición disponible",
+            rating: 4.8,
+            reviewCount: 1350
+        },
+        {
+            id: 44954,
+            name: "Pasta de Dientes Suave de Fresa para Niños Optifresh",
+            brand: "Optifresh",
+            price: 4.24,
+            imageUrl: "https://media-cdn.oriflame.com/productImage?externalMediaId=product-management-media%2FProducts%2F44954%2F44954_1.png&MediaId=14709007&Version=1&w=600&bc=%23f5f5f5&ib=%23f5f5f5&h=600&q=90&imageFormat=WebP",
+            tag: "Nueva edición disponible",
+            rating: 4.8,
+            reviewCount: 995
+        }
+    ];
 
     return (
         <header className="relative z-50 bg-white" onMouseLeave={() => setShowMegaMenu(false)}>
-            {/* Top Promo Bar */}
+            {/* Promo Top Bar */}
             <div className="bg-pink-50 text-pink-700 py-1.5 px-4 text-[10px] md:text-[11px] font-bold tracking-[0.2em] text-center uppercase border-b border-pink-100">
                 ENVÍO GRATIS EN PEDIDOS +35€ | CALIDAD ORIFLAME GARANTIZADA 🌸
             </div>
 
-            {/* Main Header Bar */}
+            {/* Main Header with perfectly centered logo */}
             <div className="container mx-auto px-4 md:px-8 py-4">
                 <div className="grid grid-cols-3 items-center h-12 md:h-20">
-                    
-                    {/* Left: Burger and Search */}
                     <div className="flex items-center gap-4">
-                        <button className="p-2 text-gray-800 hover:text-pink-600 transition-colors" onClick={() => onNavigate('home')}>
+                        <button className="p-2 text-gray-800 hover:text-pink-600 transition-colors">
                             <MenuIcon />
                         </button>
                         <div className="hidden lg:flex items-center bg-gray-50 border border-gray-100 rounded-full px-5 py-2 w-64 transition-all shadow-inner focus-within:bg-white focus-within:ring-1 focus-within:ring-pink-300">
                             <SearchIcon />
-                            <input 
-                                type="text" 
-                                placeholder="Buscar..." 
-                                className="bg-transparent border-none focus:ring-0 text-sm ml-2 w-full"
-                            />
+                            <input type="text" placeholder="Buscar..." className="bg-transparent border-none focus:ring-0 text-sm ml-2 w-full" />
                         </div>
                     </div>
 
-                    {/* Center: Logo perfectly centered */}
                     <div className="flex justify-center">
-                        <button onClick={() => onNavigate('home')} className="hover:opacity-90 transition-opacity">
-                            <img 
-                                src="https://i0.wp.com/vellaperfumeria.com/wp-content/uploads/2025/06/1000003724-removebg-preview.png" 
-                                alt="Vellaperfumeria" 
-                                className="h-14 md:h-24 w-auto object-contain" 
-                            />
+                        <button onClick={() => onNavigate('home')}>
+                            <img src="https://i0.wp.com/vellaperfumeria.com/wp-content/uploads/2025/06/1000003724-removebg-preview.png" alt="Vellaperfumeria" className="h-14 md:h-24 w-auto" />
                         </button>
                     </div>
 
-                    {/* Right: Actions */}
                     <div className="flex items-center justify-end gap-2 md:gap-4">
                         <button className="p-2 text-gray-800 hover:text-pink-600 transition-colors hidden sm:block">
                             <UserIcon />
@@ -108,94 +128,90 @@ const Header: React.FC<{
                 </div>
             </div>
 
-            {/* Black Navigation Bar */}
+            {/* FULL WIDTH NAVIGATION BAR */}
             <nav className="bg-black w-full shadow-xl">
                 <div className="container mx-auto px-4">
                     <ul className="flex justify-center items-center">
-                        <li>
-                            <button 
-                                onClick={() => onNavigate('home')} 
-                                className="text-white text-[11px] font-bold tracking-[0.3em] uppercase hover:text-pink-400 transition-all px-6 py-5"
-                            >
-                                Inicio
-                            </button>
-                        </li>
-                        <li>
-                            <button 
-                                onMouseEnter={() => setShowMegaMenu(true)}
-                                className={`text-white text-[11px] font-bold tracking-[0.3em] uppercase transition-all px-6 py-5 border-b-2 ${showMegaMenu ? 'border-pink-500 text-pink-400' : 'border-transparent hover:text-pink-300'}`}
-                            >
-                                Tienda
-                            </button>
-                        </li>
-                        <li>
-                            <button onClick={() => onNavigate('catalog')} className="text-white text-[11px] font-bold tracking-[0.3em] uppercase hover:text-pink-400 transition-all px-6 py-5">
-                                Catálogo
-                            </button>
-                        </li>
-                        <li>
-                            <button onClick={() => onNavigate('ofertas')} className="text-pink-400 text-[11px] font-bold tracking-[0.3em] uppercase hover:text-pink-300 transition-all px-6 py-5">
-                                Ofertas 🔥
-                            </button>
-                        </li>
-                        <li>
-                            <button onClick={() => onNavigate('ia')} className="text-white text-[11px] font-bold tracking-[0.3em] uppercase flex items-center gap-2 px-6 py-5 group">
-                                <span className="text-pink-500 group-hover:animate-pulse">✨</span> IA Beauty
-                            </button>
-                        </li>
+                        <li><button onClick={() => onNavigate('home')} className="text-white text-[11px] font-bold tracking-[0.3em] uppercase hover:text-pink-400 transition-all px-6 py-5">Inicio</button></li>
+                        <li><button onMouseEnter={() => setShowMegaMenu(true)} className={`text-white text-[11px] font-bold tracking-[0.3em] uppercase transition-all px-6 py-5 border-b-2 ${showMegaMenu ? 'border-pink-500 text-pink-400' : 'border-transparent hover:text-pink-300'}`}>Tienda</button></li>
+                        <li><button onClick={() => onNavigate('catalog')} className="text-white text-[11px] font-bold tracking-[0.3em] uppercase hover:text-pink-400 transition-all px-6 py-5">Catálogo</button></li>
+                        <li><button onClick={() => onNavigate('ofertas')} className="text-pink-400 text-[11px] font-bold tracking-[0.3em] uppercase hover:text-pink-300 transition-all px-6 py-5">Ofertas 🔥</button></li>
+                        <li><button onClick={() => onNavigate('ia')} className="text-white text-[11px] font-bold tracking-[0.3em] uppercase flex items-center gap-2 px-6 py-5 group"><span className="text-pink-500 group-hover:animate-pulse">✨</span> IA Beauty</button></li>
                     </ul>
                 </div>
             </nav>
 
-            {/* Mega Dropdown */}
+            {/* FULL WIDTH BLACK DROPDOWN MENU */}
             {showMegaMenu && (
                 <div 
                     className="absolute top-full left-0 w-full bg-[#0a0a0a] text-white shadow-2xl z-50 border-t border-gray-900 animate-menu-slide origin-top"
                     onMouseEnter={() => setShowMegaMenu(true)}
                 >
-                    <div className="container mx-auto px-8 py-12">
-                        <div className="flex flex-col md:flex-row justify-between items-center mb-10 pb-6 border-b border-gray-800">
-                            <div className="flex gap-8">
-                                <div className="flex items-center cursor-pointer hover:text-pink-400 transition-colors">
-                                    <FilterIcon />
-                                    <p className="text-[12px] font-bold uppercase tracking-widest ml-2">Filtrar</p>
-                                </div>
-                                <div className="flex items-center cursor-pointer hover:text-pink-400 transition-colors">
-                                    <SortIcon />
-                                    <p className="text-[12px] font-bold uppercase tracking-widest ml-2">Recomendado</p>
-                                </div>
-                            </div>
-                            <p className="text-gray-500 text-[11px] uppercase tracking-widest font-bold mt-4 md:mt-0">107 productos disponibles</p>
+                    <div className="container mx-auto px-8 py-10">
+                        {/* Title of Dropdown */}
+                        <div className="flex justify-between items-center mb-8 border-b border-gray-800 pb-4">
+                             <h3 className="text-xl font-serif font-bold uppercase tracking-widest text-pink-500">Higiene Dental & Cuidado</h3>
+                             <p className="text-gray-500 text-[11px] font-bold uppercase tracking-widest">Novedades Destacadas</p>
                         </div>
 
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                            {featuredProducts.map(product => (
-                                <div key={product.id} className="group relative bg-black/40 p-4 rounded-xl border border-gray-900 hover:border-pink-500/30 transition-all duration-500 cursor-pointer" onClick={() => { onNavigate('productDetail', product); setShowMegaMenu(false); }}>
-                                    <div className="relative aspect-[4/5] overflow-hidden rounded-lg bg-white mb-4">
-                                        <img alt={product.name} className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-700" src={product.imageUrl} />
-                                        {product.tag === 'NOVEDAD' && (
-                                            <div className="absolute top-2 left-2 bg-pink-600 text-white text-[9px] font-black px-2 py-1 rounded uppercase tracking-tighter shadow-lg">Novedad</div>
-                                        )}
-                                    </div>
-                                    <div className="space-y-1">
-                                        <div className="flex gap-0.5 mb-1">
-                                            {[...Array(5)].map((_, i) => <StarIcon key={i} filled={i < Math.floor(product.rating || 0)} />)}
+                        {/* Product Grid - replicates user HTML structure but clean */}
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            {snippetProducts.map(product => (
+                                <div key={product.id} className="group relative bg-[#111] p-5 rounded-2xl border border-gray-800 hover:border-pink-500/40 transition-all duration-500 cursor-pointer" onClick={() => { onNavigate('productDetail', product as any); setShowMegaMenu(false); }}>
+                                    
+                                    {/* Image Area */}
+                                    <div className="relative aspect-square overflow-hidden rounded-xl bg-[#f5f5f5] mb-5">
+                                        <img 
+                                            alt={product.name} 
+                                            className="w-full h-full object-contain p-6 transform group-hover:scale-110 transition-transform duration-700" 
+                                            src={product.imageUrl} 
+                                        />
+                                        
+                                        {/* Badge Novedad/Chip */}
+                                        <div className="absolute top-3 left-3 bg-pink-600 text-white text-[9px] font-black px-2.5 py-1 rounded uppercase tracking-widest shadow-xl">
+                                            {product.tag}
                                         </div>
-                                        <span className="text-[9px] font-black text-pink-500 uppercase tracking-widest">{product.brand}</span>
-                                        <h4 className="text-[11px] font-bold text-gray-200 leading-tight h-8 line-clamp-2">{product.name}</h4>
-                                        <p className="text-sm font-black text-white">{formatCurrency(product.price, currency)}</p>
+
+                                        {/* Actions Hover */}
+                                        <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <button className="bg-black/90 p-2.5 rounded-full hover:text-pink-400 text-white transition-colors shadow-lg"><QuickBuyIcon/></button>
+                                            <button className="bg-black/90 p-2.5 rounded-full hover:text-red-500 text-white transition-colors shadow-lg"><HeartIcon/></button>
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Info Area */}
+                                    <div className="space-y-2 text-left">
+                                        <div className="flex items-center gap-1 min-h-[14px]">
+                                            {[...Array(5)].map((_, i) => (
+                                                <StarIcon key={i} filled={i < Math.floor(product.rating)} />
+                                            ))}
+                                            {product.reviewCount > 0 && <span className="text-[10px] text-gray-500 font-bold">({product.reviewCount})</span>}
+                                        </div>
+                                        
+                                        <span className="text-[10px] font-black text-pink-500 uppercase tracking-widest">{product.brand}</span>
+                                        <h4 className="text-[12px] font-bold text-gray-200 leading-tight h-10 line-clamp-2">{product.name}</h4>
+                                        
+                                        <div className="flex items-baseline gap-3 pt-1">
+                                            <p className="text-lg font-black text-white">{formatCurrency(product.price, currency, { decimals: 2 })}</p>
+                                            {product.regularPrice && (
+                                                <p className="text-xs text-gray-600 line-through font-bold">{formatCurrency(product.regularPrice, currency, { decimals: 2 })}</p>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                             ))}
                         </div>
                         
-                        <div className="mt-12 text-center">
-                            <button onClick={() => { onNavigate('products', 'all'); setShowMegaMenu(false); }} className="bg-white text-black text-[10px] font-black px-10 py-3.5 rounded-full hover:bg-pink-500 hover:text-white transition-all tracking-[0.2em] uppercase shadow-xl">
-                                Ver todos los productos
+                        {/* Footer Link */}
+                        <div className="mt-10 pt-8 border-t border-gray-800 text-center">
+                            <button 
+                                onClick={() => { onNavigate('products', 'all'); setShowMegaMenu(false); }}
+                                className="bg-pink-600 text-white text-[10px] font-black px-12 py-4 rounded-full hover:bg-white hover:text-black transition-all tracking-[0.3em] uppercase shadow-2xl"
+                            >
+                                Ver Todo el Catálogo
                             </button>
                         </div>
                     </div>
-                    <div className="w-full h-px bg-gradient-to-r from-transparent via-pink-500/40 to-transparent"></div>
                 </div>
             )}
 
