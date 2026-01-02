@@ -1,6 +1,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
+// Fix: Always use import {GoogleGenAI} from "@google/genai"; as per guidelines
+import { GoogleGenAI } from "@google/genai";
 
 interface Message {
     role: 'user' | 'model';
@@ -48,7 +49,7 @@ const AsistenteIAPage: React.FC = () => {
         setError(null);
 
         try {
-            // Fix: Initializing GoogleGenAI right before the API call as per guidelines
+            // Fix: Initializing GoogleGenAI right before the API call using the required named parameter
             const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
             
             // Reconstructing history from previous messages for context
@@ -57,7 +58,7 @@ const AsistenteIAPage: React.FC = () => {
                 parts: [{ text: m.text }]
             }));
 
-            // Fix: Using correct model name and passing history for context
+            // Fix: Initializing the chat with system instruction in the config
             const chat = ai.chats.create({
                 model: 'gemini-3-flash-preview',
                 history: history,
@@ -66,13 +67,12 @@ const AsistenteIAPage: React.FC = () => {
                 },
             });
 
-            // Fix: Correct call to sendMessageStream as per Gemini SDK
+            // Fix: Initiating streaming message
             const responseStream = await chat.sendMessageStream({ message: messageText });
 
             for await (const chunk of responseStream) {
-                // Fix: Accessing .text property directly (not a method) as per GenerateContentResponse guidelines
-                const c = chunk as GenerateContentResponse;
-                const chunkText = c.text;
+                // Fix: Accessing .text as a property directly as per GenerateContentResponse guidelines
+                const chunkText = chunk.text;
                 if (chunkText) {
                     setMessages(prev => {
                         const newMessages = [...prev];

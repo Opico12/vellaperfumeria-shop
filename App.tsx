@@ -1,4 +1,5 @@
 
+
 import React, { Component, useState, useEffect, useCallback, type ErrorInfo, type ReactNode } from 'react';
 // Types
 import type { View, Product, CartItem } from './components/types';
@@ -22,6 +23,7 @@ import CheckoutPage from './components/CheckoutPage';
 import BottomNavBar from './components/BottomNavBar';
 import WhatsAppFloat from './components/WhatsAppFloat';
 import GiftWrappingPage from './components/GiftWrappingPage';
+import HeroCarousel from './components/HeroCarousel';
 import { allProducts } from './components/products';
 
 interface ErrorBoundaryProps {
@@ -33,11 +35,8 @@ interface ErrorBoundaryState {
     error: Error | null;
 }
 
-/**
- * Fixed ErrorBoundary inheritance by using Component from 'react' explicitly.
- * This resolves TypeScript errors where 'state' and 'props' were not recognized.
- */
-class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+// Fix: Use React.Component from the React namespace to ensure props and state are correctly inherited and recognized by TypeScript.
+class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
     constructor(props: ErrorBoundaryProps) {
         super(props);
         this.state = {
@@ -55,6 +54,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     }
 
     render() {
+        // Fix: accessing state via this.state (line 56)
         if (this.state.hasError) {
             return (
                 <div className="flex flex-col items-center justify-center min-h-screen bg-pink-50 text-center p-4">
@@ -62,6 +62,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
                         <h1 className="text-2xl font-bold text-pink-600 mb-2">¡Vaya! Algo salió mal</h1>
                         <p className="text-gray-600 mb-6 text-sm">Hemos tenido un problema técnico cargando la tienda.</p>
                         <div className="bg-gray-100 p-3 rounded text-xs text-left text-gray-700 font-mono mb-6 overflow-auto max-h-32">
+                            {/* Fix: accessing state.error via this.state (line 63) */}
                             {this.state.error?.message || 'Error desconocido'}
                         </div>
                         <button 
@@ -74,6 +75,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
                 </div>
             );
         }
+        // Fix: accessing props via this.props (line 75)
         return this.props.children;
     }
 }
@@ -146,4 +148,154 @@ const AppContent: React.FC = () => {
     }, [view]);
 
     const handleNavigate = useCallback((newView: View, payload?: any) => {
-        setIsCartOpen(false
+        setIsCartOpen(false);
+        setView({ current: newView, payload });
+    }, []);
+
+    const addToCart = (product: Product, buttonElement: HTMLButtonElement | null, selectedVariant: Record<string, string> | null) => {
+        const cartItemId = `${product.id}-${selectedVariant ? JSON.stringify(selectedVariant) : 'none'}`;
+        setCartItems(prev => {
+            const existing = prev.find(item => item.id === cartItemId);
+            if (existing) {
+                return prev.map(item => item.id === cartItemId ? { ...item, quantity: item.quantity + 1 } : item);
+            }
+            return [...prev, { id: cartItemId, product, quantity: 1, selectedVariant }];
+        });
+        setIsCartOpen(true);
+    };
+
+    const updateQuantity = (id: string, qty: number) => {
+        if (qty < 1) {
+            setCartItems(prev => prev.filter(item => item.id !== id));
+        } else {
+            setCartItems(prev => prev.map(item => item.id === id ? { ...item, quantity: qty } : item));
+        }
+    };
+
+    const renderView = () => {
+        switch (view.current) {
+            case 'home':
+                return (
+                    <div className="space-y-12">
+                        <HeroCarousel onNavigate={(v) => handleNavigate(v)} />
+                        <ProductList 
+                            onNavigate={handleNavigate} 
+                            onProductSelect={(p) => handleNavigate('productDetail', p)}
+                            onAddToCart={addToCart}
+                            onQuickAddToCart={addToCart}
+                            currency={currency}
+                            onQuickView={setQuickViewProduct}
+                        />
+                    </div>
+                );
+            case 'products':
+                return (
+                    <ShopPage 
+                        currency={currency}
+                        initialCategory={view.payload || 'all'}
+                        onAddToCart={addToCart}
+                        onQuickAddToCart={addToCart}
+                        onProductSelect={(p) => handleNavigate('productDetail', p)}
+                        onQuickView={setQuickViewProduct}
+                    />
+                );
+            case 'productDetail':
+                return (
+                    <ProductDetailPage 
+                        product={view.payload}
+                        currency={currency}
+                        onAddToCart={addToCart}
+                        onQuickAddToCart={addToCart}
+                        onProductSelect={(p) => handleNavigate('productDetail', p)}
+                        onQuickView={setQuickViewProduct}
+                    />
+                );
+            case 'ofertas':
+                return (
+                    <OfertasPage 
+                        currency={currency}
+                        onAddToCart={addToCart}
+                        onQuickAddToCart={addToCart}
+                        onProductSelect={(p) => handleNavigate('productDetail', p)}
+                        onQuickView={setQuickViewProduct}
+                    />
+                );
+            case 'ia':
+                return <AsistenteIAPage />;
+            case 'catalog':
+                return (
+                    <CatalogPage 
+                        onAddToCart={addToCart}
+                        onQuickAddToCart={addToCart}
+                        onProductSelect={(p) => handleNavigate('productDetail', p)}
+                        onQuickView={setQuickViewProduct}
+                        currency={currency}
+                    />
+                );
+            case 'blog':
+                return <BlogPage posts={blogPosts} onSelectPost={(p) => handleNavigate('blogPost', p)} />;
+            case 'blogPost':
+                return <BlogPostPage post={view.payload} allPosts={blogPosts} onSelectPost={(p) => handleNavigate('blogPost', p)} onBack={() => handleNavigate('blog')} />;
+            case 'checkout':
+                return <CheckoutPage cartItems={cartItems} currency={currency} onClearCart={() => setCartItems([])} onNavigate={handleNavigate} />;
+            case 'gift-wrapping':
+                return <GiftWrappingPage currency={currency} onAddToCart={addToCart} onQuickAddToCart={addToCart} onProductSelect={(p) => handleNavigate('productDetail', p)} onQuickView={setQuickViewProduct} />;
+            default:
+                return <div className="py-20 text-center text-gray-500 font-serif italic">Sección en desarrollo...</div>;
+        }
+    };
+
+    return (
+        <div className="flex flex-col min-h-screen bg-white">
+            <Header 
+                onNavigate={handleNavigate} 
+                currency={currency} 
+                onCurrencyChange={setCurrency} 
+                cartCount={cartItems.reduce((a, b) => a + b.quantity, 0)}
+                onCartClick={() => setIsCartOpen(true)}
+            />
+            
+            <main className="flex-grow pt-4 pb-20 md:pb-12">
+                {renderView()}
+            </main>
+
+            <Footer onNavigate={handleNavigate} />
+            
+            <BottomNavBar onNavigate={handleNavigate} currentView={view.current} currentCategory={view.payload || ''} />
+            <WhatsAppFloat />
+            
+            <CartSidebar 
+                isOpen={isCartOpen} 
+                onClose={() => setIsCartOpen(false)} 
+                cartItems={cartItems} 
+                currency={currency}
+                onUpdateQuantity={updateQuantity}
+                onRemoveItem={(id) => setCartItems(prev => prev.filter(i => i.id !== id))}
+                onCheckout={() => handleNavigate('checkout')}
+                isCheckingOut={false}
+                checkoutError={null}
+                onNavigate={handleNavigate}
+            />
+
+            {quickViewProduct && (
+                <QuickViewModal 
+                    product={quickViewProduct} 
+                    currency={currency}
+                    onClose={() => setQuickViewProduct(null)}
+                    onAddToCart={addToCart}
+                    onProductSelect={(p) => handleNavigate('productDetail', p)}
+                />
+            )}
+        </div>
+    );
+};
+
+const App: React.FC = () => {
+    return (
+        <ErrorBoundary>
+            <AppContent />
+        </ErrorBoundary>
+    );
+};
+
+export default App;

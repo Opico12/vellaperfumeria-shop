@@ -13,7 +13,7 @@ const categories = [
     { key: 'wellness', name: 'Wellness' },
     { key: 'hair', name: 'Cuidado del Cabello' },
     { key: 'personal-care', name: 'Cuidado Personal' },
-    { key: 'the-one', name: 'Colección The ONE' }, // Añadida categoría lógica para el menú
+    { key: 'the-one', name: 'Colección THE ONE' },
     { key: 'accessories', name: 'Accesorios' },
 ];
 
@@ -43,8 +43,7 @@ const ShopPage: React.FC<{
         let filtered = [...allProducts];
 
         if (activeCategory === 'the-one') {
-            // Filtrado especial por MARCA cuando se pide "The ONE"
-            filtered = allProducts.filter(p => p.brand.toUpperCase() === 'THE ONE' || p.brand.toUpperCase() === 'THEONE');
+            filtered = allProducts.filter(p => p.brand.toUpperCase().includes('THE ONE'));
         } else if (activeCategory !== 'all') {
             filtered = allProducts.filter(p => p.category === activeCategory);
         }
@@ -58,109 +57,115 @@ const ShopPage: React.FC<{
         return filtered;
     }, [activeCategory, sortOrder]);
 
+    /**
+     * Función de escapado robusta para CSV según Estándar RFC 4180.
+     * Cuida las comas, saltos de línea y escapa las comillas dobles.
+     */
+    const escapeCSV = (val: any): string => {
+        if (val === null || val === undefined) return '""';
+        let s = String(val).trim();
+        // Escapamos comillas dobles internas duplicándolas (" -> "")
+        s = s.replace(/"/g, '""');
+        // Envolvemos el valor en comillas dobles para proteger comas y saltos de línea
+        return `"${s}"`;
+    };
+
     const handleDownloadFullCSV = () => {
+        // Cabeceras oficiales compatibles con el importador nativo de WooCommerce
         const headers = [
-            "ID", "SKU", "Nombre", "Publicado", "¿Está destacado?", "Visibilidad en el catálogo",
-            "Descripción corta", "Descripción", "En inventario?", "Stock", "Precio rebajado", "Precio normal",
-            "Categorías", "Imágenes", "Atributo 1 nombre", "Atributo 1 valor(es)", "Atributo 1 visible", "Atributo 1 global"
+            "ID", "Type", "SKU", "Name", "Published", "Is featured?", "Visibility in catalog", 
+            "Short description", "Description", "In stock?", "Stock", "Sale price", "Regular price", 
+            "Categories", "Images", "Attribute 1 name", "Attribute 1 value(s)", "Attribute 1 visible", "Attribute 1 global"
         ];
         
-        const escapeCSV = (val: any) => {
-            if (val === null || val === undefined) return '""';
-            let s = String(val).replace(/(\r\n|\n|\r)/gm, " ");
-            s = s.replace(/"/g, '""');
-            return `"${s}"`;
-        };
-
         const rows = allProducts.map(p => {
-            const ingredientsPart = p.description.split("INGREDIENTES:")[1]?.trim() || "Consulte envase";
             const catName = categories.find(c => c.key === p.category)?.name || p.category;
+            const shortDesc = `Vellaperfumeria - ${p.brand}`;
 
             return [
-                escapeCSV(p.id),
-                escapeCSV(`VELLA-${p.id}`),
+                p.id,
+                "simple",
+                `VELLA-${p.id}`,
                 escapeCSV(p.name),
-                escapeCSV(1),
-                escapeCSV(0),
-                escapeCSV("visible"),
-                escapeCSV(`Marca: ${p.brand}. ${p.description.substring(0, 80)}...`),
-                escapeCSV(p.description),
-                escapeCSV(1),
-                escapeCSV(p.stock),
-                escapeCSV(p.price.toFixed(2)),
-                escapeCSV(p.regularPrice ? p.regularPrice.toFixed(2) : p.price.toFixed(2)),
+                1,
+                0,
+                "visible",
+                escapeCSV(shortDesc),
+                escapeCSV(p.description), // Cuidado especial para que no rompa las columnas
+                1,
+                p.stock,
+                p.price.toFixed(2),
+                p.regularPrice ? p.regularPrice.toFixed(2) : p.price.toFixed(2),
                 escapeCSV(catName),
-                escapeCSV(p.imageUrl),
-                escapeCSV("Ingredientes"),
-                escapeCSV(ingredientsPart),
-                escapeCSV(1),
-                escapeCSV(1)
+                escapeCSV(p.imageUrl), // La URL de la foto íntegra
+                escapeCSV("Marca"),
+                escapeCSV(p.brand),
+                1,
+                1
             ].join(",");
         });
 
+        // Marcador BOM (\uFEFF) para compatibilidad total con tildes y ñ en Excel
         const csvContent = "\uFEFF" + headers.join(",") + "\n" + rows.join("\n");
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
-        link.href = url;
-        link.download = `CATALOGO_IMPORT_VELLA_${new Date().toISOString().split('T')[0]}.csv`;
+        link.setAttribute("href", url);
+        link.setAttribute("download", `CATALOGO_VELLA_IMPORT_${new Date().getTime()}.csv`);
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+        URL.revokeObjectURL(url);
     };
 
     return (
         <div className="container mx-auto px-4 py-10">
-            {/* HERRAMIENTA DE EXPORTACIÓN RESALTADA */}
-            <div className="mb-12 p-8 bg-black rounded-[2.5rem] shadow-2xl border-4 border-pink-500 relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-pink-500/10 rounded-full -mr-32 -mt-32 blur-3xl group-hover:bg-pink-500/20 transition-all duration-700"></div>
-                <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
-                    <div className="text-center md:text-left">
-                        <span className="inline-block px-4 py-1 rounded-full bg-pink-500 text-white text-[10px] font-black uppercase tracking-[0.3em] mb-4">Administración</span>
-                        <h2 className="text-3xl md:text-4xl font-black text-white uppercase tracking-tighter leading-none mb-2">Generador de CSV Maestro</h2>
-                        <p className="text-gray-400 text-sm max-w-xl font-medium">
-                            Descarga la base de datos completa optimizada para <b>WooCommerce</b>.
-                        </p>
+            {/* PANEL DE EXPORTACIÓN (Rosa Glass) */}
+            <div className="mb-12 p-1 bg-gradient-to-r from-brand-primary/40 via-brand-primary/10 to-brand-primary/40 rounded-[2.6rem] shadow-sm">
+                <div className="bg-white rounded-[2.5rem] p-8 md:p-10 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden">
+                    <div className="relative z-10 flex flex-col md:flex-row items-center gap-6">
+                        <div className="w-16 h-16 bg-brand-primary/10 rounded-2xl flex items-center justify-center border border-brand-primary/20 text-brand-primary">
+                            <DownloadIcon />
+                        </div>
+                        <div className="text-center md:text-left">
+                            <h2 className="text-2xl font-black text-gray-900 uppercase tracking-tight mb-1">Exportar Base de Datos</h2>
+                            <p className="text-gray-500 text-sm max-w-sm">
+                                Genera un archivo CSV profesional con descripciones y fotos cuidadas, listo para importar.
+                            </p>
+                        </div>
                     </div>
+
                     <button 
                         onClick={handleDownloadFullCSV}
-                        className="flex items-center gap-4 bg-pink-500 hover:bg-white text-black hover:text-pink-600 px-10 py-5 rounded-2xl transition-all duration-500 font-black text-sm uppercase tracking-widest shadow-[0_0_40px_rgba(236,72,153,0.4)] hover:shadow-[0_0_60px_rgba(236,72,153,0.6)] transform hover:scale-105 active:scale-95"
+                        className="relative z-10 flex items-center gap-3 bg-brand-primary text-white px-10 py-4 rounded-2xl transition-all font-bold text-xs uppercase tracking-widest hover:brightness-105 active:scale-95 shadow-lg shadow-brand-primary/20"
                     >
-                        <DownloadIcon />
-                        Descargar CSV Resaltado
+                        Descargar CSV de Productos
                     </button>
                 </div>
             </div>
 
-            <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
+            <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6 border-b border-gray-100 pb-10">
                 <div>
-                    <h1 className="text-4xl font-black text-gray-900 uppercase tracking-tight">
+                    <h1 className="text-3xl font-black text-gray-900 uppercase tracking-tight">
                         {categories.find(c => c.key === activeCategory)?.name || 'Tienda'}
                     </h1>
-                    <p className="text-gray-500 mt-2 font-medium">
-                        {activeCategory === 'the-one' ? 'Productos de maquillaje profesional THE ONE.' : 'Filtra por categorías para encontrar tu producto ideal.'}
-                    </p>
+                    <p className="text-gray-500 mt-2 text-sm">Mostrando {filteredAndSortedProducts.length} tesoros encontrados.</p>
                 </div>
                 
                 <div className="flex flex-wrap items-center gap-4">
-                    <div className="relative">
-                        <select 
-                            value={activeCategory} 
-                            onChange={(e) => setActiveCategory(e.target.value)}
-                            className="appearance-none bg-white border-2 border-gray-100 rounded-2xl py-3 px-8 text-sm font-bold text-gray-700 focus:border-pink-300 outline-none transition-all shadow-sm cursor-pointer pr-12"
-                        >
-                            {categories.map(cat => (
-                                <option key={cat.key} value={cat.key}>{cat.name}</option>
-                            ))}
-                        </select>
-                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-pink-500">
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M19 9l-7 7-7-7" /></svg>
-                        </div>
-                    </div>
+                    <select 
+                        value={activeCategory} 
+                        onChange={(e) => setActiveCategory(e.target.value)}
+                        className="bg-white border border-gray-200 rounded-xl py-3 px-6 text-xs font-bold uppercase tracking-widest text-gray-700 outline-none focus:ring-2 focus:ring-brand-primary/20 transition-all cursor-pointer shadow-sm"
+                    >
+                        {categories.map(cat => (
+                            <option key={cat.key} value={cat.key}>{cat.name}</option>
+                        ))}
+                    </select>
                 </div>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
                 {filteredAndSortedProducts.length > 0 ? filteredAndSortedProducts.map(product => (
                     <ProductCard
                         key={product.id}
@@ -172,8 +177,9 @@ const ShopPage: React.FC<{
                         onQuickView={onQuickView}
                     />
                 )) : (
-                    <div className="col-span-full py-20 text-center">
-                        <p className="text-gray-400 italic">No se han encontrado productos en esta colección todavía.</p>
+                    <div className="col-span-full py-32 text-center bg-gray-50 rounded-[3rem] border-2 border-dashed border-gray-200">
+                        <div className="text-4xl mb-4">🌸</div>
+                        <p className="text-gray-400 font-bold uppercase tracking-widest text-sm">Pronto tendremos más novedades aquí</p>
                     </div>
                 )}
             </div>
