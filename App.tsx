@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useCallback, type ErrorInfo, type ReactNode } from 'react';
+import React, { Component, useState, useEffect, useCallback, type ErrorInfo, type ReactNode } from 'react';
 // Types
 import type { View, Product, CartItem } from './components/types';
 import type { Currency } from './components/currency';
@@ -32,7 +32,8 @@ interface ErrorBoundaryState {
     error: Error | null;
 }
 
-class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+// Fixed ErrorBoundary by extending Component and correctly typing it to avoid 'state' and 'props' errors
+class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     constructor(props: ErrorBoundaryProps) {
         super(props);
         this.state = {
@@ -61,7 +62,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
                         </div>
                         <button 
                             onClick={() => window.location.reload()} 
-                            className="w-full bg-pink-50 text-white font-bold px-6 py-3 rounded-full hover:bg-pink-600 transition-colors shadow-md"
+                            className="w-full bg-pink-600 text-white font-bold px-6 py-3 rounded-full hover:bg-pink-700 transition-colors shadow-md"
                         >
                             Recargar Página
                         </button>
