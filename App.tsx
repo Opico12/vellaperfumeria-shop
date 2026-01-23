@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import type { View, Product, CartItem } from './components/types';
 import type { Currency } from './components/currency';
 import { allProducts } from './components/products';
@@ -13,9 +13,7 @@ import OfertasPage from './components/OfertasPage';
 import AsistenteIAPage from './components/AsistenteIAPage';
 import CatalogPage from './components/CatalogPage';
 import CheckoutPage from './components/CheckoutPage';
-import BottomNavBar from './components/BottomNavBar';
 import WhatsAppFloat from './components/WhatsAppFloat';
-import GiftWrappingPage from './components/GiftWrappingPage';
 import HeroCarousel from './components/HeroCarousel';
 
 const App: React.FC = () => {
@@ -23,7 +21,6 @@ const App: React.FC = () => {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
     const [currency] = useState<Currency>('EUR');
     const [isCartOpen, setIsCartOpen] = useState(false);
-    const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
 
     const handleNavigate = useCallback((newView: View, payload?: any) => {
         setView({ current: newView, payload });
@@ -45,7 +42,7 @@ const App: React.FC = () => {
         switch (view.current) {
             case 'home':
                 return (
-                    <div className="space-y-12">
+                    <div className="space-y-4">
                         <HeroCarousel onNavigate={handleNavigate} />
                         <ProductList 
                             onNavigate={handleNavigate} 
@@ -53,7 +50,7 @@ const App: React.FC = () => {
                             onAddToCart={addToCart}
                             onQuickAddToCart={addToCart}
                             currency={currency}
-                            onQuickView={setQuickViewProduct}
+                            onQuickView={(p) => handleNavigate('productDetail', p)}
                         />
                     </div>
                 );
@@ -65,17 +62,17 @@ const App: React.FC = () => {
                         onAddToCart={addToCart}
                         onQuickAddToCart={addToCart}
                         onProductSelect={(p) => handleNavigate('productDetail', p)}
-                        onQuickView={setQuickViewProduct}
+                        onQuickView={(p) => handleNavigate('productDetail', p)}
                     />
                 );
             case 'productDetail':
-                return <ProductDetailPage product={view.payload} currency={currency} onAddToCart={addToCart} onQuickAddToCart={addToCart} onProductSelect={(p) => handleNavigate('productDetail', p)} onQuickView={setQuickViewProduct} />;
+                return <ProductDetailPage product={view.payload} currency={currency} onAddToCart={addToCart} onQuickAddToCart={addToCart} onProductSelect={(p) => handleNavigate('productDetail', p)} onQuickView={(p) => handleNavigate('productDetail', p)} />;
             case 'ofertas':
-                return <OfertasPage currency={currency} onAddToCart={addToCart} onQuickAddToCart={addToCart} onProductSelect={(p) => handleNavigate('productDetail', p)} onQuickView={setQuickViewProduct} />;
+                return <OfertasPage currency={currency} onAddToCart={addToCart} onQuickAddToCart={addToCart} onProductSelect={(p) => handleNavigate('productDetail', p)} onQuickView={(p) => handleNavigate('productDetail', p)} />;
             case 'ia':
                 return <AsistenteIAPage />;
             case 'catalog':
-                return <CatalogPage onAddToCart={addToCart} onQuickAddToCart={addToCart} onProductSelect={(p) => handleNavigate('productDetail', p)} onQuickView={setQuickViewProduct} currency={currency} />;
+                return <CatalogPage onAddToCart={addToCart} onQuickAddToCart={addToCart} onProductSelect={(p) => handleNavigate('productDetail', p)} onQuickView={(p) => handleNavigate('productDetail', p)} currency={currency} />;
             case 'checkout':
                 return <CheckoutPage cartItems={cartItems} currency={currency} onClearCart={() => setCartItems([])} onNavigate={handleNavigate} />;
             default:
@@ -95,7 +92,6 @@ const App: React.FC = () => {
             <main className="flex-grow">{renderView()}</main>
             <Footer onNavigate={handleNavigate} />
             <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} cartItems={cartItems} currency={currency} onUpdateQuantity={(id, q) => q < 1 ? setCartItems(prev => prev.filter(i => i.id !== id)) : setCartItems(prev => prev.map(i => i.id === id ? {...i, quantity: q} : i))} onRemoveItem={(id) => setCartItems(prev => prev.filter(i => i.id !== id))} onCheckout={() => handleNavigate('checkout')} isCheckingOut={false} checkoutError={null} onNavigate={handleNavigate} />
-            <BottomNavBar onNavigate={handleNavigate} currentView={view.current} currentCategory={view.payload || 'all'} />
             <WhatsAppFloat />
         </div>
     );

@@ -27,42 +27,42 @@ const Header: React.FC<{
 
     const menuData = [
         { id: 'skincare', label: 'Cuidado Facial', items: ['Royal Velvet', 'Novage+', 'Crema Universal', 'Optimals'] },
-        { id: 'makeup', label: 'Maquillaje', items: ['Labiales THE ONE', 'Máscaras', 'Paletas Sombras', 'Accesorios'] },
-        { id: 'perfume', label: 'Fragancias', items: ['All or Nothing', 'Love Potion', 'Elvie', 'Sets Regalo'] },
-        { id: 'accessories', label: 'Regalos', items: ['Joyas', 'Bolsas Festivas', 'Cajas Premium', 'Espátulas'] }
+        { id: 'makeup', label: 'Maquillaje', items: ['Labiales THE ONE', 'Máscaras', 'OnColour', 'Accesorios'] },
+        { id: 'perfume', label: 'Fragancias', items: ['All or Nothing', 'Love Potion', 'Elvie', 'Eclat'] },
+        { id: 'accessories', label: 'Regalos', items: ['Bolsas Festivas', 'Cajas Premium', 'Moda', 'Wellness'] }
     ];
 
     return (
         <header 
-            className={`w-full z-[100] transition-all duration-300 bg-white ${isScrolled ? 'fixed top-0 shadow-md' : 'relative'}`}
+            className={`w-full z-[100] transition-all duration-300 bg-white ${isScrolled ? 'fixed top-0 shadow-xl' : 'relative'}`}
             onMouseLeave={() => setShowMegaMenu(false)}
         >
             {/* Promo Bar */}
-            <div className="bg-brand-primary text-white py-2 text-[10px] font-black uppercase tracking-[0.3em] text-center">
+            <div className="bg-brand-primary text-white py-2.5 text-[9px] md:text-[11px] font-black uppercase tracking-[0.3em] text-center">
                 VALENTINA Y JAN COMPARTEN ACTOS DE AMOR • ENVÍOS GRATIS +35€ 🌸
             </div>
 
-            {/* Main Header Container */}
-            <div className="w-full px-6 md:px-12 py-4 flex items-center justify-between border-b border-gray-50">
+            {/* Main Header Container - Full Width */}
+            <div className="w-full px-6 md:px-16 py-5 flex items-center justify-between border-b border-gray-50">
                 <div className="w-1/3 md:flex hidden">
-                    <button className="text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-black">Buscar</button>
+                    <button className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 hover:text-black transition-colors">Buscar Productos</button>
                 </div>
 
                 <div className="w-1/3 flex justify-center">
-                    <button onClick={() => onNavigate('home')}>
+                    <button onClick={() => onNavigate('home')} className="hover:opacity-80 transition-opacity">
                         <img 
                             src="https://vellaperfumeria.com/wp-content/uploads/2024/06/vellaperfumeralogo.png" 
                             alt="Logo" 
-                            className={`${isScrolled ? 'h-10' : 'h-24'} transition-all duration-500`}
+                            className={`${isScrolled ? 'h-10 md:h-12' : 'h-16 md:h-28'} transition-all duration-500`}
                         />
                     </button>
                 </div>
 
                 <div className="w-1/3 flex justify-end gap-6 items-center">
-                    <button onClick={onCartClick} className="relative text-gray-700 hover:text-brand-primary">
+                    <button onClick={onCartClick} className="relative text-gray-700 hover:text-brand-primary transition-transform active:scale-90">
                         <CartIcon />
                         {cartCount > 0 && (
-                            <span className="absolute -top-2 -right-2 bg-brand-primary text-white text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center border border-white">
+                            <span className="absolute -top-2 -right-2 bg-brand-primary text-white text-[9px] font-black w-4.5 h-4.5 rounded-full flex items-center justify-center border-2 border-white shadow-sm">
                                 {cartCount}
                             </span>
                         )}
@@ -70,24 +70,25 @@ const Header: React.FC<{
                 </div>
             </div>
 
-            {/* Full Width Navbar */}
-            <nav className="w-full bg-white hidden md:block">
+            {/* Navbar Full Width */}
+            <nav className="w-full bg-white border-b border-gray-100 hidden md:block">
                 <ul className="flex justify-center items-center">
-                    <li><button onClick={() => onNavigate('home')} className="px-8 py-4 text-[11px] font-bold uppercase tracking-widest text-gray-600 hover:text-brand-primary transition-colors">Inicio</button></li>
+                    <li><button onClick={() => onNavigate('home')} className="px-12 py-5 text-[11px] font-bold uppercase tracking-[0.25em] text-gray-500 hover:text-brand-primary transition-colors">Inicio</button></li>
                     <li onMouseEnter={() => setShowMegaMenu(true)}>
-                        <button className={`px-8 py-4 text-[11px] font-bold uppercase tracking-widest flex items-center gap-2 transition-colors ${showMegaMenu ? 'text-brand-primary' : 'text-gray-600 hover:text-brand-primary'}`}>
-                            Productos <span>▼</span>
+                        <button className={`px-12 py-5 text-[11px] font-bold uppercase tracking-[0.25em] flex items-center gap-2 transition-colors ${showMegaMenu ? 'text-brand-primary' : 'text-gray-500 hover:text-brand-primary'}`}>
+                            Productos <span className="text-[8px] opacity-40">▼</span>
                         </button>
                     </li>
-                    <li><button onClick={() => onNavigate('ofertas')} className="px-8 py-4 text-[11px] font-bold uppercase tracking-widest text-brand-primary hover:text-black">Ofertas</button></li>
-                    <li><button onClick={() => onNavigate('ia')} className="px-8 py-4 text-[11px] font-bold uppercase tracking-widest text-gray-600">IA Beauty</button></li>
+                    <li><button onClick={() => onNavigate('ofertas')} className="px-12 py-5 text-[11px] font-bold uppercase tracking-[0.25em] text-brand-primary hover:text-pink-600 transition-colors">Ofertas</button></li>
+                    <li><button onClick={() => onNavigate('catalog')} className="px-12 py-5 text-[11px] font-bold uppercase tracking-[0.25em] text-gray-500 hover:text-brand-primary transition-colors">Catálogo</button></li>
+                    <li><button onClick={() => onNavigate('ia')} className="px-12 py-5 text-[11px] font-bold uppercase tracking-[0.25em] text-gray-500 hover:text-brand-primary transition-colors">✨ IA Beauty</button></li>
                 </ul>
             </nav>
 
             {/* Black Mega Menu Dropdown */}
             {showMegaMenu && (
                 <div 
-                    className="absolute top-full left-0 w-full bg-[#0a0a0a] text-white shadow-2xl z-[110] border-t border-white/5 animate-fade-in"
+                    className="absolute top-full left-0 w-full bg-[#0a0a0a] text-white shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[110] border-t border-white/5 animate-slide-down"
                     onMouseEnter={() => setShowMegaMenu(true)}
                     onMouseLeave={() => setShowMegaMenu(false)}
                 >
@@ -102,7 +103,7 @@ const Header: React.FC<{
                                         <li key={item}>
                                             <button 
                                                 onClick={() => { onNavigate('products', cat.id); setShowMegaMenu(false); }}
-                                                className="text-xs text-gray-400 hover:text-white transition-all block text-left"
+                                                className="text-xs text-gray-400 hover:text-white hover:translate-x-2 transition-all block text-left"
                                             >
                                                 {item}
                                             </button>
@@ -112,17 +113,17 @@ const Header: React.FC<{
                             </div>
                         ))}
                     </div>
-                    <div className="w-full bg-[#111] py-4 text-center border-t border-white/5">
-                        <button onClick={() => onNavigate('products', 'all')} className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-primary hover:text-white transition-colors">
-                            Ver todo el universo Vellaperfumeria →
+                    <div className="w-full bg-[#111] py-5 text-center border-t border-white/5">
+                        <button onClick={() => { onNavigate('products', 'all'); setShowMegaMenu(false); }} className="text-[10px] font-black uppercase tracking-[0.4em] text-brand-primary hover:text-white transition-colors">
+                            Explorar todo el catálogo →
                         </button>
                     </div>
                 </div>
             )}
 
             <style>{`
-                @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-                .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
+                @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+                .animate-slide-down { animation: slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
             `}</style>
         </header>
     );
